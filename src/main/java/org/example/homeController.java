@@ -12,44 +12,18 @@ import java.io.IOException;
 public class homeController {
 
     @FXML
-    private Button btn_login;
+    private Button btn_admin;
 
     @FXML
-    private Button btn_reg;
+    private Button btn_user;
+
 
     @FXML
-    private TextField usertxt;
-
-    @FXML
-    private Label errortxt;
-
-    @FXML
-    private PasswordField psswdtxt;
-
-    private Stage stage;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    @FXML
-    private void btnLogin() throws IOException {
-        if (usertxt.getText().equals("user") && psswdtxt.getText().equals("user")) {
-            App.setRoot("users");
-        }else{
-            if(usertxt.getText().equals("admin") && psswdtxt.getText().equals("admin")){
-                App.setRoot("admin");
-            }else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error de inicio de sesión");
-                alert.setHeaderText(null);
-                alert.setContentText("Usuario o contraseña incorrectos.");
-                alert.showAndWait();
-            }
-        }
+    private void AdminLogin() throws IOException {
+            App.setRoot("adminLogin");
     }
     @FXML
-    private void btnReg() throws IOException {
-        App.setRoot("Register");
+    private void UserLogin() throws IOException {
+        App.setRoot("UsersLogin");
     }
 }

@@ -3,8 +3,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +11,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homeController">
 
    <children>
-      <Label fx:id="login_txt" alignment="CENTER" layoutX="105.0" layoutY="50.0" prefHeight="51.0" prefWidth="611.0" style="-fx-background-color: white;" text="LOGIN" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="109.0">
+      <Label fx:id="login_txt" alignment="CENTER" layoutX="105.0" layoutY="50.0" prefHeight="51.0" prefWidth="611.0" style="-fx-background-color: white;" text="Main Menu" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="109.0">
          <font>
             <Font size="35.0" />
          </font>
@@ -21,38 +19,36 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Label>
-      <AnchorPane id="btn_login" layoutX="413.0" layoutY="192.0" prefHeight="246.0" prefWidth="342.0" style="-fx-background-color: rgb(239, 184, 42);" AnchorPane.leftAnchor="413.0" AnchorPane.rightAnchor="70.0">
+      <AnchorPane id="btn_login" layoutX="409.0" layoutY="199.0" prefHeight="246.0" prefWidth="342.0" style="-fx-background-color: rgb(239, 184, 42);" AnchorPane.leftAnchor="409.0" AnchorPane.rightAnchor="74.0">
          <children>
             <Label fx:id="errortxt" layoutX="90.0" layoutY="148.0" textFill="RED">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label layoutX="57.0" layoutY="55.0" text="USER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="114.0" prefHeight="28.0" prefWidth="102.0" text="PASSWORD">
-               <font>
-                  <Font size="18.0" />
-               </font></Label>
-            <Button id="btn_login" fx:id="btn_login" layoutX="117.0" layoutY="192.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="26.0" prefWidth="83.0" style="-fx-background-color: rgb(76, 74, 69);" text="Login" textFill="WHITE">
+            <Button id="btn_login" fx:id="btn_admin" layoutX="86.0" layoutY="83.0" mnemonicParsing="false" onAction="#AdminLogin" prefHeight="39.0" prefWidth="144.0" style="-fx-background-color: rgb(76, 74, 69);" text="ADMIN LOGIN" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <PasswordField fx:id="psswdtxt" layoutX="142.0" layoutY="115.0" promptText="Password">
+            <Button id="btn_login" fx:id="btn_user" layoutX="86.0" layoutY="168.0" mnemonicParsing="false" onAction="#UserLogin" prefHeight="39.0" prefWidth="144.0" style="-fx-background-color: rgb(76, 74, 69);" text="USER LOGIN" textFill="WHITE">
                <cursor>
-                  <Cursor fx:constant="TEXT" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
-            </PasswordField>
-            <TextField fx:id="usertxt" layoutX="141.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="Name" />
+            </Button>
+            <Label fx:id="login_txt1" alignment="CENTER" prefHeight="51.0" prefWidth="317.0" style="-fx-background-color: white;" text="Select An Option:">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </Label>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="39.0" fitWidth="39.0" layoutX="153.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="408.0">
+      <ImageView fitHeight="42.0" fitWidth="52.0" layoutX="153.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="595.0">
          <image>
-            <Image url="@foto/sonic.gif" />
+            <Image url="@foto/gif1.gif" />
          </image>
       </ImageView>
       <ImageView fitHeight="190.0" fitWidth="223.0" layoutX="128.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
@@ -60,18 +56,5 @@
             <Image url="@foto/Logo.png" />
          </image>
       </ImageView>
-      <Label fx:id="login_txt1" layoutX="413.0" layoutY="458.0" prefHeight="46.0" prefWidth="317.0" style="-fx-background-color: white;" text="Need a acount? ">
-         <font>
-            <Font size="24.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-      </Label>
-      <Button id="btn_login" fx:id="btn_reg" layoutX="632.0" layoutY="468.0" mnemonicParsing="false" onAction="#btnReg" prefHeight="26.0" prefWidth="83.0" style="-fx-background-color: rgb(76, 74, 69);" text="Register" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
    </children>
 </AnchorPane>

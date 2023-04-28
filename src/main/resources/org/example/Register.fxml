@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.RegisterController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.RegisterController">
+   <children>
+      <Label fx:id="login_txt" alignment="CENTER" layoutX="103.0" layoutY="56.0" prefHeight="51.0" prefWidth="611.0" style="-fx-background-color: white;" text="Admin Register">
+         <font>
+            <Font size="35.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Label>
+      <AnchorPane id="btn_login" layoutX="103.0" layoutY="146.0" prefHeight="366.0" prefWidth="611.0" style="-fx-background-color: rgb(239, 184, 42);">
+         <children>
+            <Label fx:id="errortxt" layoutX="90.0" layoutY="148.0" textFill="RED">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button layoutX="487.0" layoutY="298.0" mnemonicParsing="false" text="Button" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="btn_main" layoutX="595.0" layoutY="69.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: rgb(76, 74, 69);" text="Go Back" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
 </AnchorPane>

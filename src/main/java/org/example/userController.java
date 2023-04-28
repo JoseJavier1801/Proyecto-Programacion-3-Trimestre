@@ -12,7 +12,7 @@ public class userController {
 
     @FXML
     private void closesesion() throws IOException{
-        App.setRoot("home");
+        App.setRoot("UsersLogin");
     }
 
 }

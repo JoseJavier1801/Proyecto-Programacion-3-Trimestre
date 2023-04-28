@@ -23,7 +23,7 @@ public class adminController {
 
     @FXML
     private void closesesion()throws IOException {
-        App.setRoot("home");
+        App.setRoot("adminLogin");
     }
    @FXML
     private void add()throws IOException {
