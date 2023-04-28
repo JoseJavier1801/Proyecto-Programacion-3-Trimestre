@@ -8,10 +8,10 @@ import java.io.IOException;
 public class RegisterController {
 
     @FXML
-    private Button logbutton;
+    private Button btn_main;
 
     @FXML
-    private void closesesion() throws IOException {
+    private void goBack() throws IOException {
         App.setRoot("home");
     }
 
