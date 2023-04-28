@@ -4,10 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +13,9 @@ public class homeController {
 
     @FXML
     private Button btn_login;
+
+    @FXML
+    private Button btn_reg;
 
     @FXML
     private TextField usertxt;
@@ -35,13 +35,21 @@ public class homeController {
     @FXML
     private void btnLogin() throws IOException {
         if (usertxt.getText().equals("user") && psswdtxt.getText().equals("user")) {
-            App.setRoot("second");
+            App.setRoot("users");
         }else{
             if(usertxt.getText().equals("admin") && psswdtxt.getText().equals("admin")){
-                App.setRoot("third");
-            }else{
-                errortxt.setText("LOG-IN ERROR");
+                App.setRoot("admin");
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error de inicio de sesión");
+                alert.setHeaderText(null);
+                alert.setContentText("Usuario o contraseña incorrectos.");
+                alert.showAndWait();
             }
         }
+    }
+    @FXML
+    private void btnReg() throws IOException {
+        App.setRoot("Register");
     }
 }

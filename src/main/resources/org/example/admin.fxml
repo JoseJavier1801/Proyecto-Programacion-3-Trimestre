@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.adminController">
+   <children>
+      <Button fx:id="logbutton" layoutX="74.0" layoutY="456.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
+         <font>
+            <Font size="25.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <ImageView fitHeight="219.0" fitWidth="236.0" layoutX="63.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@foto/usertest.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="addproducts" layoutX="349.0" layoutY="191.0" mnemonicParsing="false" onAction="#add" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Add Products" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font></Button>
+      <Button fx:id="searchP" layoutX="574.0" layoutY="191.0" mnemonicParsing="false" onAction="#search" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search Products" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button fx:id="modP" layoutX="349.0" layoutY="301.0" mnemonicParsing="false" onAction="#modify" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Products" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button fx:id="delP" layoutX="574.0" layoutY="301.0" mnemonicParsing="false" onAction="#delete" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Delete Products" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button fx:id="showP" layoutX="349.0" layoutY="410.0" mnemonicParsing="false" onAction="#showAll" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Show All" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <Label alignment="CENTER" layoutX="144.0" layoutY="74.0" prefHeight="64.0" prefWidth="511.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome Admin" textFill="WHITE">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
+      <Button fx:id="ManageU" layoutX="574.0" layoutY="410.0" mnemonicParsing="false" onAction="#ManageUsers" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Manage Users" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

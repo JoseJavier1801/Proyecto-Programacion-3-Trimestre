@@ -5,12 +5,14 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class thirdController {
+public class userController {
+
     @FXML
     private Button logbutton;
 
     @FXML
-    private void closesesion()throws IOException {
+    private void closesesion() throws IOException{
         App.setRoot("home");
     }
+
 }
