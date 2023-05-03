@@ -1,0 +1,28 @@
+
+n	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(›φΧμωÿÿÿÿ8ο³Φµό0
+s	java:S116"RRename this field "ManageU" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ω΅Òέύÿÿÿÿ8χ³Φµό0
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¤›J8χ³Φµό0
+
+java:S1186!"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(οΜ›Έ8χ³Φµό0
+£
+java:S1186%"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(±¤μιωÿÿÿÿ8χ³Φµό0
+£
+java:S1186)"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(±θΕ”ÿÿÿÿÿ8χ³Φµό0
+£
+java:S1186-"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(•άσωόÿÿÿÿ8χ³Φµό0
+
+java:S11861"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ρή†8χ³Φµό0
+
+java:S1130"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(¤›J8ω³Φµό0
+‰
+java:S1130!"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(οΜ›Έ8ϊ³Φµό0
+
+java:S1130%"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(±¤μιωÿÿÿÿ8ϊ³Φµό0
+
+java:S1130)"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(±θΕ”ÿÿÿÿÿ8ϊ³Φµό0
+
+java:S1130-"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(•άσωόÿÿÿÿ8ϋ³Φµό0
+j	java:S1001"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ρή†8ϋ³Φµό0
+‰
+java:S11301"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(ρή†8ϋ³Φµό0

@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class App extends Application {
 
-    private static Scene scene;
+    private static Scene scene; 
     private static Stage stage;
 
     @Override
