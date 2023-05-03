@@ -1,6 +1,6 @@
 package org.example.DAO;
 
-import org.example.DOMAIN.Administrador;
+import org.example.DOMAIN.Admin;
 import org.example.Connections.ConnectionMySQL;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminDAO implements DAO<Administrador> {
+public class AdminDAO implements DAO<Admin> {
 
     private final static String FINDALL ="SELECT * from administrador";
     private final static String FINBYID ="SELECT * from administrador WHERE dni=?";
@@ -27,12 +27,12 @@ public class AdminDAO implements DAO<Administrador> {
         this.conn= ConnectionMySQL.getConnect();
     }
     @Override
-    public List<Administrador> findAll() throws SQLException {
-        List<Administrador> result=new ArrayList();
+    public List<Admin> findAll() throws SQLException {
+        List<Admin> result=new ArrayList();
         try (PreparedStatement pst=this.conn.prepareStatement(FINDALL)){
             try (ResultSet res= pst.executeQuery()){
                 while (res.next()){
-                   Administrador a =new Administrador();
+                   Admin a =new Admin();
                     a.setUsername(res.getString("nombre_usuario"));
                     a.setPassword(res.getString("contraseña_usuario"));
                     a.setDNI(res.getString("dni"));
@@ -46,18 +46,55 @@ public class AdminDAO implements DAO<Administrador> {
     }
 
     @Override
-    public Administrador findById(String id) throws SQLException {
-        return null;
+    public Admin findById(String id) throws SQLException {
+        Admin result=null;
+        try (PreparedStatement pst=this.conn.prepareStatement(FINBYID)){
+            pst.setString(1,id);
+            try (ResultSet res= pst.executeQuery()){
+                if(res.next()){
+                    result.setUsername(res.getString("nombre_admin"));
+                    result.setPassword(res.getString("contraseña_admin"));
+                    result.setDNI(res.getString("dni"));
+                    result.setEmail(res.getString("correo_admin"));
+                }
+            }
+        }
+        return result;
     }
 
     @Override
-    public Administrador save(Administrador entity) throws SQLException {
-        return null;
+    public Admin save(Admin entity) throws SQLException {
+        Admin result= new Admin();
+        if(entity!=null){
+            //insert
+            try(PreparedStatement pst=this.conn.prepareStatement(INSERT)){
+                pst.setInt(1,entity.getId_admin());
+                pst.setString(2, entity.getUsername());
+                pst.setString(3,entity.getPassword());
+                pst.setString(4,entity.getEmail());
+                pst.setString(5,entity.getDNI());
+                pst.executeUpdate();
+            }
+        }else{
+            //update
+            try (PreparedStatement pst=this.conn.prepareStatement(UPDATE)){
+                pst.setString(1, entity.getUsername());
+                pst.setString(2,entity.getPassword());
+                pst.setString(3,entity.getDNI());
+                pst.executeUpdate();
+            }
+        }
+        return result;
     }
 
     @Override
-    public void delete(Administrador entity) throws SQLException {
-
+    public void delete(Admin entity) throws SQLException {
+        if(entity!=null){
+            try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
+                pst.setString(1,entity.getDNI());
+                pst.executeUpdate();
+            }
+        }
     }
 
     @Override

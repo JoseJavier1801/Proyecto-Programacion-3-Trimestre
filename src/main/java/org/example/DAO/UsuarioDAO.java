@@ -1,7 +1,7 @@
 package org.example.DAO;
 
 import org.example.Connections.ConnectionMySQL;
-import org.example.DOMAIN.Usuario;
+import org.example.DOMAIN.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAO implements DAO<Usuario> {
+public class UsuarioDAO implements DAO<User> {
     private final static String FINDALL ="SELECT * from usuarios";
     private final static String FINBYID ="SELECT * from usuarios WHERE dni=?";
     private final static String INSERT ="INSERT INTO usuarios (id,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)";
@@ -27,12 +27,12 @@ public class UsuarioDAO implements DAO<Usuario> {
     }
 
     @Override
-    public List<Usuario> findAll() throws SQLException {
-        List<Usuario> result=new ArrayList();
+    public List<User> findAll() throws SQLException {
+        List<User> result=new ArrayList();
         try (PreparedStatement pst=this.conn.prepareStatement(FINDALL)){
             try (ResultSet res= pst.executeQuery()){
                 while (res.next()){
-                    Usuario u =new Usuario();
+                    User u =new User();
                     u.setUsername(res.getString("nombre_usuario"));
                     u.setPassword(res.getString("contraseña_usuario"));
                     u.setDNI(res.getString("dni"));
@@ -46,8 +46,8 @@ public class UsuarioDAO implements DAO<Usuario> {
     }
 
     @Override
-    public Usuario findById(String id) throws SQLException {
-        Usuario result=null;
+    public User findById(String id) throws SQLException {
+        User result=null;
         try (PreparedStatement pst=this.conn.prepareStatement(FINBYID)){
             pst.setString(1,id);
             try (ResultSet res= pst.executeQuery()){
@@ -64,8 +64,8 @@ public class UsuarioDAO implements DAO<Usuario> {
     }
 
 
-    public Usuario save(Usuario entity) throws SQLException {
-        Usuario result= new Usuario();
+    public User save(User entity) throws SQLException {
+        User result= new User();
         if(entity!=null){
             //insert
             try(PreparedStatement pst=this.conn.prepareStatement(INSERT)){
@@ -88,7 +88,7 @@ public class UsuarioDAO implements DAO<Usuario> {
     }
 
 
-    public void delete(Usuario entity) throws SQLException {
+    public void delete(User entity) throws SQLException {
         if(entity!=null){
             try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
                 pst.setString(1,entity.getDNI());

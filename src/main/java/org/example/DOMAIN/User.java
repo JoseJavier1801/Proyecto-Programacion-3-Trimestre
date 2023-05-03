@@ -2,8 +2,9 @@ package org.example.DOMAIN;
 
 import java.util.Objects;
 
-public class Administrador {
-    private  int id_admin;
+public class User {
+
+    private  int id_user;
 
     private String username;
 
@@ -13,24 +14,24 @@ public class Administrador {
 
     private String email;
 
-    public Administrador(int id_user, String username, String password, String DNI, String email) {
-        this.id_admin = id_user;
+    public User(int id_user, String username, String password, String DNI, String email) {
+        this.id_user = id_user;
         this.username = username;
         this.password = password;
         this.DNI = DNI;
         this.email = email;
     }
 
-    public Administrador() {
+    public User() {
         this(0," "," "," "," ");
     }
 
-    public int getId_admin() {
-        return id_admin;
+    public int getId_user() {
+        return id_user;
     }
 
-    public void setId_admin(int id_admin) {
-        this.id_admin = id_admin;
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
     }
 
     public String getUsername() {
@@ -69,19 +70,19 @@ public class Administrador {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Administrador that = (Administrador) o;
-        return id_admin == that.id_admin && Objects.equals(DNI, that.DNI);
+        User user = (User) o;
+        return id_user == user.id_user && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(DNI, user.DNI) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_admin, DNI);
+        return Objects.hash(id_user, username, password, DNI, email);
     }
 
     @Override
     public String toString() {
-        return "Administrador{" +
-                "id_admin=" + id_admin +
+        return "Usuario{" +
+                "id_user=" + id_user +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", DNI='" + DNI + '\'' +
