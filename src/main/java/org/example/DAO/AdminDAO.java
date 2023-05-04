@@ -56,11 +56,14 @@ public class AdminDAO implements DAO<Admin> {
 
     @Override
     public Admin findById(String id) throws SQLException {
-        Admin result=null;
-        try (PreparedStatement pst=this.conn.prepareStatement(FINBYID)){
-            pst.setString(1,id);
-            try (ResultSet res= pst.executeQuery()){
-                if(res.next()){
+        Admin result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYUSERNAMEANDPASSWORD)) {
+            pst.setString(1, id);
+            pst.setString(2, id);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new Admin();
+                    result.setId_admin(res.getInt("id_a"));
                     result.setUsername(res.getString("nombre_admin"));
                     result.setPassword(res.getString("contraseña_admin"));
                     result.setDNI(res.getString("dni"));
