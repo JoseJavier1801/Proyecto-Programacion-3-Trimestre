@@ -1,10 +1,11 @@
-package org.example;
+package org.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import org.example.App;
 import org.example.DAO.AdminDAO;
 import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Admin;

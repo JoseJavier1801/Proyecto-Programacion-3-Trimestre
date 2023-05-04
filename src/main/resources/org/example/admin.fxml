@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.adminController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.adminController">
    <children>
       <Button fx:id="logbutton" layoutX="311.0" layoutY="510.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
          <font>

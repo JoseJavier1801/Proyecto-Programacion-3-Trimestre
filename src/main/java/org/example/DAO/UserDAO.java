@@ -17,7 +17,7 @@ public class UserDAO implements DAO<User> {
     private final static String INSERT ="INSERT INTO usuarios (id_u,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)";
     private final static String UPDATE ="UPDATE usuarios SET nombre_usuario=?, contraseña_usuario=? WHERE id_u=?";
     private final static String DELETE="DELETE from usuarios where dni=?";
-
+    private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM administrador WHERE nombre_admin = ? OR contraseña_admin = ?";
     private final static String SELECT_BY_USERNAME_OR_EMAIL = "SELECT * FROM administrador WHERE nombre_admin = ? OR correo_admin = ?";
 
     private Connection conn;
@@ -120,6 +120,28 @@ public class UserDAO implements DAO<User> {
                 pst.executeUpdate();
             }
         }
+    }
+
+    public User findByUsernameAndPassword(String username, String password) throws SQLException {
+        User result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_PASSWORD)) {
+            pst.setString(1, username);
+            pst.setString(2, password);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    String storedPassword = res.getString("contraseña_usuario");
+                    if (storedPassword.equals(password)) {
+                        result = new User();
+                        result.setId_user(res.getInt("id_u"));
+                        result.setUsername(res.getString("nombre_usuario"));
+                        result.setPassword(storedPassword);
+                        result.setDNI(res.getString("dni"));
+                        result.setEmail(res.getString("correo_usuario"));
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     @Override

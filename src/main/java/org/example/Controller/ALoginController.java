@@ -1,8 +1,9 @@
-package org.example;
+package org.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
 

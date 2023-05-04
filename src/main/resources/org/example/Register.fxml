@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.RegisterController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.RegisterController">
    <children>
       <Label fx:id="login_txt" alignment="CENTER" layoutX="103.0" layoutY="56.0" prefHeight="51.0" prefWidth="611.0" style="-fx-background-color: white;" text="Acount Register">
          <font>
