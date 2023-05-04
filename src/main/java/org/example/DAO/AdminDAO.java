@@ -13,10 +13,10 @@ import java.util.List;
 public class AdminDAO implements DAO<Admin> {
 
     private final static String FINDALL ="SELECT * from administrador";
-    private final static String FINBYID ="SELECT * from administrador WHERE dni=?";
+    private final static String FINBYID ="SELECT * from administrador WHERE id_a=?";
     private final static String INSERT ="INSERT INTO administrador (id,nombre_admin,contraseña_admin,correo_admin,dni) VALUES (?,?,?,?,?)";
-    private final static String UPDATE ="UPDATE administrador SET nombre_admin=?, contraseña_admin=? WHERE dni=?";
-    private final static String DELETE="DELETE from administrador where dni=?";
+    private final static String UPDATE ="UPDATE administrador SET nombre_admin=?, contraseña_admin=? WHERE id_a=?";
+    private final static String DELETE="DELETE from administrador where id_a=?";
     private Connection conn;
 
     public AdminDAO(Connection conn){
