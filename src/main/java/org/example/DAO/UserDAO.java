@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 import org.example.Connections.ConnectionMySQL;
+import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 
 import java.sql.Connection;
@@ -10,22 +11,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAO implements DAO<User> {
+public class UserDAO implements DAO<User> {
     private final static String FINDALL ="SELECT * from usuarios";
-    private final static String FINBYID ="SELECT * from usuarios WHERE dni=?";
-    private final static String INSERT ="INSERT INTO usuarios (id,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)";
-    private final static String UPDATE ="UPDATE usuarios SET nombre_usuario=?, contraseña_usuario=? WHERE dni=?";
+    private final static String FINBYID ="SELECT * from usuarios WHERE id_u=?";
+    private final static String INSERT ="INSERT INTO usuarios (id_u,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)";
+    private final static String UPDATE ="UPDATE usuarios SET nombre_usuario=?, contraseña_usuario=? WHERE id_u=?";
     private final static String DELETE="DELETE from usuarios where dni=?";
-    private Connection conn;
 
-    public UsuarioDAO(Connection conn){
+    private final static String SELECT_BY_USERNAME_OR_EMAIL = "SELECT * FROM administrador WHERE nombre_admin = ? OR correo_admin = ?";
+
+    private Connection conn;
+    private static UserDAO instance = null;
+
+    public UserDAO(Connection conn){
         this.conn=conn;
     }
 
-    public UsuarioDAO() {
+    public UserDAO() {
         this.conn= ConnectionMySQL.getConnect();
     }
 
+    public static UserDAO getInstance() {
+        if (instance == null) {
+            instance = new UserDAO();
+        }
+        return instance;
+    }
     @Override
     public List<User> findAll() throws SQLException {
         List<User> result=new ArrayList();
@@ -63,20 +74,34 @@ public class UsuarioDAO implements DAO<User> {
         return result;
     }
 
-
+    @Override
     public User save(User entity) throws SQLException {
         User result= new User();
         if(entity!=null){
             //insert
-            try(PreparedStatement pst=this.conn.prepareStatement(INSERT)){
-                pst.setInt(1,entity.getId_user());
+            try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
+                pst.setInt(1, entity.getId_user());
                 pst.setString(2, entity.getUsername());
-                pst.setString(3,entity.getPassword());
-                pst.setString(4,entity.getEmail());
-                pst.setString(5,entity.getDNI());
+                pst.setString(3, entity.getPassword());
+                pst.setString(4, entity.getEmail());
+                pst.setString(5, entity.getDNI());
+
+                // Verificar si ya existe un usuario con el mismo usuario o correo electrónico
+                try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL)) {
+                    pstSelect.setString(1, entity.getUsername());
+                    pstSelect.setString(2, entity.getEmail());
+                    ResultSet rs = pstSelect.executeQuery();
+                    if (rs.next()) {
+                        // Ya existe un usuario con el mismo usuario o correo electrónico
+                        return null;
+                    }
+                }
+
+                // No se encontró un usuario con el mismo usuario o correo electrónico, se procede a insertar el registro
                 pst.executeUpdate();
             }
         }else{
+            //update
             try (PreparedStatement pst=this.conn.prepareStatement(UPDATE)){
                 pst.setString(1, entity.getUsername());
                 pst.setString(2,entity.getPassword());

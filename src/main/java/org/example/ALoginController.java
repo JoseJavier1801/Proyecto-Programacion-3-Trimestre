@@ -15,9 +15,6 @@ public class ALoginController {
     private Button btn_main;
 
     @FXML
-    private Button btn_reg;
-
-    @FXML
     private TextField usertxt;
 
     @FXML
@@ -44,10 +41,6 @@ public class ALoginController {
                 alert.showAndWait();
             }
         }
-    @FXML
-    private void btnReg() throws IOException {
-        App.setRoot("Register");
-    }
     @FXML
     private void goBack() throws IOException {
         App.setRoot("home");

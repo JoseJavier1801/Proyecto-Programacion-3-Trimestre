@@ -60,15 +60,9 @@
             <Image url="@foto/Logo.png" />
          </image>
       </ImageView>
-      <Label fx:id="login_txt1" layoutX="412.0" layoutY="438.0" prefHeight="51.0" prefWidth="317.0" style="-fx-background-color: white;" text="No Acount?">
-         <font>
-            <Font size="35.0" />
-         </font>
+      <Button fx:id="btn_main" layoutX="563.0" layoutY="64.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: rgb(76, 74, 69);" text="To Main Menu" textFill="WHITE">
          <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-      </Label>
-      <Button fx:id="btn_reg" layoutX="621.0" layoutY="450.0" mnemonicParsing="false" onAction="#btnReg" prefHeight="26.0" prefWidth="83.0" style="-fx-background-color: rgb(76, 74, 69);" text="Register" textFill="WHITE" />
-      <Button fx:id="btn_main" layoutX="563.0" layoutY="64.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: rgb(76, 74, 69);" text="To Main Menu" textFill="WHITE" />
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

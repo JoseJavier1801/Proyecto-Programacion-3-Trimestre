@@ -18,6 +18,9 @@ public class homeController {
     @FXML
     private Button btn_user;
 
+    @FXML
+    private Button btn_reg;
+
 
     @FXML
     private void AdminLogin() throws IOException {
@@ -27,4 +30,10 @@ public class homeController {
     private void UserLogin() throws IOException {
         App.setRoot("UsersLogin");
     }
+
+    @FXML
+    private void reg() throws IOException {
+        App.setRoot("Register");
+    }
+
 }

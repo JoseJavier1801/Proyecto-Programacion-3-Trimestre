@@ -5,5 +5,6 @@ module org.example {
     requires java.xml.bind;
 
     opens org.example to javafx.fxml;
+    opens org.example.Connections to java.xml.bind;
     exports org.example;
 }

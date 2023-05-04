@@ -56,5 +56,21 @@
             <Image url="@foto/Logo.png" />
          </image>
       </ImageView>
+      <Label fx:id="login_txt11" layoutX="409.0" layoutY="445.0" prefHeight="51.0" prefWidth="317.0" style="-fx-background-color: white;" text="Need a Acount?      ">
+         <font>
+            <Font size="29.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Label>
+      <Button fx:id="btn_reg" layoutX="630.0" layoutY="456.0" mnemonicParsing="false" onAction="#reg" prefHeight="28.0" prefWidth="84.0" style="-fx-background-color: rgb(76, 74, 69);" text="REGISTER" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

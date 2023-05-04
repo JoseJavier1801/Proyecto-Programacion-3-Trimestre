@@ -13,8 +13,8 @@ public class Admin {
 
     private String email;
 
-    public Admin(int id_user, String username, String password, String DNI, String email) {
-        this.id_admin = id_user;
+    public Admin(int id_admin, String username, String password, String DNI, String email) {
+        this.id_admin = id_admin;
         this.username = username;
         this.password = password;
         this.DNI = DNI;
