@@ -1,6 +1,9 @@
 package org.example.Controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.App;
@@ -55,6 +58,8 @@ public class ALoginController {
                 alert.setHeaderText(null);
                 alert.setContentText("Usuario o contraseña incorrectos.");
                 alert.showAndWait();
+                // Agregar esta línea para verificar si el objeto a es null
+                System.out.println("El objeto a es null.");
             }
         } catch (SQLException e) {
             // Error al buscar en la base de datos, mostrar alerta de error

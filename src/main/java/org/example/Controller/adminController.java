@@ -1,20 +1,15 @@
 package org.example.Controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 public class adminController {
     @FXML
@@ -69,25 +64,6 @@ public class adminController {
     @FXML
     private void delete()throws IOException {
 
-    }
-
-    @FXML
-    private void initialize() throws SQLException {
-        // Obtener los productos del DAO correspondiente
-        ProductsDAO PDAO=ProductsDAO.getInstance();
-        List<Products> productList = PDAO.findByAdminId(admin.getId_admin());
-
-        // Asignar los productos a la TableView
-        ObservableList<Products> productsObservableList = FXCollections.observableArrayList(productList);
-        tableProducts.setItems(productsObservableList);
-
-        // Asignar los valores de cada propiedad de Producto a las columnas correspondientes
-        colid.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colN.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colD.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colP.setCellValueFactory(new PropertyValueFactory<>("price"));
-        coliS.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        colIDA.setCellValueFactory(new PropertyValueFactory<>("adminId"));
     }
 
 
