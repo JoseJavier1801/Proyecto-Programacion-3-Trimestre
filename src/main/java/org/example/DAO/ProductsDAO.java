@@ -11,21 +11,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsDAO implements DAO<Products>{
-    private final static String FINDALL ="SELECT * from productos";
-    private final static String FINBYID ="SELECT * from productos WHERE id_p=?";
-    private final static String INSERT ="INSERT INTO productos (id_p,nombre_producto,descripcion,stock,precio,id_admin) VALUES (?,?,?,?,?,?)";
-    private final static String UPDATE ="UPDATE productos SET precio=?, stock=? WHERE id_p=?";
-    private final static String DELETE="DELETE from productos where id_p=?";
-    AdminDAO ADAO = AdminDAO.getInstance();
+public class ProductsDAO implements DAO<Products> {
+    private final static String FINDALL = "SELECT * FROM productos";
+    private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
+    private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
+    private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE id_p=?";
+    private final static String DELETE = "DELETE FROM productos WHERE id_p=?";
+
+    private final static String FINDBYADMINID = "SELECT * FROM productos WHERE id_admin = ?";
+
     private Connection conn;
+    private AdminDAO adminDAO;
     private static ProductsDAO instance = null;
 
-    public ProductsDAO() {
-        this.conn= ConnectionMySQL.getConnect();
+    private ProductsDAO() {
+        this.conn = ConnectionMySQL.getConnect();
         if (this.conn == null) {
             throw new RuntimeException("Unable to establish connection to the database.");
         }
+        this.adminDAO = AdminDAO.getInstance();
     }
 
     public static ProductsDAO getInstance() {
@@ -37,19 +41,18 @@ public class ProductsDAO implements DAO<Products>{
 
     @Override
     public List<Products> findAll() throws SQLException {
-        List<Products> result=new ArrayList();
-        AdminDAO adminDao = new AdminDAO(); // Instanciar el DAO de Admin
-        try (PreparedStatement pst=this.conn.prepareStatement(FINDALL)){
-            try (ResultSet res= pst.executeQuery()){
-                while (res.next()){
-                    Products p =new Products();
-                    p.setId(res.getInt("id_producto"));
+        List<Products> result = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
+                    Products p = new Products();
+                    p.setId(res.getInt("id_p"));
                     p.setName(res.getString("nombre_producto"));
                     p.setDescription(res.getString("descripcion"));
                     p.setStock(res.getInt("stock"));
                     p.setPrice(res.getDouble("precio"));
                     int adminId = res.getInt("id_admin");
-                    Admin admin = ADAO.findById(String.valueOf(adminId)); // Obtener el objeto Admin correspondiente al ID
+                    Admin admin = this.adminDAO.findById(String.valueOf(adminId));
                     p.setId_admin(admin);
                     result.add(p);
                 }
@@ -60,17 +63,19 @@ public class ProductsDAO implements DAO<Products>{
 
     @Override
     public Products findById(String id) throws SQLException {
-        Products result=null;
-        try (PreparedStatement pst=this.conn.prepareStatement(FINBYID)){
-            pst.setString(1,id);
-            try (ResultSet res= pst.executeQuery()){
-                if(res.next()){
+        Products result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYID)) {
+            pst.setString(1, id);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new Products();
+                    result.setId(res.getInt("id_p"));
                     result.setName(res.getString("nombre_producto"));
                     result.setDescription(res.getString("descripcion"));
                     result.setStock(res.getInt("stock"));
                     result.setPrice(res.getDouble("precio"));
                     int adminId = res.getInt("id_admin");
-                    Admin admin = ADAO.findById(String.valueOf(adminId));
+                    Admin admin = this.adminDAO.findById(String.valueOf(adminId));
                     result.setId_admin(admin);
                 }
             }
@@ -115,5 +120,27 @@ public class ProductsDAO implements DAO<Products>{
     @Override
     public void close() throws Exception {
 
+    }
+
+    public List<Products> findByAdminId(int adminId) throws SQLException {
+        AdminDAO ADAO= AdminDAO.getInstance();
+        List<Products> result = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYADMINID)) {
+            pst.setInt(1, adminId);
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
+                    Products p = new Products();
+                    p.setId(res.getInt("id_p"));
+                    p.setName(res.getString("nombre_producto"));
+                    p.setDescription(res.getString("descripcion"));
+                    p.setStock(res.getInt("stock"));
+                    p.setPrice(res.getDouble("precio"));
+                    Admin admin = ADAO.findById(String.valueOf(adminId)); // Obtener el objeto Admin correspondiente al ID
+                    p.setId_admin(admin);
+                    result.add(p);
+                }
+            }
+        }
+        return result;
     }
 }

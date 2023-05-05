@@ -1,11 +1,20 @@
 package org.example.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.DAO.*;
+import org.example.DOMAIN.Admin;
+import org.example.DOMAIN.Products;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 public class adminController {
     @FXML
@@ -18,11 +27,52 @@ public class adminController {
     private Button modP;
     @FXML
     private Button delP;
-    @FXML
-    private Button showP;
-    @FXML
-    private Button ManageU;
 
+    @FXML
+    private TableView<Products> tableProducts;
+
+    @FXML
+    private TableColumn<Products, Integer> colid;
+    @FXML
+    private TableColumn<Products, String> colN;
+    @FXML
+    private TableColumn<Products, String> colD;
+    @FXML
+    private TableColumn<Products, Double> colP;
+    @FXML
+    private TableColumn<Products, Integer> coliS;
+    @FXML
+    private TableColumn<Products, Integer> colIDA;
+
+    private Admin admin;
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    @FXML
+    private void viewproducts() {
+        try {
+            // Obtener los productos del administrador actualmente logueado
+            ProductsDAO PDAO = ProductsDAO.getInstance();
+            List<Products> products = PDAO.findByAdminId(ALoginController.adminId);
+
+            // Asignar los datos a las columnas
+            colid.setCellValueFactory(new PropertyValueFactory<>("id_product"));
+            colN.setCellValueFactory(new PropertyValueFactory<>("name"));
+            colD.setCellValueFactory(new PropertyValueFactory<>("description"));
+            colP.setCellValueFactory(new PropertyValueFactory<>("price"));
+            coliS.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            colIDA.setCellValueFactory(new PropertyValueFactory<>("admin.id_admin"));
+
+            // Cargar los productos en la tabla
+            ObservableList<Products> list = FXCollections.observableArrayList(products);
+            tableProducts.setItems(list);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void closesesion()throws IOException {
         App.setRoot("adminLogin");
@@ -43,12 +93,6 @@ public class adminController {
     private void delete()throws IOException {
 
     }
-    @FXML
-    private void showAll()throws IOException {
 
-    }
-    @FXML
-    private void ManageUsers()throws IOException {
 
-    }
 }

@@ -28,6 +28,8 @@ public class ALoginController {
 
     private Stage stage;
 
+    public static int adminId;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -41,6 +43,9 @@ public class ALoginController {
         try {
             Admin a = adminDAO.findByUsernameAndPassword(username, password);
             if (a != null) {
+                // Usuario autenticado, guardar el ID del administrador logueado
+                adminId = a.getId_admin();
+                //adminId = a.getId_admin();
                 // Usuario autenticado, navegar a la vista de admin
                 App.setRoot("admin");
             } else {

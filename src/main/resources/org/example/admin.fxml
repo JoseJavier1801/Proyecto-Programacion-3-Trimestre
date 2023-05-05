@@ -23,32 +23,44 @@
       <Button fx:id="addproducts" layoutX="32.0" layoutY="428.0" mnemonicParsing="false" onAction="#add" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Add Products" textFill="WHITE">
          <font>
             <Font size="25.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Button fx:id="searchP" layoutX="574.0" layoutY="503.0" mnemonicParsing="false" onAction="#search" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Button fx:id="modP" layoutX="32.0" layoutY="510.0" mnemonicParsing="false" onAction="#modify" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Button fx:id="delP" layoutX="574.0" layoutY="428.0" mnemonicParsing="false" onAction="#delete" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Delete Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label alignment="CENTER" layoutX="85.0" layoutY="46.0" prefHeight="64.0" prefWidth="648.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome Admin" textFill="WHITE">
          <font>
             <Font size="43.0" />
          </font>
       </Label>
-      <TableView layoutX="181.0" layoutY="135.0" prefHeight="226.0" prefWidth="456.0">
+      <TableView fx:id="tableProducts" layoutX="181.0" layoutY="135.0" onSort="#viewproducts" prefHeight="226.0" prefWidth="456.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Nombre" />
-            <TableColumn prefWidth="75.0" text="Descripcion" />
-            <TableColumn prefWidth="75.0" text="Precio" />
-            <TableColumn prefWidth="75.0" text="Stock" />
-            <TableColumn prefWidth="75.0" text="id_Admin" />
+          <TableColumn fx:id="colid" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="colN" prefWidth="75.0" text="Nombre" />
+            <TableColumn fx:id="colD" prefWidth="75.0" text="Descripcion" />
+            <TableColumn fx:id="colP" prefWidth="75.0" text="Precio" />
+            <TableColumn fx:id="colS" prefWidth="75.0" text="Stock" />
+            <TableColumn fx:id="colIDA" prefWidth="75.0" text="id_Admin" />
         </columns>
       </TableView>
       <ImageView fitHeight="51.0" fitWidth="76.0" layoutX="122.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">

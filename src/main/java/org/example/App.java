@@ -16,7 +16,6 @@ public class App extends Application {
 
     private static Scene scene; 
     private static Stage stage;
-    private static int adminId;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -35,10 +34,10 @@ public class App extends Application {
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+
         return fxmlLoader.load();
+
     }
-
-
 
     public static void main(String[] args) {
         launch(args);
