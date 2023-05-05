@@ -51,29 +51,6 @@ public class adminController {
     }
 
     @FXML
-    private void viewproducts() {
-        try {
-            // Obtener los productos del administrador actualmente logueado
-            ProductsDAO PDAO = ProductsDAO.getInstance();
-            List<Products> products = PDAO.findByAdminId(ALoginController.adminId);
-
-            // Asignar los datos a las columnas
-            colid.setCellValueFactory(new PropertyValueFactory<>("id_product"));
-            colN.setCellValueFactory(new PropertyValueFactory<>("name"));
-            colD.setCellValueFactory(new PropertyValueFactory<>("description"));
-            colP.setCellValueFactory(new PropertyValueFactory<>("price"));
-            coliS.setCellValueFactory(new PropertyValueFactory<>("stock"));
-            colIDA.setCellValueFactory(new PropertyValueFactory<>("admin.id_admin"));
-
-            // Cargar los productos en la tabla
-            ObservableList<Products> list = FXCollections.observableArrayList(products);
-            tableProducts.setItems(list);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    @FXML
     private void closesesion()throws IOException {
         App.setRoot("adminLogin");
     }
@@ -92,6 +69,25 @@ public class adminController {
     @FXML
     private void delete()throws IOException {
 
+    }
+
+    @FXML
+    private void initialize() throws SQLException {
+        // Obtener los productos del DAO correspondiente
+        ProductsDAO PDAO=ProductsDAO.getInstance();
+        List<Products> productList = PDAO.findByAdminId(admin.getId_admin());
+
+        // Asignar los productos a la TableView
+        ObservableList<Products> productsObservableList = FXCollections.observableArrayList(productList);
+        tableProducts.setItems(productsObservableList);
+
+        // Asignar los valores de cada propiedad de Producto a las columnas correspondientes
+        colid.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colN.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colD.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colP.setCellValueFactory(new PropertyValueFactory<>("price"));
+        coliS.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        colIDA.setCellValueFactory(new PropertyValueFactory<>("adminId"));
     }
 
 

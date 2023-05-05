@@ -53,7 +53,7 @@
             <Font size="43.0" />
          </font>
       </Label>
-      <TableView fx:id="tableProducts" layoutX="181.0" layoutY="135.0" onSort="#viewproducts" prefHeight="226.0" prefWidth="456.0">
+      <TableView fx:id="tableProducts" layoutX="181.0" layoutY="135.0" prefHeight="226.0" prefWidth="456.0">
         <columns>
           <TableColumn fx:id="colid" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="colN" prefWidth="75.0" text="Nombre" />
