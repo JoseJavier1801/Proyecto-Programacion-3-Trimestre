@@ -1,10 +1,7 @@
 package org.example.Controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.example.App;
 import org.example.DAO.AdminDAO;
 import org.example.DAO.UserDAO;
@@ -30,7 +27,7 @@ public class RegisterController {
     private TextField username;
 
     @FXML
-    private TextField passwd;
+    private PasswordField passwd;
 
     @FXML
     private TextField mail;
@@ -78,10 +75,11 @@ public class RegisterController {
                 showmesaje("User Already exist");
             }
         }
+        App.setRoot("home");
     }
     private void showmesaje(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Mensaje");
+        alert.setTitle("Mesage");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();

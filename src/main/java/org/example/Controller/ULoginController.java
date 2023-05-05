@@ -43,7 +43,7 @@ public class ULoginController {
             User u = UDAO.findByUsernameAndPassword(username, password);
             if (u != null) {
                 // Usuario autenticado, navegar a la vista de admin
-                App.setRoot("user");
+                App.setRoot("users");
             } else {
                 // Usuario o contraseña incorrectos, mostrar alerta de error
                 Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -29,7 +29,7 @@ public class adminController {
     }
    @FXML
     private void add()throws IOException {
-
+        App.setRoot("addproducts");
     }
     @FXML
     private void search()throws IOException {

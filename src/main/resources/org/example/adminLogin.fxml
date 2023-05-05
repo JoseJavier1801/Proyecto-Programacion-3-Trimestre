@@ -42,12 +42,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <PasswordField fx:id="psswdtxt" layoutX="142.0" layoutY="115.0" promptText="Password">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </PasswordField>
             <TextField fx:id="usertxt" layoutX="141.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="Name" />
+            <PasswordField fx:id="psswdtxt" layoutX="142.0" layoutY="116.0" promptText="Password" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="42.0" fitWidth="52.0" layoutX="153.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="595.0">

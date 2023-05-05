@@ -1,21 +1,30 @@
 package org.example.DOMAIN;
 
+import java.util.Objects;
+
 public class Products {
 
     private int id;
-    private String descripcion;
+
+    private String name;
+    private String description;
     private int Stock;
 
-    private double precio;
+    private double price;
 
     private Admin id_admin;
 
-    public Products(int id, String descripcion, int stock, double precio, Admin id_admin) {
+    public Products(int id, String name, String description, int stock, double price, Admin id_admin) {
         this.id = id;
-        this.descripcion = descripcion;
+        this.name = name;
+        this.description = description;
         Stock = stock;
-        this.precio = precio;
+        this.price = price;
         this.id_admin = id_admin;
+    }
+
+    public Products() {
+        this(0," ","",0,0,null);
     }
 
     public int getId() {
@@ -26,12 +35,20 @@ public class Products {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getName() {
+        return name;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getStock() {
@@ -42,12 +59,12 @@ public class Products {
         Stock = stock;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public Admin getId_admin() {
@@ -63,16 +80,22 @@ public class Products {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Products products = (Products) o;
-        return id == products.id;
+        return id == products.id && Objects.equals(id_admin, products.id_admin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, id_admin);
     }
 
     @Override
     public String toString() {
-        return "Productos{" +
+        return "Products{" +
                 "id=" + id +
-                ", descripcion='" + descripcion + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", Stock=" + Stock +
-                ", precio=" + precio +
+                ", price=" + price +
                 ", id_admin=" + id_admin +
                 '}';
     }
