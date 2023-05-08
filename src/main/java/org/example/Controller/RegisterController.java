@@ -7,7 +7,7 @@ import org.example.DAO.AdminDAO;
 import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
-
+import org.example.UTILS.ValidationDATA;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -53,6 +53,23 @@ public class RegisterController {
         String dni = DNI.getText();
         boolean isAdmin = foradmin.isSelected();
 
+        // Validar datos
+        if (!ValidationDATA.isValidUsername(user)) {
+            showmesaje("Invalid username. Must be at least 4 characters long and contain only letters and numbers.");
+            return;
+        }
+        if (!ValidationDATA.isValidPassword(password)) {
+            showmesaje("Invalid password. Must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
+            return;
+        }
+        if (!ValidationDATA.isValidEmail(email)) {
+            showmesaje("Invalid email address.");
+            return;
+        }
+        if (!ValidationDATA.isValidDNI(dni)) {
+            showmesaje("Invalid DNI. Must be 8 numbers and a letter.");
+            return;
+        }
 
         if (isAdmin) {
             Admin a = new Admin(0, user, password, dni, email);

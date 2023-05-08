@@ -5,8 +5,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.*;
-import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
+import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -61,6 +61,14 @@ public class ULoginController {
             alert.showAndWait();
             e.printStackTrace();
         }
+    }
+
+    private void showError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error de inicio de sesión");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
     @FXML
     private void goBack() throws IOException {

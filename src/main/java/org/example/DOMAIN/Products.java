@@ -99,4 +99,6 @@ public class Products {
                 ", id_admin=" + id_admin +
                 '}';
     }
+
+
 }

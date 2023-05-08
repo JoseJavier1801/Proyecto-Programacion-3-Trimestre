@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsDAO implements DAO<Products> {
-    private final static String FINDALL = "SELECT * FROM productos";
+    private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
     private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE id_p=?";
-    private final static String DELETE = "DELETE FROM productos WHERE id_p=?";
+    private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
 
+    private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
     private final static String FINDBYADMINID = "SELECT * FROM productos WHERE id_admin = ?";
 
     private Connection conn;
@@ -51,9 +52,6 @@ public class ProductsDAO implements DAO<Products> {
                     p.setDescription(res.getString("descripcion"));
                     p.setStock(res.getInt("stock"));
                     p.setPrice(res.getDouble("precio"));
-                    int adminId = res.getInt("id_admin");
-                    Admin admin = this.adminDAO.findById(String.valueOf(adminId));
-                    p.setId_admin(admin);
                     result.add(p);
                 }
             }
@@ -74,9 +72,25 @@ public class ProductsDAO implements DAO<Products> {
                     result.setDescription(res.getString("descripcion"));
                     result.setStock(res.getInt("stock"));
                     result.setPrice(res.getDouble("precio"));
-                    int adminId = res.getInt("id_admin");
-                    Admin admin = this.adminDAO.findById(String.valueOf(adminId));
-                    result.setId_admin(admin);
+
+                }
+            }
+        }
+        return result;
+    }
+
+    public Products findByName(String name) throws SQLException {
+        Products result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYNAME)) {
+            pst.setString(1, name);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new Products();
+                    result.setName(res.getString("nombre_producto"));
+                    result.setDescription(res.getString("descripcion"));
+                    result.setStock(res.getInt("stock"));
+                    result.setPrice(res.getDouble("precio"));
+
                 }
             }
         }
@@ -112,7 +126,7 @@ public class ProductsDAO implements DAO<Products> {
     public void delete(Products entity) throws SQLException {
         if(entity!=null){
             try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
-                pst.setInt(1,entity.getId());
+                pst.setString(1,entity.getName());
                 pst.executeUpdate();
             }
         }
