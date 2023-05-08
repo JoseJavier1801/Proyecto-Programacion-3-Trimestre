@@ -5,12 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.adminController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.adminController">
    <children>
       <Button fx:id="logbutton" layoutX="311.0" layoutY="510.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
          <font>
@@ -23,38 +21,44 @@
       <Button fx:id="addproducts" layoutX="32.0" layoutY="428.0" mnemonicParsing="false" onAction="#add" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Add Products" textFill="WHITE">
          <font>
             <Font size="25.0" />
-         </font></Button>
-      <Button fx:id="searchP" layoutX="574.0" layoutY="503.0" mnemonicParsing="false" onAction="#search" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search Products" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Button fx:id="modP" layoutX="32.0" layoutY="510.0" mnemonicParsing="false" onAction="#modify" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Button fx:id="delP" layoutX="574.0" layoutY="428.0" mnemonicParsing="false" onAction="#delete" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Delete Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label alignment="CENTER" layoutX="85.0" layoutY="46.0" prefHeight="64.0" prefWidth="648.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome Admin" textFill="WHITE">
          <font>
             <Font size="43.0" />
          </font>
       </Label>
-      <TableView layoutX="181.0" layoutY="135.0" prefHeight="226.0" prefWidth="456.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Nombre" />
-            <TableColumn prefWidth="75.0" text="Descripcion" />
-            <TableColumn prefWidth="75.0" text="Precio" />
-            <TableColumn prefWidth="75.0" text="Stock" />
-            <TableColumn prefWidth="75.0" text="id_Admin" />
-        </columns>
-      </TableView>
-      <ImageView fitHeight="51.0" fitWidth="76.0" layoutX="122.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@foto/usertest.png" />
-         </image>
-      </ImageView>
+      <TableView fx:id="tableProducts" layoutX="227.0" layoutY="133.0" prefHeight="226.0" prefWidth="367.0">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="stockColumn" prefWidth="75.0" text="Stock" />
+            <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+         </columns></TableView>
+      <Button fx:id="modAdmin" layoutX="574.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyAdmin" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Admin" textFill="#151515">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>
