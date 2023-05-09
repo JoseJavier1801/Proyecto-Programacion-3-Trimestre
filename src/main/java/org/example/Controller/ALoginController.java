@@ -1,17 +1,10 @@
 package org.example.Controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
-
-import org.example.UTILS.ValidationDATA;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -50,6 +43,12 @@ public class ALoginController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void btnDelete() throws IOException{
+
+    }
+
 
     private void showError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
