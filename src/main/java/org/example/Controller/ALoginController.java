@@ -25,21 +25,19 @@ public class ALoginController {
         try {
             Admin a = adminDAO.findByUsernameAndPassword(username, password);
             if (a != null) {
-                // Usuario autenticado, guardar los demas datos del administrador logueado para su uso turuo
+                //  guardar los demas datos del administrador logueado para su futuro uso en otros metodos
                 adminDAO.adminId = a.getId();
                 adminDAO.adminDNI=a.getDNI();
                 adminDAO.adminMail=a.getEmail();
-                // Usuario autenticado, navegar a la vista de admin
+                // Admin autenticado, ir a la pagina admin
                 App.setRoot("admin");
             } else {
                 // Usuario o contraseña incorrectos, mostrar alerta de error
-                showError("Usuario o contraseña incorrectos.");
-                // Agregar esta línea para verificar si el objeto a es null
-                System.out.println("El objeto a es null.");
+                showError("Incorrect Admin-Name or password.");
             }
         } catch (SQLException e) {
             // Error al buscar en la base de datos, mostrar alerta de error
-            showError("No se pudo buscar el usuario en la base de datos.");
+            showError("Admin didn't exist on the database");
             e.printStackTrace();
         }
     }
@@ -52,7 +50,7 @@ public class ALoginController {
 
     private void showError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error de inicio de sesión");
+        alert.setTitle("Log-in Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
