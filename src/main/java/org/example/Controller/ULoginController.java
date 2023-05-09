@@ -6,23 +6,15 @@ import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.User;
-import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class ULoginController {
-    @FXML
-    private Button btn_login;
-
-    @FXML
-    private Button btn_main;
 
     @FXML
     private TextField usertxt;
 
-    @FXML
-    private Label errortxt;
 
     @FXML
     private PasswordField psswdtxt;
@@ -42,34 +34,36 @@ public class ULoginController {
         try {
             User u = UDAO.findByUsernameAndPassword(username, password);
             if (u != null) {
+                //  guardar los demas datos del usuario logueado para su futuro uso en otros metodos
+                UDAO.userId = u.getId();
+                UDAO.userDNI=u.getDNI();
+                UDAO.userMail=u.getEmail();
                 // Usuario autenticado, navegar a la vista de admin
                 App.setRoot("users");
             } else {
                 // Usuario o contraseña incorrectos, mostrar alerta de error
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error de inicio de sesión");
+                alert.setTitle("Log-in Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Usuario o contraseña incorrectos.");
+                alert.setContentText("Incorrect User or Password.");
                 alert.showAndWait();
             }
         } catch (SQLException e) {
             // Error al buscar en la base de datos, mostrar alerta de error
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de base de datos");
+            alert.setTitle("DataBase Error");
             alert.setHeaderText(null);
-            alert.setContentText("No se pudo buscar el usuario en la base de datos.");
+            alert.setContentText("Couldn't find user in the database.");
             alert.showAndWait();
             e.printStackTrace();
         }
     }
 
-    private void showError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error de inicio de sesión");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    @FXML
+    private void btnDelete() throws IOException{
+
     }
+
     @FXML
     private void goBack() throws IOException {
         App.setRoot("home");

@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.Connections.ConnectionMySQL;
-import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 
 import java.sql.Connection;
@@ -23,7 +22,14 @@ public class UserDAO implements DAO<User> {
     private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR contraseña_usuario = ?";
     private final static String SELECT_BY_USERNAME_OR_EMAIL = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR correo_usuario = ?";
 
+
+    public static int userId;
+    public static String userDNI;
+    public static String userMail;
+
     private Connection conn;
+
+
     private static UserDAO instance = null;
 
     public UserDAO(Connection conn){
@@ -143,6 +149,16 @@ public class UserDAO implements DAO<User> {
             }
         }
         return result;
+    }
+
+    public static int getUserId() {
+        return userId;
+    }
+    public static String getUerDNI() {
+        return userDNI;
+    }
+    public static String getUserMail() {
+        return userMail;
     }
 
     @Override
