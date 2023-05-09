@@ -21,13 +21,12 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Label>
+      <Button fx:id="btn_main" layoutX="563.0" layoutY="64.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: rgb(76, 74, 69);" text="To Main Menu" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <AnchorPane id="btn_login" layoutX="413.0" layoutY="192.0" prefHeight="246.0" prefWidth="342.0" style="-fx-background-color: rgb(239, 184, 42);" AnchorPane.leftAnchor="413.0" AnchorPane.rightAnchor="70.0">
          <children>
-            <Label fx:id="errortxt" layoutX="90.0" layoutY="148.0" textFill="RED">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
             <Label layoutX="57.0" layoutY="55.0" text="USER">
                <font>
                   <Font size="18.0" />
@@ -37,13 +36,13 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
+            <TextField fx:id="usertxt" layoutX="141.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="Name" />
+            <PasswordField fx:id="psswdtxt" layoutX="142.0" layoutY="116.0" promptText="Password" />
             <Button id="btn_login" fx:id="btn_login" layoutX="117.0" layoutY="192.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="26.0" prefWidth="83.0" style="-fx-background-color: rgb(76, 74, 69);" text="Login" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="usertxt" layoutX="141.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="Name" />
-            <PasswordField fx:id="psswdtxt" layoutX="142.0" layoutY="116.0" promptText="Password" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="42.0" fitWidth="52.0" layoutX="153.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="595.0">
@@ -56,9 +55,5 @@
             <Image url="@foto/Logo.png" />
          </image>
       </ImageView>
-      <Button fx:id="btn_main" layoutX="563.0" layoutY="64.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: rgb(76, 74, 69);" text="To Main Menu" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
    </children>
 </AnchorPane>
