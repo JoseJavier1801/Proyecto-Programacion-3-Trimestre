@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDAO implements DAO<Admin> {
-
+    /**
+     * AdminDAO que tiene las consultas y los metodos que llaman los controladores
+     */
     private final static String FINDALL ="SELECT * from administrador";
     private final static String FINBYID ="SELECT * from administrador WHERE id_a=?";
     private final static String INSERT ="INSERT INTO administrador (id_a,nombre_admin,contraseña_admin,correo_admin,dni) VALUES (?,?,?,?,?)";
@@ -83,9 +85,9 @@ public class AdminDAO implements DAO<Admin> {
     public Admin save(Admin entity) throws SQLException {
         Admin result = null; // inicialice result como null en lugar de como un nuevo objeto Admin
         if (entity != null) {
-            if (entity.getId_admin() == 0) { // Si la clave primaria es 0, entonces es una inserción
+            if (entity.getId() == 0) { // Si la clave primaria es 0, entonces es una inserción
                 try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
-                    pst.setInt(1, entity.getId_admin());
+                    pst.setInt(1, entity.getId());
                     pst.setString(2, entity.getUsername());
                     pst.setString(3, entity.getPassword());
                     pst.setString(4, entity.getEmail());
@@ -102,12 +104,12 @@ public class AdminDAO implements DAO<Admin> {
                 try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
                     pst.setString(1, entity.getUsername());
                     pst.setString(2, entity.getPassword());
-                    pst.setInt(3, entity.getId_admin());
+                    pst.setInt(3, entity.getId());
                     // Verificar si ya existe un administrador con el mismo usuario o correo electrónico
                     try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
                         pstSelect.setString(1, entity.getUsername());
                         pstSelect.setString(2, entity.getEmail());
-                        pstSelect.setInt(3, entity.getId_admin());
+                        pstSelect.setInt(3, entity.getId());
                         ResultSet rs = pstSelect.executeQuery();
                         if (rs.next()) {
                             // Ya existe un administrador con el mismo usuario o correo electrónico
@@ -147,7 +149,7 @@ public class AdminDAO implements DAO<Admin> {
                     String storedPassword = res.getString("contraseña_admin");
                     if (storedPassword.equals(password)) {
                         result = new Admin();
-                        result.setId_admin(res.getInt("id_a"));
+                        result.setId(res.getInt("id_a"));
                         result.setUsername(res.getString("nombre_admin"));
                         result.setPassword(storedPassword);
                         result.setDNI(res.getString("dni"));

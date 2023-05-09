@@ -11,14 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ProductsDAO que tiene las consultas y los metodos que llaman los controladores
+ */
 public class ProductsDAO implements DAO<Products> {
     private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
+    private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
     private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE id_p=?";
     private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
-
-    private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
     private final static String FINDBYADMINID = "SELECT * FROM productos WHERE id_admin = ?";
 
     private Connection conn;
@@ -107,7 +109,7 @@ public class ProductsDAO implements DAO<Products> {
                 pst.setString(3, entity.getDescription());
                 pst.setInt(4, entity.getStock());
                 pst.setDouble(5, entity.getPrice());
-                pst.setInt(6, entity.getId_admin().getId_admin());
+                pst.setInt(6, entity.getId_admin().getId());
                 pst.executeUpdate();
             }
         } else {

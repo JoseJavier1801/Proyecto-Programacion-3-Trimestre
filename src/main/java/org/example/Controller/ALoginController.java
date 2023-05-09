@@ -33,7 +33,7 @@ public class ALoginController {
             Admin a = adminDAO.findByUsernameAndPassword(username, password);
             if (a != null) {
                 // Usuario autenticado, guardar los demas datos del administrador logueado para su uso turuo
-                adminDAO.adminId = a.getId_admin();
+                adminDAO.adminId = a.getId();
                 adminDAO.adminDNI=a.getDNI();
                 adminDAO.adminMail=a.getEmail();
                 // Usuario autenticado, navegar a la vista de admin
