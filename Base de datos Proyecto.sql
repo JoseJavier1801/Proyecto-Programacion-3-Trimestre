@@ -29,13 +29,15 @@ precio double,
 id_admin int not null
 );
 
-Create table carrito(
-id_u  int  not null,
-id_p int not null,
-fecha date,
-cantidad int,
-precio double,
-Primary Key(id_u,id_p)
+CREATE TABLE Carrito (
+  id_usuario INT NOT NULL,
+  id_producto INT NOT NULL,
+  fecha_compra DATE NOT NULL,
+  cantidad INT NOT NULL,
+  precio DOUBLE NOT NULL,
+  PRIMARY KEY (id_usuario, id_producto,fecha_compra),
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_u),
+  FOREIGN KEY (id_producto) REFERENCES productos(id_p)
 );
 
 alter table productos add foreign key(id_admin) references administrador(id_a);

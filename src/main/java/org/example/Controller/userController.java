@@ -17,6 +17,18 @@ public class userController {
         App.setRoot("UsersLogin");
     }
 
+    @FXML
+    private void modifyUser() throws IOException{
+
+    }
+    @FXML
+    private void showCart() throws IOException{
+
+    }
+    @FXML
+    private void addCart() throws IOException{
+
+    }
 
 
 }
