@@ -47,20 +47,32 @@ public class adminController {
         this.admin = admin;
     }
 
-    public void initialize() throws SQLException {
-        // Inicializa las columnas
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+    /**
+     * Metodo initialize que inicializa la tabla que muestra los productos de la base de datos en la tabla
+     */
+    public void initialize() {
+        try {
+            // Inicializa las columnas
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+            stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        // Obtiene los productos de la base de datos y los agrega a la lista
-        ProductsDAO PDAO = ProductsDAO.getInstance();
-        productsList.addAll(PDAO.findAll());
+            // Obtiene los productos de la base de datos y los agrega a la lista
+            ProductsDAO PDAO = ProductsDAO.getInstance();
+            productsList.addAll(PDAO.findAll());
 
-        // Establece la lista de productos
-        tableProducts.setItems(productsList);
+            // Establece la lista de productos
+            tableProducts.setItems(productsList);
+        } catch (SQLException e) {
+            // Manejo de excepciones
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Database error");
+            alert.setHeaderText(null);
+            alert.setContentText("There was an error accessing the database");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -70,7 +82,7 @@ public class adminController {
      * @throws IOException
      */
     @FXML
-    private void modifyAdmin() throws SQLException, IOException {
+    private void modifyAdmin() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Modify Admin");
         dialog.setHeaderText(null);
@@ -123,33 +135,40 @@ public class adminController {
                 return;
             }
 
-            // Obtener el administrador actual, cjunto a datos almacenados del login
-            AdminDAO ADAO = AdminDAO.getInstance();
-            int adminId = ADAO.adminId;
-            String email=ADAO.adminMail;
-            String DNI=ADAO.adminDNI;
+            try {
+                // Obtener el administrador actual, junto a datos almacenados del login
+                AdminDAO ADAO = AdminDAO.getInstance();
+                int adminId = ADAO.adminId;
+                String email = ADAO.adminMail;
+                String DNI = ADAO.adminDNI;
 
-            // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
-            Admin newAdmin = new Admin(adminId, username, password, email, DNI);
+                // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
+                Admin newAdmin = new Admin(adminId, username, password, email, DNI);
 
-            // guardar los nuevos datos
-            Admin savedAdmin = ADAO.save(newAdmin);
+                // guardar los nuevos datos
+                Admin savedAdmin = ADAO.save(newAdmin);
 
-            if (savedAdmin == null) {
+                if (savedAdmin == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("An admin with the same username or email already exists.");
+                    alert.showAndWait();
+                    return;
+                }
+
+                admin = savedAdmin;
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Success");
+                alert.setContentText("Admin has been updated, The session will close.");
+                alert.showAndWait();
+                App.setRoot("adminLogin");
+            } catch (SQLException | IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("An admin with the same username or email already exists.");
+                alert.setContentText("An error occurred while updating the admin: " + e.getMessage());
                 alert.showAndWait();
-                return;
             }
-
-            admin = savedAdmin;
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Success");
-            alert.setContentText("Admin has been updated, The session will close.");
-            alert.showAndWait();
-            App.setRoot("adminLogin");
         }
     }
     /**
@@ -170,27 +189,36 @@ public class adminController {
             if (productName.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Product name no added");
+                alert.setContentText("Product name not added");
                 alert.showAndWait();
                 return;
             }
 
-            ProductsDAO PDAO = ProductsDAO.getInstance();
-            Products product = PDAO.findByName(productName);
-            if (product == null) {
+            try {
+                ProductsDAO PDAO = ProductsDAO.getInstance();
+                Products product = PDAO.findByName(productName);
+                if (product == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Product doesn't exist");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setContentText("Are you sure you want to delete this product?");
+                    Optional<ButtonType> resultAlert = alert.showAndWait();
+                    if (resultAlert.isPresent() && resultAlert.get() == ButtonType.OK) {
+                        PDAO.delete(product);
+                        productsList.clear();
+                        productsList.addAll(PDAO.findAll());
+                        tableProducts.setItems(productsList);
+                    }
+                }
+            } catch (SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Product doesn't exist");
+                alert.setContentText("An error occurred while deleting the product.");
                 alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setContentText("Are you sure you want to delete this product?");
-                Optional<ButtonType> resultAlert = alert.showAndWait();
-                if (resultAlert.isPresent() && resultAlert.get() == ButtonType.OK) {
-                    PDAO.delete(product);
-                    tableProducts.setItems(productsList);
-                }
             }
         }
     }
@@ -207,28 +235,6 @@ public class adminController {
 
     @FXML
     private void modifyProduct() throws IOException, SQLException {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Modify Product");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Insert the Product to modify:");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            String productName = result.get();
-
-            ProductsDAO PDAO = ProductsDAO.getInstance();
-            Products product = PDAO.findByName(productName);
-
-            if (product == null) {
-                // No se encontró el producto en la base de datos
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Product doesn't exist");
-                alert.setHeaderText(null);
-                alert.setContentText("Product not inserted on the database");
-                alert.showAndWait();
-            } else {
-
-            }
-        }
+        App.setRoot("ModifyProducts");
     }
 }
