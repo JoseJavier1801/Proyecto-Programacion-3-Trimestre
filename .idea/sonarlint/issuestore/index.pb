@@ -19,5 +19,3 @@ o
 ?src/main/java/org/example/Controller/AddproductsController.java,1\3\138e88605647aa482357c287052a37805a312e70
 ^
 .src/main/java/org/example/DOMAIN/Products.java,3\e\3eaf65e42e0734837eac5dd3551a4a7f0e47dfc2
-r
-Bsrc/main/java/org/example/Controller/ModifyProductsController.java,8\f\8f341c4bdda18a6257ecbf87708a0bdc57118464
