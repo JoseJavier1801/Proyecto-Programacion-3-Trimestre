@@ -7,5 +7,3 @@ h
 .src/main/java/org/example/DOMAIN/Products.java,3\e\3eaf65e42e0734837eac5dd3551a4a7f0e47dfc2
 j
 :src/main/java/org/example/Controller/ULoginController.java,e\2\e212fbcd5e8de07b3081591682050888506b6d25
-N
-src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7
