@@ -10,6 +10,7 @@ import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
+import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 /**
  * Controlador de la vista de administrador que puede añadir,modificar,buscar productos
+ * tambien incluye metodos para modificar o eliminar el administrador logeado
  */
 public class adminController {
 
@@ -61,6 +63,12 @@ public class adminController {
         tableProducts.setItems(productsList);
     }
 
+    /**
+     * Metodo modifyAdmin ecargadro de modificar el username y password del administrador que tiene la sesion inicada
+     * una vez modificado, la sesion actual se cierra
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     private void modifyAdmin() throws SQLException, IOException {
         TextInputDialog dialog = new TextInputDialog();
@@ -88,15 +96,34 @@ public class adminController {
         if (result.isPresent()) {
             String username = usernameField.getText().trim();
             String password = passwordField.getText().trim();
-            if (username.isEmpty() || password.isEmpty()) {
+
+            // Validar el nombre de usuario
+            if (!ValidationDATA.isValidUsername(username)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Username and password cannot be empty.");
+                alert.setContentText("The username is invalid. Please enter a valid username.");
+                alert.showAndWait();
+                return;
+            }
+            // Validar el nuevo usuario
+            if (!ValidationDATA.isValidUsername(username)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("The user is invalid. Please enter a valid username.");
                 alert.showAndWait();
                 return;
             }
 
-            // Obtener el Admin actual
+            // Validar la contraseña
+            if (!ValidationDATA.isValidPassword(password)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("The password is invalid. Please enter a valid password.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Obtener el administrador actual, cjunto a datos almacenados del login
             AdminDAO ADAO = AdminDAO.getInstance();
             int adminId = ADAO.adminId;
             String email=ADAO.adminMail;
@@ -105,7 +132,7 @@ public class adminController {
             // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
             Admin newAdmin = new Admin(adminId, username, password, email, DNI);
 
-            // guardar los datos nuevos
+            // guardar los nuevos datos
             Admin savedAdmin = ADAO.save(newAdmin);
 
             if (savedAdmin == null) {
@@ -125,9 +152,8 @@ public class adminController {
             App.setRoot("adminLogin");
         }
     }
-
     /**
-     * Metodo Delete que al seleccionar el boton muestr una ventana que pide el nombre del producto a eliminar
+     * Metodo Delete que al seleccionar el boton muestra una ventana que pide el nombre del producto a eliminar
      * @throws IOException
      * @throws SQLException
      */
@@ -180,12 +206,30 @@ public class adminController {
     }
 
     @FXML
-    private void search() throws IOException {
+    private void modifyProduct() throws IOException, SQLException {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Modify Product");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Insert the Product to modify:");
 
-    }
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String productName = result.get();
 
-    @FXML
-    private void modify() throws IOException, SQLException {
+            ProductsDAO PDAO = ProductsDAO.getInstance();
+            Products product = PDAO.findByName(productName);
+
+            if (product == null) {
+                // No se encontró el producto en la base de datos
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Product doesn't exist");
+                alert.setHeaderText(null);
+                alert.setContentText("Product not inserted on the database");
+                alert.showAndWait();
+            } else {
+
+            }
+        }
 
     }
 }

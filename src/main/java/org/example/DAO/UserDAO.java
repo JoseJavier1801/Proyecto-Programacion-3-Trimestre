@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * UserDAO que tiene las consultas y los metodos que llaman los controladores
+ */
 public class UserDAO implements DAO<User> {
     private final static String FINDALL ="SELECT * from usuarios";
     private final static String FINBYID ="SELECT * from usuarios WHERE id_u=?";
@@ -80,7 +83,7 @@ public class UserDAO implements DAO<User> {
         if(entity!=null){
             //insert
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
-                pst.setInt(1, entity.getId_user());
+                pst.setInt(1, entity.getId());
                 pst.setString(2, entity.getUsername());
                 pst.setString(3, entity.getPassword());
                 pst.setString(4, entity.getEmail());
@@ -130,7 +133,7 @@ public class UserDAO implements DAO<User> {
                     String storedPassword = res.getString("contraseña_usuario");
                     if (storedPassword.equals(password)) {
                         result = new User();
-                        result.setId_user(res.getInt("id_u"));
+                        result.setId(res.getInt("id_u"));
                         result.setUsername(res.getString("nombre_usuario"));
                         result.setPassword(storedPassword);
                         result.setDNI(res.getString("dni"));
