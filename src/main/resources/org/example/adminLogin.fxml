@@ -25,20 +25,33 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <AnchorPane id="btn_login" layoutX="413.0" layoutY="192.0" prefHeight="246.0" prefWidth="342.0" style="-fx-background-color: rgb(239, 184, 42);" AnchorPane.leftAnchor="413.0" AnchorPane.rightAnchor="70.0">
+      <AnchorPane id="btn_login" layoutX="365.0" layoutY="186.0" prefHeight="283.0" prefWidth="363.0" style="-fx-background-color: rgb(239, 184, 42);" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="72.0">
          <children>
-            <Label layoutX="57.0" layoutY="55.0" text="USER">
+            <Label layoutX="66.0" layoutY="66.0" text="Admin:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="114.0" prefHeight="28.0" prefWidth="102.0" text="PASSWORD">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="43.0" layoutY="126.0" prefHeight="28.0" prefWidth="102.0" text="PASSWORD:">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <TextField fx:id="usertxt" layoutX="141.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="Name" />
-            <PasswordField fx:id="psswdtxt" layoutX="142.0" layoutY="116.0" promptText="Password" />
-            <Button id="btn_login" fx:id="btn_login" layoutX="117.0" layoutY="192.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="26.0" prefWidth="83.0" style="-fx-background-color: rgb(76, 74, 69);" text="Login" textFill="WHITE">
+            <TextField fx:id="usertxt" layoutX="170.0" layoutY="67.0" prefHeight="26.0" prefWidth="150.0" promptText="Name" />
+            <PasswordField fx:id="psswdtxt" layoutX="170.0" layoutY="127.0" promptText="Password" />
+            <Button id="btn_login" fx:id="btn_login" layoutX="27.0" layoutY="203.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="42.0" prefWidth="102.0" style="-fx-background-color: rgb(76, 74, 69);" text="Login" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label layoutX="148.0" layoutY="211.0" text="OR">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button id="btn_login" fx:id="btn_delete" layoutX="198.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="42.0" prefWidth="150.0" style="-fx-background-color: rgb(76, 74, 69);" text="Delete an existing Admin" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
