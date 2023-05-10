@@ -7,6 +7,7 @@ import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ALoginController {
 
@@ -44,9 +45,34 @@ public class ALoginController {
 
     @FXML
     private void btnDelete() throws IOException{
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Delete Admin");
+        dialog.setHeaderText("Enter the name of the admin you want to delete:");
+        dialog.setContentText("Admin name:");
 
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            String adminName = result.get();
+
+            AdminDAO adminDAO = AdminDAO.getInstance();
+            try {
+                Admin a = adminDAO.findByName(adminName);
+                if (a != null) {
+                    adminDAO.delete(a);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Admin Deleted");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Admin " + adminName + " has been deleted successfully!");
+                    alert.showAndWait();
+                } else {
+                    showError("Admin " + adminName + " doesn't exist.");
+                }
+            } catch (SQLException e) {
+                showError("Error occurred while deleting admin " + adminName + ".");
+                e.printStackTrace();
+            }
+        }
     }
-
 
     private void showError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

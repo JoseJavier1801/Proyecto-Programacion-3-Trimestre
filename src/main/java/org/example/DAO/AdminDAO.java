@@ -16,12 +16,12 @@ public class AdminDAO implements DAO<Admin> {
      */
     private final static String FINDALL ="SELECT * from administrador";
     private final static String FINBYID ="SELECT * from administrador WHERE id_a=?";
+
+    private final static String FINBYNAME ="SELECT * from administrador WHERE nombre_admin=?";
     private final static String INSERT ="INSERT INTO administrador (id_a,nombre_admin,contraseña_admin,correo_admin,dni) VALUES (?,?,?,?,?)";
     private final static String UPDATE ="UPDATE administrador SET nombre_admin=?, contraseña_admin=? WHERE id_a=?";
-    private final static String DELETE="DELETE from administrador where id_a=?";
+    private final static String DELETE="DELETE from administrador where nombre_admin=?";
     private final static String SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT = "SELECT * FROM administrador WHERE nombre_admin = ? OR correo_admin = ? AND id_a != ?";
-
-    private final static String SELECT_BY_USERNAME_OR_EMAIL = "SELECT * FROM administrador WHERE nombre_admin = ? OR correo_admin = ?";
     private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM administrador WHERE nombre_admin = ? OR contraseña_admin = ?";
 
     private Connection conn;
@@ -81,6 +81,24 @@ public class AdminDAO implements DAO<Admin> {
         return result;
     }
 
+    public Admin findByName(String name) throws SQLException {
+        Admin result = new Admin();
+        try (PreparedStatement pst=this.conn.prepareStatement(FINBYNAME)){
+            pst.setString(1,name);
+            try (ResultSet res= pst.executeQuery()){
+                if(res.next()){
+                    result.setUsername(res.getString("nombre_admin"));
+                    result.setPassword(res.getString("contraseña_admin"));
+                    result.setDNI(res.getString("dni"));
+                    result.setEmail(res.getString("correo_admin"));
+                } else {
+                    result = null;
+                }
+            }
+        }
+        return result;
+    }
+
     @Override
     public Admin save(Admin entity) throws SQLException {
         Admin result = null; // inicialice result como null en lugar de como un nuevo objeto Admin
@@ -128,7 +146,7 @@ public class AdminDAO implements DAO<Admin> {
     public void delete(Admin entity) throws SQLException {
         if(entity!=null){
             try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
-                pst.setString(1,entity.getDNI());
+                pst.setString(1,entity.getUsername());
                 pst.executeUpdate();
             }
         }

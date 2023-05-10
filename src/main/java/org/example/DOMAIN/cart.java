@@ -5,16 +5,25 @@ import java.util.Date;
 public class cart {
     private int id_user;
     private int id_produt;
+
     private Date buyDate;
+
+    private String productName;
+
     private int cant;
     private double price;
 
-    public cart(int id_user, int id_produt, Date buyDate, int cant, double price) {
+    public cart(int id_user, int id_produt, Date buyDate, String productName, int cant, double price) {
         this.id_user = id_user;
         this.id_produt = id_produt;
         this.buyDate = buyDate;
+        this.productName = productName;
         this.cant = cant;
         this.price = price;
+    }
+
+    public cart() {
+        this(0,0,new Date()," ", 0,0);
     }
 
     public int getId_user() {
@@ -41,6 +50,14 @@ public class cart {
         this.buyDate = buydate;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public int getCant() {
         return cant;
     }
@@ -56,12 +73,14 @@ public class cart {
     public void setPrice(double price) {
         this.price = price;
     }
+
     @Override
     public String toString() {
         return "cart{" +
                 "id_user=" + id_user +
                 ", id_produt=" + id_produt +
                 ", buyDate=" + buyDate +
+                ", productName='" + productName + '\'' +
                 ", cant=" + cant +
                 ", price=" + price +
                 '}';

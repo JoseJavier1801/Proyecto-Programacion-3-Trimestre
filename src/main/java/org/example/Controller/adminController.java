@@ -52,7 +52,7 @@ public class adminController {
      */
     public void initialize() {
         try {
-            // Inicializa las columnas
+            // Inicializar las columnas
             idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -65,6 +65,7 @@ public class adminController {
 
             // Establece la lista de productos
             tableProducts.setItems(productsList);
+
         } catch (SQLException e) {
             // Manejo de excepciones
             Alert alert = new Alert(Alert.AlertType.ERROR);

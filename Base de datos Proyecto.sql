@@ -33,6 +33,7 @@ CREATE TABLE Carrito (
   id_usuario INT NOT NULL,
   id_producto INT NOT NULL,
   fecha_compra DATE NOT NULL,
+  nombreProducto varchar(150),
   cantidad INT NOT NULL,
   precio DOUBLE NOT NULL,
   PRIMARY KEY (id_usuario, id_producto,fecha_compra),
