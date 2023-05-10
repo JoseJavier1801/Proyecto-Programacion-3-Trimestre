@@ -186,12 +186,5 @@ public class AdminDAO implements DAO<Admin> {
     public static int getAdminId() {
         return adminId;
     }
-    public static String getAdminDNI() {
-        return adminDNI;
-    }
-    public static String getAdminMail() {
-        return adminMail;
-    }
-
 
 }

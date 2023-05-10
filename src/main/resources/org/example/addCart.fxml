@@ -47,8 +47,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField layoutX="182.0" layoutY="54.0" />
-            <TextField layoutX="183.0" layoutY="154.0" />
+            <TextField fx:id="TextProduct" layoutX="182.0" layoutY="54.0" promptText="ProductName" />
+            <TextField fx:id="TextQuantity" layoutX="183.0" layoutY="154.0" promptText="Quantity" />
          </children>
       </AnchorPane>
       <Button fx:id="btn_return" layoutX="585.0" layoutY="55.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: white;" text="Go back">

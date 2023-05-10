@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class cart {
     private int id_user;
-    private int id_produt;
+    private int id_product;
 
     private Date buyDate;
 
@@ -13,9 +13,9 @@ public class cart {
     private int cant;
     private double price;
 
-    public cart(int id_user, int id_produt, Date buyDate, String productName, int cant, double price) {
+    public cart(int id_user, int id_product, Date buyDate, String productName, int cant, double price) {
         this.id_user = id_user;
-        this.id_produt = id_produt;
+        this.id_product = id_product;
         this.buyDate = buyDate;
         this.productName = productName;
         this.cant = cant;
@@ -34,12 +34,12 @@ public class cart {
         this.id_user = id_user;
     }
 
-    public int getId_produt() {
-        return id_produt;
+    public int getId_product() {
+        return id_product;
     }
 
-    public void setId_produt(int id_produt) {
-        this.id_produt = id_produt;
+    public void setId_product(int id_product) {
+        this.id_product = id_product;
     }
 
     public Date getBuyDate() {
@@ -78,7 +78,7 @@ public class cart {
     public String toString() {
         return "cart{" +
                 "id_user=" + id_user +
-                ", id_produt=" + id_produt +
+                ", id_product=" + id_product +
                 ", buyDate=" + buyDate +
                 ", productName='" + productName + '\'' +
                 ", cant=" + cant +

@@ -160,16 +160,6 @@ public class UserDAO implements DAO<User> {
         return result;
     }
 
-    public static int getUserId() {
-        return userId;
-    }
-    public static String getUerDNI() {
-        return userDNI;
-    }
-    public static String getUserMail() {
-        return userMail;
-    }
-
     @Override
     public void close() throws Exception {
 
