@@ -24,7 +24,6 @@ public class adminController {
 
     @FXML
     private TableView<Products> tableProducts;
-
     @FXML
     private TableColumn<Products, Integer> idColumn;
     @FXML
@@ -75,6 +74,34 @@ public class adminController {
             alert.showAndWait();
         }
     }
+
+    @FXML
+    private void searchProduct() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Product");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Please enter product name:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            boolean found = false;
+            for (Products product : productsList) {
+                if (product.getName().equals(name)) {
+                    tableProducts.getSelectionModel().select(product);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Search Product");
+                alert.setHeaderText(null);
+                alert.setContentText("Product not found!");
+                alert.showAndWait();
+            }
+        });
+    }
+
 
     /**
      * Metodo modifyAdmin ecargadro de modificar el username y password del administrador que tiene la sesion inicada
@@ -217,6 +244,7 @@ public class adminController {
             }
         }
     }
+
 
     @FXML
     private void closesesion() throws IOException {

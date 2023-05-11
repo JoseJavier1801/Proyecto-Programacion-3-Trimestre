@@ -29,8 +29,6 @@ l
 <src/main/java/org/example/Controller/RegisterController.java,5\3\53dbee7dca464af2a53ed7299e483210238f256b
 k
 ;src/main/java/org/example/Controller/AddCartController.java,a\6\a6452831923dd37d8a430580539f36dd32951d20
-i
-9src/main/java/org/example/Controller/adminController.java,4\2\42c670e4ff6d86325ffd85f9401a2f7e9c3c29c4
 ^
 .src/main/java/org/example/DAO/ProductsDAO.java,7\3\73cb4103773ff539e6e987bb08f5d2e35e152eb4
 Z

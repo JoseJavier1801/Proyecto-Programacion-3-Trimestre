@@ -60,5 +60,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <Button fx:id="searchP" layoutX="313.0" layoutY="428.0" mnemonicParsing="false" onAction="#searchProduct" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search Products" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>
