@@ -15,6 +15,9 @@ import java.util.List;
  * ProductsDAO que tiene las consultas y los metodos que llaman los controladores
  */
 public class ProductsDAO implements DAO<Products> {
+    /**
+     * Querys que utilizaran los metodos de ProductsDAO
+     */
     private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
     private final static String FINDID = "SELECT id_p FROM productos WHERE nombre_producto=?";
@@ -24,10 +27,13 @@ public class ProductsDAO implements DAO<Products> {
     private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
     private static final String UPDATESTOCK = "UPDATE productos SET stock=? WHERE nombre_producto=?";
 
-    private Connection conn;
-    private AdminDAO adminDAO;
+    private Connection conn; //establecer conexion a la base de datos
+    private AdminDAO adminDAO; //inizializa el adminDAO para el id Del administrador
     private static ProductsDAO instance = null;
 
+    /**
+     * Constructor que inicializa la conexion a la base de datos
+     */
     private ProductsDAO() {
         this.conn = ConnectionMySQL.getConnect();
         if (this.conn == null) {
@@ -43,6 +49,11 @@ public class ProductsDAO implements DAO<Products> {
         return instance;
     }
 
+    /**
+     * metodo que encuentra todos los productos
+     * @return
+     * @throws SQLException
+     */
     @Override
     public List<Products> findAll() throws SQLException {
         List<Products> result = new ArrayList<>();
@@ -62,6 +73,12 @@ public class ProductsDAO implements DAO<Products> {
         return result;
     }
 
+    /**
+     * encuentra los productos por id
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Products findById(String id) throws SQLException {
         Products result = null;
@@ -86,6 +103,13 @@ public class ProductsDAO implements DAO<Products> {
         return result;
     }
 
+    /**
+     * encuentra los productos por nombre
+     * @param name del producto a buscar
+     * @return la informacion de ese producto
+     * @throws SQLException
+     */
+
     public Products findByName(String name) throws SQLException {
         Products result = null;
         try (PreparedStatement pst = this.conn.prepareStatement(FINDBYNAME)) {
@@ -106,6 +130,13 @@ public class ProductsDAO implements DAO<Products> {
         }
         return result;
     }
+
+    /**
+     * metodo que busca el ide del producto por nombre
+     * @param name el nombre del producto
+     * @return el id del producto
+     * @throws SQLException
+     */
     public int findId(String name) throws SQLException {
         int result = 0;
         try (PreparedStatement pst = this.conn.prepareStatement(FINDID)) {
@@ -119,6 +150,12 @@ public class ProductsDAO implements DAO<Products> {
         return result;
     }
 
+    /**
+     * metodo save que guarda los datos de los producto
+     * @param entity
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Products save(Products entity) throws SQLException {
         if (entity == null) {
@@ -149,6 +186,11 @@ public class ProductsDAO implements DAO<Products> {
         return entity;
     }
 
+    /**
+     * metodo delete que elimina un producto
+     * @param entity recibe el nombre del producto a eliminar
+     * @throws SQLException
+     */
     @Override
     public void delete(Products entity) throws SQLException {
         if (entity != null) {
@@ -164,6 +206,12 @@ public class ProductsDAO implements DAO<Products> {
 
     }
 
+    /**
+     * metodo que actualiza unicamente el stock de los productos
+     * @param entity recibe el producto a actualizar
+     * @return el producto actualizado
+     * @throws SQLException
+     */
     public Products UpdateStock(Products entity) throws SQLException {
         Products result = null;
         try (PreparedStatement pst = this.conn.prepareStatement(UPDATESTOCK)) {
