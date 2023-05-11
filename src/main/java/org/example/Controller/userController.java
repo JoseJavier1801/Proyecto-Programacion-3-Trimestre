@@ -85,7 +85,7 @@ public class userController {
                 User newUser = new User(Id, username, password, email, DNI);
 
                 // guardar los nuevos datos
-                User savedUser = UDAO.save(newUser);
+                User savedUser = UDAO.Update(newUser);
 
                 if (savedUser == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

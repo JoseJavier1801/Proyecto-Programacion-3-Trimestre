@@ -83,7 +83,7 @@ public class adminController {
      * @throws IOException
      */
     @FXML
-    private void modifyAdmin() {
+    private void modifyAdmin() throws IOException {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Modify Admin");
         dialog.setHeaderText(null);
@@ -110,14 +110,6 @@ public class adminController {
             String username = usernameField.getText().trim();
             String password = passwordField.getText().trim();
 
-            // Validar el nombre de usuario
-            if (!ValidationDATA.isValidUsername(username)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("The username is invalid. Please enter a valid username.");
-                alert.showAndWait();
-                return;
-            }
             // Validar el nuevo usuario
             if (!ValidationDATA.isValidUsername(username)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -135,35 +127,37 @@ public class adminController {
                 alert.showAndWait();
                 return;
             }
-
             try {
                 // Obtener el administrador actual, junto a datos almacenados del login
                 AdminDAO ADAO = AdminDAO.getInstance();
-                int adminId = ADAO.adminId;
+                Admin admin = ADAO.findById(String.valueOf(ADAO.adminId));
+                if(admin == null){
+                    throw new SQLException("Admin with id " + ADAO.adminId + " not found.");
+                }
                 String email = ADAO.adminMail;
                 String DNI = ADAO.adminDNI;
 
                 // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
-                Admin newAdmin = new Admin(adminId, username, password, email, DNI);
+                Admin newAdmin = new Admin(ADAO.adminId, username, password, email, DNI);
 
                 // guardar los nuevos datos
-                Admin savedAdmin = ADAO.save(newAdmin);
+                Admin savedAdmin = ADAO.Update(newAdmin);
 
                 if (savedAdmin == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
-                    alert.setContentText("An admin with the same username or email already exists.");
+                    alert.setContentText("An admin with the same username or password already exists.");
                     alert.showAndWait();
                     return;
                 }
 
-                admin = savedAdmin;
+                ADAO.adminId = -1;
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Success");
                 alert.setContentText("Admin has been updated, The session will close.");
                 alert.showAndWait();
-                App.setRoot("adminLogin");
+                App.setRoot("AdminLogin");
             } catch (SQLException | IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

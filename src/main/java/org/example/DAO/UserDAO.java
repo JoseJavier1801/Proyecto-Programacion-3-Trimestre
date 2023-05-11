@@ -4,10 +4,7 @@ import org.example.Connections.ConnectionMySQL;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +47,7 @@ public class UserDAO implements DAO<User> {
         }
         return instance;
     }
+
     @Override
     public List<User> findAll() throws SQLException {
         List<User> result=new ArrayList();
@@ -89,43 +87,49 @@ public class UserDAO implements DAO<User> {
 
     @Override
     public User save(User entity) throws SQLException {
-        User result = null; // inicialice result como null en lugar de como un nuevo objeto Admin
-        if (entity != null) {
-            if (entity.getId() == 0) { // Si la clave primaria es 0, entonces es una inserción
-                try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
-                    pst.setInt(1, entity.getId());
-                    pst.setString(2, entity.getUsername());
-                    pst.setString(3, entity.getPassword());
-                    pst.setString(4, entity.getEmail());
-                    pst.setString(5, entity.getDNI());
-                    try (ResultSet rs = pst.executeQuery()) {
-                        if (rs.next()) {
-                            // Obtener el ID del registro insertado y crear un objeto User con esos datos
-                            int id = rs.getInt(1);
-                            result = new User(id, entity.getUsername(), entity.getPassword(), entity.getEmail(), entity.getDNI());
-                        }
-                    }
-                }
-            } else { // De lo contrario, es una actualización
-                try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
-                    pst.setString(1, entity.getUsername());
-                    pst.setString(2, entity.getPassword());
-                    pst.setInt(3, entity.getId());
-                    // Verificar si ya existe un usuario con el mismo usuario o correo electrónico
-                    try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
-                        pstSelect.setString(1, entity.getUsername());
-                        pstSelect.setString(2, entity.getEmail());
-                        pstSelect.setInt(3, entity.getId());
-                        ResultSet rs = pstSelect.executeQuery();
-                        if (rs.next()) {
-                            return null;
-                        }
-                    }
-                    // No se encontró un usuario, se procede a actualizar el registro
-                    pst.executeUpdate();
-                    result = entity; // Asignar el objeto actualizado al result
+        User result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+            pst.setInt(1, entity.getId());
+            pst.setString(2, entity.getUsername());
+            pst.setString(3, entity.getPassword());
+            pst.setString(4, entity.getEmail());
+            pst.setString(5, entity.getDNI());
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("No se ha podido insertar el usuario.");
+            }
+            try (ResultSet rs = pst.getGeneratedKeys()) {
+                if (rs.next()) {
+                    // Obtener el ID del registro insertado y crear un objeto User con esos datos
+                    int id = rs.getInt(1);
+                    result = new User(id, entity.getUsername(), entity.getPassword(), entity.getEmail(), entity.getDNI());
+                } else {
+                    throw new SQLException("No se ha podido insertar el usuario, no se ha generado una clave única.");
                 }
             }
+        }
+        return result;
+    }
+    public User Update(User entity) throws SQLException {
+        User result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
+            pst.setString(1, entity.getUsername());
+            pst.setString(2, entity.getPassword());
+            pst.setInt(3, entity.getId());
+            // Verificar si ya existe un administrador con el mismo usuario o correo electrónico
+            try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
+                pstSelect.setString(1, entity.getUsername());
+                pstSelect.setString(2, entity.getEmail());
+                pstSelect.setInt(3, entity.getId());
+                ResultSet rs = pstSelect.executeQuery();
+                if (rs.next()) {
+                    // Ya existe un usuario
+                    return null;
+                }
+            }
+            // No se encontró un usuario con los mismos datos se procede a actualizar el registro
+            pst.executeUpdate();
+            result = entity; // Asignar el objeto actualizado al objeto result que devuelve
         }
         return result;
     }
@@ -160,10 +164,6 @@ public class UserDAO implements DAO<User> {
         return result;
     }
 
-    @Override
-    public void close() throws Exception {
-
-    }
 
     public User findByName(String name) throws SQLException{
         User result = new User();
@@ -181,5 +181,15 @@ public class UserDAO implements DAO<User> {
             }
         }
         return result;
+    }
+
+    @Override
+    public void close() throws Exception {
+
+    }
+
+
+    public static int getUserId() {
+        return userId;
     }
 }

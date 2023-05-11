@@ -2,11 +2,9 @@ package org.example.DAO;
 
 import org.example.DOMAIN.Admin;
 import org.example.Connections.ConnectionMySQL;
+import org.example.DOMAIN.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +26,20 @@ public class AdminDAO implements DAO<Admin> {
     private static AdminDAO instance = null;
 
     public static int adminId;
+    public static int getAdminId() {
+        return adminId;
+    }
+
     public static String adminDNI;
+
+    public static String getAdminDNI() {
+        return adminDNI;
+    }
     public static String adminMail;
+
+    public static String getAdminMail() {
+        return adminMail;
+    }
 
     public AdminDAO() {
         this.conn= ConnectionMySQL.getConnect();
@@ -51,7 +61,7 @@ public class AdminDAO implements DAO<Admin> {
         try (PreparedStatement pst=this.conn.prepareStatement(FINDALL)){
             try (ResultSet res= pst.executeQuery()){
                 while (res.next()){
-                   Admin a =new Admin();
+                    Admin a =new Admin();
                     a.setUsername(res.getString("nombre_usuario"));
                     a.setPassword(res.getString("contraseña_usuario"));
                     a.setDNI(res.getString("dni"));
@@ -71,6 +81,7 @@ public class AdminDAO implements DAO<Admin> {
             pst.setString(1,id);
             try (ResultSet res= pst.executeQuery()){
                 if(res.next()){
+                    result=new Admin();
                     result.setUsername(res.getString("nombre_admin"));
                     result.setPassword(res.getString("contraseña_admin"));
                     result.setDNI(res.getString("dni"));
@@ -98,65 +109,6 @@ public class AdminDAO implements DAO<Admin> {
         }
         return result;
     }
-
-    @Override
-    public Admin save(Admin entity) throws SQLException {
-        Admin result = null; // inicialice result como null en lugar de como un nuevo objeto Admin
-        if (entity != null) {
-            if (entity.getId() == 0) { // Si la clave primaria es 0, entonces es una inserción
-                try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
-                    pst.setInt(1, entity.getId());
-                    pst.setString(2, entity.getUsername());
-                    pst.setString(3, entity.getPassword());
-                    pst.setString(4, entity.getEmail());
-                    pst.setString(5, entity.getDNI());
-                    try (ResultSet rs = pst.executeQuery()) {
-                        if (rs.next()) {
-                            // Obtener el ID del registro insertado y crear un objeto Admin con esos datos
-                            int id = rs.getInt(1);
-                            result = new Admin(id, entity.getUsername(), entity.getPassword(), entity.getEmail(), entity.getDNI());
-                        }
-                    }
-                }
-            } else { // De lo contrario, es una actualización
-                try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
-                    pst.setString(1, entity.getUsername());
-                    pst.setString(2, entity.getPassword());
-                    pst.setInt(3, entity.getId());
-                    // Verificar si ya existe un administrador con el mismo usuario o correo electrónico
-                    try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
-                        pstSelect.setString(1, entity.getUsername());
-                        pstSelect.setString(2, entity.getEmail());
-                        pstSelect.setInt(3, entity.getId());
-                        ResultSet rs = pstSelect.executeQuery();
-                        if (rs.next()) {
-                            // Ya existe un administrador con el mismo usuario o correo electrónico
-                            return null;
-                        }
-                    }
-                    // No se encontró un administrador con el mismo usuario o correo electrónico, se procede a actualizar el registro
-                    pst.executeUpdate();
-                    result = entity; // Asignar el objeto actualizado al objeto result que devuelve
-                }
-            }
-        }
-        return result;
-    }
-    @Override
-    public void delete(Admin entity) throws SQLException {
-        if(entity!=null){
-            try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
-                pst.setString(1,entity.getUsername());
-                pst.executeUpdate();
-            }
-        }
-    }
-
-    @Override
-    public void close() throws Exception {
-
-    }
-
     public Admin findByUsernameAndPassword(String username, String password) throws SQLException {
         Admin result = null;
         try (PreparedStatement pst = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_PASSWORD)) {
@@ -179,12 +131,71 @@ public class AdminDAO implements DAO<Admin> {
         return result;
     }
 
+    @Override
+    public Admin save(Admin entity) throws SQLException {
+        Admin result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+            pst.setInt(1, entity.getId());
+            pst.setString(2, entity.getUsername());
+            pst.setString(3, entity.getPassword());
+            pst.setString(4, entity.getEmail());
+            pst.setString(5, entity.getDNI());
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("No se ha podido insertar el usuario.");
+            }
+            try (ResultSet rs = pst.getGeneratedKeys()) {
+                if (rs.next()) {
+                    // Obtener el ID del registro insertado y crear un objeto User con esos datos
+                    int id = rs.getInt(1);
+                    result = new Admin(id, entity.getUsername(), entity.getPassword(), entity.getEmail(), entity.getDNI());
+                } else {
+                    throw new SQLException("No se ha podido insertar el administrador, no se ha generado una clave única.");
+                }
+            }
+        }
+        return result;
+    }
+    public Admin Update(Admin entity) throws SQLException {
+        Admin result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
+            pst.setString(1, entity.getUsername());
+            pst.setString(2, entity.getPassword());
+            pst.setInt(3, entity.getId());
+            // Verificar si ya existe un administrador con el mismo usuario o correo electrónico
+            try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
+                pstSelect.setString(1, entity.getUsername());
+                pstSelect.setString(2, entity.getEmail());
+                pstSelect.setInt(3, entity.getId());
+                ResultSet rs = pstSelect.executeQuery();
+                if (rs.next()) {
+                    // Ya existe un administrador con el mismo usuario o correo electrónico
+                    return null;
+                }
+            }
+            // No se encontró un administrador con el mismo usuario o correo electrónico, se procede a actualizar el registro
+            pst.executeUpdate();
+            result = entity; // Asignar el objeto actualizado al objeto result que devuelve
+        }
+        return result;
+    }
+    @Override
+    public void delete(Admin entity) throws SQLException {
+        if(entity!=null){
+            try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
+                pst.setString(1,entity.getUsername());
+                pst.executeUpdate();
+            }
+        }
+    }
+
+    @Override
+    public void close() throws Exception {
+
+    }
     /**
      * metodos que guarda ciertos datos del administrador para usarlos en otros metodos
      * @return
      */
-    public static int getAdminId() {
-        return adminId;
-    }
 
 }

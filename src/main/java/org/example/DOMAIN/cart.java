@@ -9,9 +9,9 @@ public class cart {
     private Date buyDate;
 
     private String productName;
-
-    private int cant;
     private double price;
+    private int cant;
+
 
     public cart(int id_user, int id_product, Date buyDate, String productName, int cant, double price) {
         this.id_user = id_user;
