@@ -3,14 +3,12 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.userController">
    <children>
-      <Button fx:id="logbutton" layoutX="74.0" layoutY="456.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
+      <Button fx:id="logbutton" layoutX="480.0" layoutY="371.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="58.0" prefWidth="207.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>
@@ -23,29 +21,28 @@
             <Font size="43.0" />
          </font>
       </Label>
-      <Button layoutX="350.0" layoutY="215.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Add to cart" textFill="WHITE">
-         <font>
-            <Font size="27.0" />
-         </font></Button>
-      <ImageView fitHeight="219.0" fitWidth="236.0" layoutX="63.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@foto/usertest.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="576.0" layoutY="215.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Show Cart" textFill="WHITE">
+      <Button fx:id="btn_addCart" layoutX="99.0" layoutY="209.0" mnemonicParsing="false" onAction="#addCart" prefHeight="58.0" prefWidth="219.0" style="-fx-background-color: rgb(239, 184, 42);" text="Add to cart" textFill="WHITE">
          <font>
             <Font size="27.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="btn_showCart" layoutX="480.0" layoutY="209.0" mnemonicParsing="false" onAction="#showCart" prefHeight="58.0" prefWidth="207.0" style="-fx-background-color: rgb(239, 184, 42);" text="Show Cart" textFill="WHITE">
+         <font>
+            <Font size="27.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <Button layoutX="350.0" layoutY="339.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Empty Cart" textFill="WHITE">
+      <Button fx:id="btn_ModUser" layoutX="99.0" layoutY="371.0" mnemonicParsing="false" onAction="#modifyUser" prefHeight="58.0" prefWidth="219.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify User" textFill="WHITE">
          <font>
             <Font size="27.0" />
          </font>
-      </Button>
-      <Button layoutX="576.0" layoutY="339.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search Products" textFill="WHITE">
-         <font>
-            <Font size="27.0" />
-         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>

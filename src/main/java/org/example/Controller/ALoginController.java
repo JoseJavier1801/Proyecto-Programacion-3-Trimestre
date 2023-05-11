@@ -1,19 +1,13 @@
 package org.example.Controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
-
-import org.example.UTILS.ValidationDATA;
-
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ALoginController {
 
@@ -32,28 +26,57 @@ public class ALoginController {
         try {
             Admin a = adminDAO.findByUsernameAndPassword(username, password);
             if (a != null) {
-                // Usuario autenticado, guardar los demas datos del administrador logueado para su uso turuo
-                adminDAO.adminId = a.getId_admin();
+                //  guardar los demas datos del administrador logueado para su futuro uso en otros metodos
+                adminDAO.adminId = a.getId();
                 adminDAO.adminDNI=a.getDNI();
                 adminDAO.adminMail=a.getEmail();
-                // Usuario autenticado, navegar a la vista de admin
+                // Admin autenticado, ir a la pagina admin
                 App.setRoot("admin");
             } else {
                 // Usuario o contraseña incorrectos, mostrar alerta de error
-                showError("Usuario o contraseña incorrectos.");
-                // Agregar esta línea para verificar si el objeto a es null
-                System.out.println("El objeto a es null.");
+                showError("Incorrect Admin-Name or password.");
             }
         } catch (SQLException e) {
             // Error al buscar en la base de datos, mostrar alerta de error
-            showError("No se pudo buscar el usuario en la base de datos.");
+            showError("Admin didn't exist on the database");
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void btnDelete() throws IOException{
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Delete Admin");
+        dialog.setHeaderText("Enter the name of the admin you want to delete:");
+        dialog.setContentText("Admin name:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            String adminName = result.get();
+
+            AdminDAO adminDAO = AdminDAO.getInstance();
+            try {
+                Admin a = adminDAO.findByName(adminName);
+                if (a != null) {
+                    adminDAO.delete(a);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Admin Deleted");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Admin " + adminName + " has been deleted successfully!");
+                    alert.showAndWait();
+                } else {
+                    showError("Admin " + adminName + " doesn't exist.");
+                }
+            } catch (SQLException e) {
+                showError("Error occurred while deleting admin " + adminName + ".");
+                e.printStackTrace();
+            }
         }
     }
 
     private void showError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error de inicio de sesión");
+        alert.setTitle("Log-in Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();

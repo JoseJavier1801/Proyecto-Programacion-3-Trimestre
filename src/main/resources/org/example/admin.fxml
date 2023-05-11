@@ -25,7 +25,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="modP" layoutX="32.0" layoutY="510.0" mnemonicParsing="false" onAction="#modify" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Products" textFill="WHITE">
+      <Button fx:id="modP" layoutX="32.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyProduct" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
@@ -53,6 +53,14 @@
             <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
          </columns></TableView>
       <Button fx:id="modAdmin" layoutX="574.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyAdmin" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Admin" textFill="#151515">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="searchP" layoutX="313.0" layoutY="428.0" mnemonicParsing="false" onAction="#searchProduct" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search Products" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>

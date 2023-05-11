@@ -11,15 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ProductsDAO que tiene las consultas y los metodos que llaman los controladores
+ */
 public class ProductsDAO implements DAO<Products> {
     private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
-    private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE id_p=?";
-    private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
-
     private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
-    private final static String FINDBYADMINID = "SELECT * FROM productos WHERE id_admin = ?";
+    private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
+    private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE nombre_producto=?";
+    private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
 
     private Connection conn;
     private AdminDAO adminDAO;
@@ -72,7 +73,11 @@ public class ProductsDAO implements DAO<Products> {
                     result.setDescription(res.getString("descripcion"));
                     result.setStock(res.getInt("stock"));
                     result.setPrice(res.getDouble("precio"));
-
+                    // Obtener el administrador del producto
+                    int adminId = res.getInt("id_admin");
+                    AdminDAO ADAO = AdminDAO.getInstance();
+                    Admin admin = ADAO.findById(String.valueOf(adminId));
+                    result.setId_admin(admin);
                 }
             }
         }
@@ -90,7 +95,10 @@ public class ProductsDAO implements DAO<Products> {
                     result.setDescription(res.getString("descripcion"));
                     result.setStock(res.getInt("stock"));
                     result.setPrice(res.getDouble("precio"));
-
+                    // Obtener el objeto Admin correspondiente
+                    Admin admin = new Admin();
+                    admin.setId(res.getInt("id_admin"));
+                    result.setId_admin(admin);
                 }
             }
         }
@@ -99,7 +107,12 @@ public class ProductsDAO implements DAO<Products> {
 
     @Override
     public Products save(Products entity) throws SQLException {
-        if (entity != null) {
+        if (entity == null) {
+            return null;
+        }
+        // Comprobar si el producto ya existe en la base de datos
+        Products existingProduct = findByName(entity.getName());
+        if (existingProduct == null) {
             // Insertar nuevo registro
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
                 pst.setInt(1, entity.getId());
@@ -107,7 +120,7 @@ public class ProductsDAO implements DAO<Products> {
                 pst.setString(3, entity.getDescription());
                 pst.setInt(4, entity.getStock());
                 pst.setDouble(5, entity.getPrice());
-                pst.setInt(6, entity.getId_admin().getId_admin());
+                pst.setInt(6, entity.getId_admin().getId());
                 pst.executeUpdate();
             }
         } else {
@@ -115,7 +128,7 @@ public class ProductsDAO implements DAO<Products> {
             try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
                 pst.setDouble(1, entity.getPrice());
                 pst.setInt(2, entity.getStock());
-                pst.setInt(3, entity.getId());
+                pst.setString(3, entity.getName());
                 pst.executeUpdate();
             }
         }
@@ -124,37 +137,16 @@ public class ProductsDAO implements DAO<Products> {
 
     @Override
     public void delete(Products entity) throws SQLException {
-        if(entity!=null){
-            try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
-                pst.setString(1,entity.getName());
+        if (entity != null) {
+            try (PreparedStatement pst = this.conn.prepareStatement(DELETE)) {
+                pst.setString(1, entity.getName());
                 pst.executeUpdate();
             }
         }
     }
+
     @Override
     public void close() throws Exception {
 
-    }
-
-    public List<Products> findByAdminId(int adminId) throws SQLException {
-        AdminDAO ADAO= AdminDAO.getInstance();
-        List<Products> result = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYADMINID)) {
-            pst.setInt(1, adminId);
-            try (ResultSet res = pst.executeQuery()) {
-                while (res.next()) {
-                    Products p = new Products();
-                    p.setId(res.getInt("id_p"));
-                    p.setName(res.getString("nombre_producto"));
-                    p.setDescription(res.getString("descripcion"));
-                    p.setStock(res.getInt("stock"));
-                    p.setPrice(res.getDouble("precio"));
-                    Admin admin = ADAO.findById(String.valueOf(adminId)); // Obtener el objeto Admin correspondiente al ID
-                    p.setId_admin(admin);
-                    result.add(p);
-                }
-            }
-        }
-        return result;
     }
 }

@@ -2,8 +2,11 @@ package org.example.DOMAIN;
 
 import java.util.Objects;
 
+/**
+ * Clase admin que hereda la clase user
+ */
 public class Admin {
-    private  int id_admin;
+    private  int id;
 
     private String username;
 
@@ -13,8 +16,8 @@ public class Admin {
 
     private String email;
 
-    public Admin(int id_admin, String username, String password, String DNI, String email) {
-        this.id_admin = id_admin;
+    public Admin(int id, String username, String password, String DNI, String email) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.DNI = DNI;
@@ -25,16 +28,16 @@ public class Admin {
         this(0," "," "," "," ");
     }
 
-    public Admin(int id_admin) {
-        this.id_admin = id_admin;
+    public Admin(int id) {
+        this.id = id;
     }
 
-    public int getId_admin() {
-        return id_admin;
+    public int getId() {
+        return id;
     }
 
-    public void setId_admin(int id_admin) {
-        this.id_admin = id_admin;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -74,18 +77,18 @@ public class Admin {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Admin that = (Admin) o;
-        return id_admin == that.id_admin && Objects.equals(DNI, that.DNI);
+        return id == that.id && Objects.equals(DNI, that.DNI);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_admin, DNI);
+        return Objects.hash(id, DNI);
     }
 
     @Override
     public String toString() {
         return "Administrador{" +
-                "id_admin=" + id_admin +
+                "id_admin=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", DNI='" + DNI + '\'' +

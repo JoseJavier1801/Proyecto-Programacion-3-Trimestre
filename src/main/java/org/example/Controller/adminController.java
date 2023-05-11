@@ -10,6 +10,7 @@ import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
+import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,12 +18,12 @@ import java.util.Optional;
 
 /**
  * Controlador de la vista de administrador que puede añadir,modificar,buscar productos
+ * tambien incluye metodos para modificar o eliminar el administrador logeado
  */
 public class adminController {
 
     @FXML
     private TableView<Products> tableProducts;
-
     @FXML
     private TableColumn<Products, Integer> idColumn;
     @FXML
@@ -45,24 +46,71 @@ public class adminController {
         this.admin = admin;
     }
 
-    public void initialize() throws SQLException {
-        // Inicializa las columnas
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+    /**
+     * Metodo initialize que inicializa la tabla que muestra los productos de la base de datos en la tabla
+     */
+    public void initialize() {
+        try {
+            // Inicializar las columnas
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+            stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        // Obtiene los productos de la base de datos y los agrega a la lista
-        ProductsDAO PDAO = ProductsDAO.getInstance();
-        productsList.addAll(PDAO.findAll());
+            // Obtiene los productos de la base de datos y los agrega a la lista
+            ProductsDAO PDAO = ProductsDAO.getInstance();
+            productsList.addAll(PDAO.findAll());
 
-        // Establece la lista de productos
-        tableProducts.setItems(productsList);
+            // Establece la lista de productos
+            tableProducts.setItems(productsList);
+
+        } catch (SQLException e) {
+            // Manejo de excepciones
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Database error");
+            alert.setHeaderText(null);
+            alert.setContentText("There was an error accessing the database");
+            alert.showAndWait();
+        }
     }
 
     @FXML
-    private void modifyAdmin() throws SQLException, IOException {
+    private void searchProduct() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Product");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Please enter product name:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            boolean found = false;
+            for (Products product : productsList) {
+                if (product.getName().equals(name)) {
+                    tableProducts.getSelectionModel().select(product);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Search Product");
+                alert.setHeaderText(null);
+                alert.setContentText("Product not found!");
+                alert.showAndWait();
+            }
+        });
+    }
+
+
+    /**
+     * Metodo modifyAdmin ecargadro de modificar el username y password del administrador que tiene la sesion inicada
+     * una vez modificado, la sesion actual se cierra
+     * @throws SQLException
+     * @throws IOException
+     */
+    @FXML
+    private void modifyAdmin() throws IOException {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Modify Admin");
         dialog.setHeaderText(null);
@@ -88,46 +136,65 @@ public class adminController {
         if (result.isPresent()) {
             String username = usernameField.getText().trim();
             String password = passwordField.getText().trim();
-            if (username.isEmpty() || password.isEmpty()) {
+
+            // Validar el nuevo usuario
+            if (!ValidationDATA.isValidUsername(username)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Username and password cannot be empty.");
+                alert.setContentText("The user is invalid. Please enter a valid username.");
                 alert.showAndWait();
                 return;
             }
 
-            // Obtener el Admin actual
-            AdminDAO ADAO = AdminDAO.getInstance();
-            int adminId = ADAO.adminId;
-            String email=ADAO.adminMail;
-            String DNI=ADAO.adminDNI;
-
-            // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
-            Admin newAdmin = new Admin(adminId, username, password, email, DNI);
-
-            // guardar los datos nuevos
-            Admin savedAdmin = ADAO.save(newAdmin);
-
-            if (savedAdmin == null) {
+            // Validar la contraseña
+            if (!ValidationDATA.isValidPassword(password)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("An admin with the same username or email already exists.");
+                alert.setContentText("The password is invalid. Please enter a valid password.");
                 alert.showAndWait();
                 return;
             }
+            try {
+                // Obtener el administrador actual, junto a datos almacenados del login
+                AdminDAO ADAO = AdminDAO.getInstance();
+                Admin admin = ADAO.findById(String.valueOf(ADAO.adminId));
+                if(admin == null){
+                    throw new SQLException("Admin with id " + ADAO.adminId + " not found.");
+                }
+                String email = ADAO.adminMail;
+                String DNI = ADAO.adminDNI;
 
-            admin = savedAdmin;
+                // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
+                Admin newAdmin = new Admin(ADAO.adminId, username, password, email, DNI);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Success");
-            alert.setContentText("Admin has been updated, The session will close.");
-            alert.showAndWait();
-            App.setRoot("adminLogin");
+                // guardar los nuevos datos
+                Admin savedAdmin = ADAO.Update(newAdmin);
+
+                if (savedAdmin == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("An admin with the same username or password already exists.");
+                    alert.showAndWait();
+                    return;
+                }
+
+                ADAO.adminId = -1;
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Success");
+                alert.setContentText("Admin has been updated, The session will close.");
+                alert.showAndWait();
+                App.setRoot("AdminLogin");
+            } catch (SQLException | IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("An error occurred while updating the admin: " + e.getMessage());
+                alert.showAndWait();
+            }
         }
     }
-
     /**
-     * Metodo Delete que al seleccionar el boton muestr una ventana que pide el nombre del producto a eliminar
+     * Metodo Delete que al seleccionar el boton muestra una ventana que pide el nombre del producto a eliminar
      * @throws IOException
      * @throws SQLException
      */
@@ -144,30 +211,40 @@ public class adminController {
             if (productName.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Product name no added");
+                alert.setContentText("Product name not added");
                 alert.showAndWait();
                 return;
             }
 
-            ProductsDAO PDAO = ProductsDAO.getInstance();
-            Products product = PDAO.findByName(productName);
-            if (product == null) {
+            try {
+                ProductsDAO PDAO = ProductsDAO.getInstance();
+                Products product = PDAO.findByName(productName);
+                if (product == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Product doesn't exist");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setContentText("Are you sure you want to delete this product?");
+                    Optional<ButtonType> resultAlert = alert.showAndWait();
+                    if (resultAlert.isPresent() && resultAlert.get() == ButtonType.OK) {
+                        PDAO.delete(product);
+                        productsList.clear();
+                        productsList.addAll(PDAO.findAll());
+                        tableProducts.setItems(productsList);
+                    }
+                }
+            } catch (SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Product doesn't exist");
+                alert.setContentText("An error occurred while deleting the product.");
                 alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setContentText("Are you sure you want to delete this product?");
-                Optional<ButtonType> resultAlert = alert.showAndWait();
-                if (resultAlert.isPresent() && resultAlert.get() == ButtonType.OK) {
-                    PDAO.delete(product);
-                    tableProducts.setItems(productsList);
-                }
             }
         }
     }
+
 
     @FXML
     private void closesesion() throws IOException {
@@ -180,12 +257,7 @@ public class adminController {
     }
 
     @FXML
-    private void search() throws IOException {
-
-    }
-
-    @FXML
-    private void modify() throws IOException, SQLException {
-
+    private void modifyProduct() throws IOException, SQLException {
+        App.setRoot("ModifyProducts");
     }
 }
