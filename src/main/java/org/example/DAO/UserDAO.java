@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.Connections.ConnectionMySQL;
-import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 
 import java.sql.*;
@@ -17,7 +16,6 @@ public class UserDAO implements DAO<User> {
     private final static String FINBYNAME ="SELECT * from usuarios WHERE nombre_usuario=?";
     private final static String INSERT ="INSERT INTO usuarios (id_u,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)";
     private final static String UPDATE ="UPDATE usuarios SET nombre_usuario=?, contraseña_usuario=? WHERE id_u=?";
-    private final static String SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR correo_usuario = ? AND id_u != ?";
     private final static String DELETE="DELETE from usuarios where nombre_usuario=?";
     private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR contraseña_usuario = ?";
 
@@ -110,29 +108,28 @@ public class UserDAO implements DAO<User> {
         }
         return result;
     }
+
     public User Update(User entity) throws SQLException {
         User result = null;
         try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
             pst.setString(1, entity.getUsername());
             pst.setString(2, entity.getPassword());
             pst.setInt(3, entity.getId());
-            // Verificar si ya existe un administrador con el mismo usuario o correo electrónico
-            try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
+            // Verificar si ya existe el usuario
+            try (PreparedStatement pstSelect = this.conn.prepareStatement(FINBYNAME)) {
                 pstSelect.setString(1, entity.getUsername());
-                pstSelect.setString(2, entity.getEmail());
-                pstSelect.setInt(3, entity.getId());
                 ResultSet rs = pstSelect.executeQuery();
                 if (rs.next()) {
                     // Ya existe un usuario
                     return null;
                 }
             }
-            // No se encontró un usuario con los mismos datos se procede a actualizar el registro
             pst.executeUpdate();
             result = entity; // Asignar el objeto actualizado al objeto result que devuelve
         }
         return result;
     }
+    @Override
     public void delete(User entity) throws SQLException {
         if(entity!=null){
             try(PreparedStatement pst=this.conn.prepareStatement(DELETE)){
@@ -141,6 +138,7 @@ public class UserDAO implements DAO<User> {
             }
         }
     }
+
 
     public User findByUsernameAndPassword(String username, String password) throws SQLException {
         User result = null;

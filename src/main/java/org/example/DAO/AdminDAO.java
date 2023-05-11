@@ -2,7 +2,6 @@ package org.example.DAO;
 
 import org.example.DOMAIN.Admin;
 import org.example.Connections.ConnectionMySQL;
-import org.example.DOMAIN.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,12 +13,10 @@ public class AdminDAO implements DAO<Admin> {
      */
     private final static String FINDALL ="SELECT * from administrador";
     private final static String FINBYID ="SELECT * from administrador WHERE id_a=?";
-
     private final static String FINBYNAME ="SELECT * from administrador WHERE nombre_admin=?";
     private final static String INSERT ="INSERT INTO administrador (id_a,nombre_admin,contraseña_admin,correo_admin,dni) VALUES (?,?,?,?,?)";
     private final static String UPDATE ="UPDATE administrador SET nombre_admin=?, contraseña_admin=? WHERE id_a=?";
     private final static String DELETE="DELETE from administrador where nombre_admin=?";
-    private final static String SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT = "SELECT * FROM administrador WHERE nombre_admin = ? OR correo_admin = ? AND id_a != ?";
     private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM administrador WHERE nombre_admin = ? OR contraseña_admin = ?";
 
     private Connection conn;
@@ -162,18 +159,15 @@ public class AdminDAO implements DAO<Admin> {
             pst.setString(1, entity.getUsername());
             pst.setString(2, entity.getPassword());
             pst.setInt(3, entity.getId());
-            // Verificar si ya existe un administrador con el mismo usuario o correo electrónico
-            try (PreparedStatement pstSelect = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_EMAIL_EXCEPT_CURRENT)) {
+            // Verificar si ya existe un administrador con el mismo usuario
+            try (PreparedStatement pstSelect = this.conn.prepareStatement(FINBYNAME)) {
                 pstSelect.setString(1, entity.getUsername());
-                pstSelect.setString(2, entity.getEmail());
-                pstSelect.setInt(3, entity.getId());
                 ResultSet rs = pstSelect.executeQuery();
                 if (rs.next()) {
                     // Ya existe un administrador con el mismo usuario o correo electrónico
                     return null;
                 }
             }
-            // No se encontró un administrador con el mismo usuario o correo electrónico, se procede a actualizar el registro
             pst.executeUpdate();
             result = entity; // Asignar el objeto actualizado al objeto result que devuelve
         }

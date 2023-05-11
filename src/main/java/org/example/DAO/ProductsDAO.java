@@ -17,10 +17,12 @@ import java.util.List;
 public class ProductsDAO implements DAO<Products> {
     private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
+    private final static String FINDID = "SELECT id_p FROM productos WHERE nombre_producto=?";
     private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
     private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE nombre_producto=?";
     private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
+    private static final String UPDATESTOCK = "UPDATE productos SET stock=? WHERE nombre_producto=?";
 
     private Connection conn;
     private AdminDAO adminDAO;
@@ -104,6 +106,18 @@ public class ProductsDAO implements DAO<Products> {
         }
         return result;
     }
+    public int findId(String name) throws SQLException {
+        int result = 0;
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDID)) {
+            pst.setString(1, name);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result=res.getInt("id_p");
+                }
+            }
+        }
+        return result;
+    }
 
     @Override
     public Products save(Products entity) throws SQLException {
@@ -149,4 +163,22 @@ public class ProductsDAO implements DAO<Products> {
     public void close() throws Exception {
 
     }
+
+    public Products UpdateStock(Products entity) throws SQLException {
+        Products result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(UPDATESTOCK)) {
+            pst.setInt(1, entity.getStock());
+            pst.setString(2, entity.getName());
+
+            pst.executeUpdate();
+            result = entity;
+
+        }
+        return result;
+    }
+
+
 }
+
+
+

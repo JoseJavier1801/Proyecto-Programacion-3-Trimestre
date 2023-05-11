@@ -82,12 +82,6 @@ public class Products {
         Products products = (Products) o;
         return id == products.id && Objects.equals(id_admin, products.id_admin);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, id_admin);
-    }
-
     @Override
     public String toString() {
         return "Products{" +
