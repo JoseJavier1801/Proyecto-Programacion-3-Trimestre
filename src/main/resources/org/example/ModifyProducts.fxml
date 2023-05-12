@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.ModifyProductsController">
+   <children>
+      <Label fx:id="ModP_label" alignment="CENTER" layoutX="94.0" layoutY="51.0" prefHeight="51.0" prefWidth="611.0" style="-fx-background-color: white;" text="MODIFY PRODUCT:">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="93.0" layoutY="157.0" prefHeight="398.0" prefWidth="611.0" style="-fx-background-color: rgb(239, 184, 42);">
+         <children>
+            <TextField fx:id="newStock" layoutX="285.0" layoutY="126.0" promptText="Stock" />
+            <TextField fx:id="newPrice" layoutX="285.0" layoutY="191.0" promptText="Price" />
+            <Label layoutX="158.0" layoutY="125.0" text="New Stock:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="160.0" layoutY="190.0" text="New Price:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="modSave" layoutX="97.0" layoutY="299.0" mnemonicParsing="false" onAction="#saveModify" prefHeight="45.0" prefWidth="122.0" style="-fx-background-color: rgb(76, 74, 69);" text="Save " textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn_cancel" layoutX="426.0" layoutY="298.0" mnemonicParsing="false" onAction="#Cancel" prefHeight="46.0" prefWidth="122.0" style="-fx-background-color: rgb(76, 74, 69);" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <TextField fx:id="Product" layoutX="286.0" layoutY="66.0" promptText="Product Name" />
+            <Label layoutX="126.0" layoutY="65.0" text="Product To Modify:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

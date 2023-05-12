@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.AddproductsController">
+   <children>
+      <Label alignment="CENTER" layoutX="76.0" layoutY="38.0" prefHeight="64.0" prefWidth="648.0" style="-fx-background-color: rgb(76, 74, 69);" text="Add New Products" textFill="WHITE">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
+      <AnchorPane id="btn_login" layoutX="94.0" layoutY="153.0" prefHeight="366.0" prefWidth="611.0" style="-fx-background-color: rgb(239, 184, 42);">
+         <children>
+            <Label fx:id="errortxt" layoutX="90.0" layoutY="148.0" textFill="RED">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="btn_insert" layoutX="90.0" layoutY="302.0" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: rgb(76, 74, 69);" text="Insert Product" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextField fx:id="nameP" layoutX="275.0" layoutY="61.0" promptText="Name" />
+            <Label alignment="CENTER" layoutX="155.0" layoutY="60.0" prefHeight="28.0" prefWidth="120.0" text="Name:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="155.0" layoutY="109.0" prefHeight="28.0" prefWidth="120.0" text="Descripcion:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="Stock" layoutX="275.0" layoutY="159.0" promptText="Stock" />
+            <Label alignment="CENTER" layoutX="155.0" layoutY="158.0" prefHeight="28.0" prefWidth="120.0" text="Stock:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="Price" layoutX="275.0" layoutY="209.0" promptText="Price" />
+            <Label alignment="CENTER" layoutX="155.0" layoutY="208.0" prefHeight="28.0" prefWidth="120.0" text="Price:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="descP" layoutX="275.0" layoutY="110.0" promptText="Description" />
+            <Button fx:id="btn_cancel" layoutX="380.0" layoutY="302.0" mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: rgb(76, 74, 69);" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
