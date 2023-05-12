@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,6 +15,7 @@ import org.example.DOMAIN.cart;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ShowCartController {
 
@@ -63,13 +65,72 @@ public class ShowCartController {
     }
 
     @FXML
-    private void BUY(){
+    private void BUY() {
+        // Obtener el precio total de los productos en el carrito
+        double totalPrice = 0;
+        for (cart c : CartList) {
+            totalPrice += c.getPrice();
+        }
 
+        // Mostrar mensaje de confirmación y precio total
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm purchase");
+        alert.setHeaderText("Do you want to confirm the purchase?");
+        alert.setContentText("Total price: $" + totalPrice);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            try {
+                // Vaciar la tabla de carrito
+                CartDAO CDAO = CartDAO.getInstance();
+                CDAO.deleteALL();
+                CartList.clear();
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                alert2.setTitle("Purchase confirmed");
+                alert2.setHeaderText(null);
+                alert2.setContentText("Thank you for purchasing on The Tech Alley.");
+                alert2.showAndWait();
+            } catch (SQLException e) {
+                // Manejo de excepciones
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Database error");
+                errorAlert.setHeaderText(null);
+                errorAlert.setContentText("There was an error accessing the database");
+                errorAlert.showAndWait();
+            }
+        }
     }
+
 
     @FXML
     private void emptyCart(){
+        // Crea una ventana de confirmación para verificar si el usuario quiere vaciar el carrito
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Empty Cart");
+        alert.setHeaderText("Are you sure you want to empty the cart?");
 
+        // Muestra la ventana y espera la respuesta del usuario
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                // Elimina todos los productos del carrito en la base de datos
+                CartDAO cartDAO = CartDAO.getInstance();
+                cartDAO.deleteALL();
+
+                // Vacía la lista de productos en el carrito
+                CartList.clear();
+
+                // Actualiza la tabla
+                tableCart.refresh();
+            } catch (SQLException e) {
+                // Manejo de excepciones
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Database error");
+                errorAlert.setHeaderText(null);
+                errorAlert.setContentText("There was an error accessing the database");
+                errorAlert.showAndWait();
+            }
+        }
     }
     @FXML
     private void goBack() throws IOException {

@@ -21,8 +21,6 @@ R
 .src/main/java/org/example/DOMAIN/Products.java,3\e\3eaf65e42e0734837eac5dd3551a4a7f0e47dfc2
 \
 ,src/main/java/org/example/UTILS/Encrypt.java,7\6\76c7ad3843e114ff34851d0e4b62526b663b199d
-r
-Bsrc/main/java/org/example/Controller/ModifyProductsController.java,8\f\8f341c4bdda18a6257ecbf87708a0bdc57118464
 V
 &src/main/java/org/example/DAO/DAO.java,2\d\2deded00b7132804abe7288f66b07b185daca3a8
 o
