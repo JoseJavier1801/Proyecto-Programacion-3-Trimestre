@@ -2,13 +2,13 @@ package org.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.*;
-import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
+import org.example.UTILS.Encrypt;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -19,7 +19,10 @@ public class ULoginController {
     @FXML
     private PasswordField psswdtxt;
 
-    private Stage stage;
+    /**
+     * Metodo btnlogin que verifica los datos del usuario introducidos y le permite iniciar sesion
+     * @throws IOException
+     */
 
     @FXML
     private void btnLogin() throws IOException {
@@ -29,7 +32,7 @@ public class ULoginController {
         UserDAO UDAO = UserDAO.getInstance();
         try {
             User u = UDAO.findByUsernameAndPassword(username, password);
-            if (u != null) {
+            if (u != null && u.getPassword().equals(Encrypt.EncryptPassword(password))) {
                 //  guardar los demas datos del usuario logueado para su futuro uso en otros metodos
                 UDAO.userId = u.getId();
                 UDAO.userDNI=u.getDNI();
@@ -44,10 +47,10 @@ public class ULoginController {
                 alert.setContentText("Incorrect User or Password.");
                 alert.showAndWait();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             // Error al buscar en la base de datos, mostrar alerta de error
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("DataBase Error");
+            alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Couldn't find user in the database.");
             alert.showAndWait();
@@ -55,6 +58,10 @@ public class ULoginController {
         }
     }
 
+    /**
+     * metodo btndelete que recoge el nombre del usuario a eliminar
+     * @throws IOException
+     */
     @FXML
     private void btnDelete() throws IOException{
         TextInputDialog dialog = new TextInputDialog();

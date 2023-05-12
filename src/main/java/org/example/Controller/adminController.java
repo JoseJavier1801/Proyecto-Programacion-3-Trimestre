@@ -74,7 +74,9 @@ public class adminController {
             alert.showAndWait();
         }
     }
-
+/**
+ * Metodo que pide el nombre de un producto y lo muestra sombreado en la tabla de pos productos
+ */
     @FXML
     private void searchProduct() {
         TextInputDialog dialog = new TextInputDialog();
@@ -245,17 +247,29 @@ public class adminController {
         }
     }
 
-
+    /**
+     * Cierra la sesion del administrador actual
+     * @throws IOException
+     */
     @FXML
     private void closesesion() throws IOException {
         App.setRoot("adminLogin");
     }
 
+    /**
+     * Redirige a la ventana de añadir productos
+     * @throws IOException
+     */
     @FXML
     private void add() throws IOException {
         App.setRoot("addproducts");
     }
 
+    /**
+     * redirige a la ventana de modificar productos
+     * @throws IOException
+     * @throws SQLException
+     */
     @FXML
     private void modifyProduct() throws IOException, SQLException {
         App.setRoot("ModifyProducts");
