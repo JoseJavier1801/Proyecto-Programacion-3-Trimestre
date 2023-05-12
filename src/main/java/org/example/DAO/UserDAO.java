@@ -72,6 +72,7 @@ public class UserDAO implements DAO<User> {
             pst.setString(1,id);
             try (ResultSet res= pst.executeQuery()){
                 if(res.next()){
+                    result.setId(res.getInt("id_u"));
                     result.setUsername(res.getString("nombre_usuario"));
                     result.setPassword(res.getString("contraseña_usuario"));
                     result.setDNI(res.getString("dni"));

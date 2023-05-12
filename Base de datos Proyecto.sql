@@ -38,7 +38,7 @@ CREATE TABLE Carrito (
   cantidad INT NOT NULL,
   precio DOUBLE NOT NULL,
   PRIMARY KEY (id_usuario, id_producto,fecha_compra)
- 
+
 );
 
 alter table Carrito add foreign key(id_usuario) references usuarios(id_u);

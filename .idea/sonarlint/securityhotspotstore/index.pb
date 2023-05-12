@@ -19,17 +19,7 @@ Z
 *src/main/java/org/example/DOMAIN/User.java,a\3\a393abe5486c5143ba6bb55fddec53de86026915
 R
 "Diagrama Proyecto Programacion.mdj,3\5\35f82f53e53454ba95a6a8f7ec25f6a3a0faf5c9
-o
-?src/main/java/org/example/Controller/AddproductsController.java,1\3\138e88605647aa482357c287052a37805a312e70
 Z
 *src/main/java/org/example/DAO/CartDAO.java,e\8\e80554a3888f2f5400ada812e5b9244bdde033f3
 ^
 .src/main/java/org/example/DOMAIN/Products.java,3\e\3eaf65e42e0734837eac5dd3551a4a7f0e47dfc2
-J
-Base de datos Proyecto.sql,e\a\ea77c4d1ac73b264c7304b26b4c5a13352c7a5df
-V
-&src/main/java/org/example/DAO/DAO.java,2\d\2deded00b7132804abe7288f66b07b185daca3a8
-Z
-*src/main/java/org/example/DAO/UserDAO.java,7\9\79518f3865e3141e1c59827a1a691f3bf7050051
-^
-.src/main/java/org/example/DAO/ProductsDAO.java,7\3\73cb4103773ff539e6e987bb08f5d2e35e152eb4

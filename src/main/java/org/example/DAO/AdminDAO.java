@@ -95,6 +95,7 @@ public class AdminDAO implements DAO<Admin> {
             pst.setString(1,name);
             try (ResultSet res= pst.executeQuery()){
                 if(res.next()){
+                    result.setId(res.getInt("id_a"));
                     result.setUsername(res.getString("nombre_admin"));
                     result.setPassword(res.getString("contraseña_admin"));
                     result.setDNI(res.getString("dni"));
