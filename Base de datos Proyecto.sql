@@ -26,9 +26,9 @@ nombre_producto varchar(150),
 descripcion varchar(150),
 stock int,
 precio double,
-id_admin int not null
+id_admin int
 );
-alter table productos add foreign key(id_admin) references administrador(id_a);
+alter table productos add foreign key(id_admin) references administrador(id_a) on delete set null;
 
 CREATE TABLE Carrito (
   id_usuario INT NOT NULL,

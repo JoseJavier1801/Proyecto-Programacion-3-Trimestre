@@ -29,11 +29,3 @@ o
 .src/main/java/org/example/DAO/ProductsDAO.java,7\3\73cb4103773ff539e6e987bb08f5d2e35e152eb4
 h
 8src/main/java/org/example/Controller/homeController.java,0\2\025c114bb2910dd78ac3ebff8fca53a3837b867e
-J
-Base de datos Proyecto.sql,e\a\ea77c4d1ac73b264c7304b26b4c5a13352c7a5df
-[
-+src/main/java/org/example/DAO/AdminDAO.java,a\e\ae0fc2e76a571d84d569b769aa6f100ac508cde4
-Z
-*src/main/java/org/example/DAO/UserDAO.java,7\9\79518f3865e3141e1c59827a1a691f3bf7050051
-k
-;src/main/java/org/example/Controller/AddCartController.java,a\6\a6452831923dd37d8a430580539f36dd32951d20

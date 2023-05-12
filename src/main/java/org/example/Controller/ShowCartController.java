@@ -69,7 +69,9 @@ public class ShowCartController {
         // Obtener el precio total de los productos en el carrito
         double totalPrice = 0;
         for (cart c : CartList) {
-            totalPrice += c.getPrice();
+            int quantity = c.getCant();
+            double unitPrice = c.getPrice();
+            totalPrice += (quantity * unitPrice);
         }
 
         // Mostrar mensaje de confirmación y precio total
