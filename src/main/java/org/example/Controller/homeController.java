@@ -1,27 +1,15 @@
 package org.example.Controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.example.App;
-import org.example.DAO.*;
 
 import java.io.IOException;
 
+/**
+ * Home controller que incluye los metodos para mostrar las ventanas de inicio de sesion de administrador/usuario
+ * o permite registrar un nievo usuario/administrador
+ */
 public class homeController {
-
-    @FXML
-    private Button btn_admin;
-
-    @FXML
-    private Button btn_user;
-
-    @FXML
-    private Button btn_reg;
-
 
     @FXML
     private void AdminLogin() throws IOException {

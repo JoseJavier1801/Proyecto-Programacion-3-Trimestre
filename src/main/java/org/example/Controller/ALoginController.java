@@ -5,10 +5,17 @@ import javafx.scene.control.*;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
+import org.example.UTILS.Encrypt;
+
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * Metodo btnlogin que verifica los datos del administrador introducidos y le permite iniciar sesion
+ * @throws IOException
+ */
 public class ALoginController {
 
     @FXML
@@ -21,11 +28,11 @@ public class ALoginController {
     private void btnLogin() throws IOException {
         String username = usertxt.getText();
         String password = psswdtxt.getText();
-        
+
         AdminDAO adminDAO = AdminDAO.getInstance();
         try {
-            Admin a = adminDAO.findByUsernameAndPassword(username, password);
-            if (a != null) {
+            Admin a = adminDAO.findByName(username);
+            if (a != null && a.getPassword().equals(Encrypt.EncryptPassword(password))) {
                 //  guardar los demas datos del administrador logueado para su futuro uso en otros metodos
                 adminDAO.adminId = a.getId();
                 adminDAO.adminDNI=a.getDNI();
@@ -34,15 +41,22 @@ public class ALoginController {
                 App.setRoot("admin");
             } else {
                 // Usuario o contraseña incorrectos, mostrar alerta de error
-                showError("Incorrect Admin-Name or password.");
+                showError("Wrong AdminName");
             }
         } catch (SQLException e) {
             // Error al buscar en la base de datos, mostrar alerta de error
             showError("Admin didn't exist on the database");
             e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            showError("Wrong password");
+            e.printStackTrace();
         }
     }
 
+    /**
+     * metodo btndelete que recoge el nombre del administrador a eliminar
+     * @throws IOException
+     */
     @FXML
     private void btnDelete() throws IOException{
         TextInputDialog dialog = new TextInputDialog();

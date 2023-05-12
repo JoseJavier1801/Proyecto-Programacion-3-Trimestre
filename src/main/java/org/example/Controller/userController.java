@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.example.App;
 import org.example.DAO.*;
-import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 import org.example.UTILS.ValidationDATA;
 
@@ -16,18 +15,23 @@ import java.util.Optional;
 public class userController {
     private User user;
 
-    public void setAUser(User user) {
-        this.user = user;
-    }
 
     @FXML
     private Button logbutton;
 
+    /**
+     * metodo que cierra la sesion
+     * @throws IOException
+     */
     @FXML
     private void closesesion() throws IOException{
         App.setRoot("UsersLogin");
     }
 
+    /**
+     * metodo que modifica el usuari y contraseña del usuario actual
+     * @throws IOException
+     */
     @FXML
     private void modifyUser() throws IOException{
         TextInputDialog dialog = new TextInputDialog();
@@ -114,10 +118,14 @@ public class userController {
     private void showCart() throws IOException{
 
     }
+
+    /**
+     * metodo que llama a la vista addcart
+     * @throws IOException
+     */
     @FXML
     private void addCart() throws IOException{
         App.setRoot("addCart");
     }
-
 
 }
