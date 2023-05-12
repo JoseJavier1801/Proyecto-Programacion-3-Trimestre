@@ -41,11 +41,11 @@ public class ALoginController {
                 App.setRoot("admin");
             } else {
                 // Usuario o contraseña incorrectos, mostrar alerta de error
-                showError("Wrong AdminName");
+                showError("Login ERROR");
             }
         } catch (SQLException e) {
             // Error al buscar en la base de datos, mostrar alerta de error
-            showError("Admin didn't exist on the database");
+            showError("Admin doesn't exist on the database");
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             showError("Wrong password");

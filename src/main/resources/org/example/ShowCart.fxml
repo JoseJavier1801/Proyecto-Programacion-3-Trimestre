@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.ShowCartController">
+   <children>
+      <Label alignment="CENTER" layoutX="86.0" layoutY="27.0" prefHeight="64.0" prefWidth="648.0" style="-fx-background-color: rgb(76, 74, 69);" text="My Cart" textFill="WHITE">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableCart" layoutX="37.0" layoutY="119.0" prefHeight="252.0" prefWidth="746.0">
+         <columns>
+            <TableColumn fx:id="id_userColumn" prefWidth="112.80001831054688" text="ID_user" />
+            <TableColumn fx:id="id_productColumn" prefWidth="127.19998168945312" text="ID_product" />
+            <TableColumn fx:id="DateColumn" prefWidth="142.39996337890625" text="BuyDate" />
+            <TableColumn fx:id="NameColumn" prefWidth="129.5999755859375" text="ProductName" />
+            <TableColumn fx:id="QuantityColumn" prefWidth="120.800048828125" text="Quantity" />
+            <TableColumn fx:id="PriceColumn" prefWidth="112.80002441406248" text="Price" />
+         </columns>
+      </TableView>
+      <AnchorPane layoutX="37.0" layoutY="382.0" prefHeight="200.0" prefWidth="746.0" style="-fx-background-color: rgb(239, 184, 42);">
+         <children>
+            <Button fx:id="btn_buy" layoutX="73.0" layoutY="71.0" mnemonicParsing="false" onAction="#BUY" prefHeight="58.0" prefWidth="230.0" style="-fx-background-color: rgb(76, 74, 69);" text="BUY PRODUCTS" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btn_empty" layoutX="429.0" layoutY="71.0" mnemonicParsing="false" onAction="#emptyCart" prefHeight="58.0" prefWidth="230.0" style="-fx-background-color: rgb(76, 74, 69);" text="EMPTY CART" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="58.0" fitWidth="53.0" layoutX="106.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@foto/cart.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btn_return" layoutX="591.0" layoutY="39.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: white;" text="Go back">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

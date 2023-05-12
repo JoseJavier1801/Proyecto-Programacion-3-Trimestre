@@ -10,9 +10,11 @@ import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
+import org.example.UTILS.Encrypt;
 import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -166,8 +168,11 @@ public class adminController {
                 String email = ADAO.adminMail;
                 String DNI = ADAO.adminDNI;
 
+                // Encriptar la contraseña
+                String hashedPassword = Encrypt.EncryptPassword(password);
+
                 // Se crea un nuevo admin utilizando los datos nuevos y los datos que no se modifican
-                Admin newAdmin = new Admin(ADAO.adminId, username, password, email, DNI);
+                Admin newAdmin = new Admin(ADAO.adminId, username, hashedPassword, email, DNI);
 
                 // guardar los nuevos datos
                 Admin savedAdmin = ADAO.Update(newAdmin);
@@ -192,6 +197,8 @@ public class adminController {
                 alert.setTitle("Error");
                 alert.setContentText("An error occurred while updating the admin: " + e.getMessage());
                 alert.showAndWait();
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
             }
         }
     }
