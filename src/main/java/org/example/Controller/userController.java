@@ -123,7 +123,7 @@ public class userController {
     }
     @FXML
     private void showCart() throws IOException{
-
+        App.setRoot("ShowCart");
     }
 
     /**

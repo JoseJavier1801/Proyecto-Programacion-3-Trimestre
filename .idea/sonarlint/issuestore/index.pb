@@ -15,12 +15,8 @@ N
 +src/main/java/org/example/DOMAIN/Admin.java,d\c\dc667bd4db4cec0e03a6c365e9825632715a03f8
 Z
 *src/main/java/org/example/DOMAIN/User.java,a\3\a393abe5486c5143ba6bb55fddec53de86026915
-Z
-*src/main/java/org/example/DOMAIN/cart.java,8\7\8723bdae1c668a9589a906c476b567c9f71267e6
 R
 "Diagrama Proyecto Programacion.mdj,3\5\35f82f53e53454ba95a6a8f7ec25f6a3a0faf5c9
-Z
-*src/main/java/org/example/DAO/CartDAO.java,e\8\e80554a3888f2f5400ada812e5b9244bdde033f3
 ^
 .src/main/java/org/example/DOMAIN/Products.java,3\e\3eaf65e42e0734837eac5dd3551a4a7f0e47dfc2
 \
@@ -43,5 +39,3 @@ Z
 *src/main/java/org/example/DAO/UserDAO.java,7\9\79518f3865e3141e1c59827a1a691f3bf7050051
 k
 ;src/main/java/org/example/Controller/AddCartController.java,a\6\a6452831923dd37d8a430580539f36dd32951d20
-l
-<src/main/java/org/example/Controller/ShowCartController.java,e\3\e3c77e36533d8a332df58cb3f03ba010eb6218fc
