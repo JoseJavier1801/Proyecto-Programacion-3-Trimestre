@@ -27,8 +27,6 @@ Z
 ,src/main/java/org/example/UTILS/Encrypt.java,7\6\76c7ad3843e114ff34851d0e4b62526b663b199d
 r
 Bsrc/main/java/org/example/Controller/ModifyProductsController.java,8\f\8f341c4bdda18a6257ecbf87708a0bdc57118464
-l
-<src/main/java/org/example/Controller/RegisterController.java,5\3\53dbee7dca464af2a53ed7299e483210238f256b
 h
 8src/main/java/org/example/Controller/homeController.java,0\2\025c114bb2910dd78ac3ebff8fca53a3837b867e
 ^
@@ -39,16 +37,10 @@ V
 &src/main/java/org/example/DAO/DAO.java,2\d\2deded00b7132804abe7288f66b07b185daca3a8
 J
 Base de datos Proyecto.sql,e\a\ea77c4d1ac73b264c7304b26b4c5a13352c7a5df
-j
-:src/main/java/org/example/Controller/ALoginController.java,c\1\c1c9c869fc65e4c037d2f214c4be66d619c12a5b
 [
 +src/main/java/org/example/DAO/AdminDAO.java,a\e\ae0fc2e76a571d84d569b769aa6f100ac508cde4
-j
-:src/main/java/org/example/Controller/ULoginController.java,e\2\e212fbcd5e8de07b3081591682050888506b6d25
 Z
 *src/main/java/org/example/DAO/UserDAO.java,7\9\79518f3865e3141e1c59827a1a691f3bf7050051
-i
-9src/main/java/org/example/Controller/adminController.java,4\2\42c670e4ff6d86325ffd85f9401a2f7e9c3c29c4
 k
 ;src/main/java/org/example/Controller/AddCartController.java,a\6\a6452831923dd37d8a430580539f36dd32951d20
 l

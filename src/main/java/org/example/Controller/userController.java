@@ -6,9 +6,11 @@ import javafx.scene.layout.GridPane;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.User;
+import org.example.UTILS.Encrypt;
 import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -85,8 +87,11 @@ public class userController {
                 String email = UDAO.userMail;
                 String DNI = UDAO.userDNI;
 
+                // Encriptar la contraseña
+                String hashedPassword = Encrypt.EncryptPassword(password);
+
                 // Se crea un nuevo user utilizando los datos nuevos y los datos que no se modifican
-                User newUser = new User(Id, username, password, email, DNI);
+                User newUser = new User(Id, username, hashedPassword, email, DNI);
 
                 // guardar los nuevos datos
                 User savedUser = UDAO.Update(newUser);
@@ -111,6 +116,8 @@ public class userController {
                 alert.setTitle("Error");
                 alert.setContentText("An error occurred while updating the user: " + e.getMessage());
                 alert.showAndWait();
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
             }
         }
     }
