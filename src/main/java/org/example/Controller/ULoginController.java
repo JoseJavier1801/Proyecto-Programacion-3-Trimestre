@@ -31,7 +31,7 @@ public class ULoginController {
 
         UserDAO UDAO = UserDAO.getInstance();
         try {
-            User u = UDAO.findByUsernameAndPassword(username, password);
+            User u = UDAO.findByName(username);
             if (u != null && u.getPassword().equals(Encrypt.EncryptPassword(password))) {
                 //  guardar los demas datos del usuario logueado para su futuro uso en otros metodos
                 UDAO.userId = u.getId();

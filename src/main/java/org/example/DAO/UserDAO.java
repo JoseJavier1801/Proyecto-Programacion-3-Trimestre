@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 import org.example.Connections.ConnectionMySQL;
+import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 
 import java.sql.*;
@@ -17,7 +18,6 @@ public class UserDAO implements DAO<User> {
     private final static String INSERT ="INSERT INTO usuarios (id_u,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)";
     private final static String UPDATE ="UPDATE usuarios SET nombre_usuario=?, contraseña_usuario=? WHERE id_u=?";
     private final static String DELETE="DELETE from usuarios where nombre_usuario=?";
-    private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR contraseña_usuario = ?";
 
     /**
      * variables id dni y mail que almacenaran los estos datos del usuario que inicie sesion
@@ -140,36 +140,13 @@ public class UserDAO implements DAO<User> {
         }
     }
 
-
-    public User findByUsernameAndPassword(String username, String password) throws SQLException {
-        User result = null;
-        try (PreparedStatement pst = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_PASSWORD)) {
-            pst.setString(1, username);
-            pst.setString(2, password);
-            try (ResultSet res = pst.executeQuery()) {
-                if (res.next()) {
-                    String storedPassword = res.getString("contraseña_usuario");
-                    if (storedPassword.equals(password)) {
-                        result = new User();
-                        result.setId(res.getInt("id_u"));
-                        result.setUsername(res.getString("nombre_usuario"));
-                        result.setPassword(storedPassword);
-                        result.setDNI(res.getString("dni"));
-                        result.setEmail(res.getString("correo_usuario"));
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-
     public User findByName(String name) throws SQLException{
         User result = new User();
         try (PreparedStatement pst=this.conn.prepareStatement(FINBYNAME)){
             pst.setString(1,name);
             try (ResultSet res= pst.executeQuery()){
                 if(res.next()){
+                    result.setId(res.getInt("id_u"));
                     result.setUsername(res.getString("nombre_usuario"));
                     result.setPassword(res.getString("contraseña_usuario"));
                     result.setDNI(res.getString("dni"));

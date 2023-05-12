@@ -17,7 +17,6 @@ public class AdminDAO implements DAO<Admin> {
     private final static String INSERT ="INSERT INTO administrador (id_a,nombre_admin,contraseña_admin,correo_admin,dni) VALUES (?,?,?,?,?)";
     private final static String UPDATE ="UPDATE administrador SET nombre_admin=?, contraseña_admin=? WHERE id_a=?";
     private final static String DELETE="DELETE from administrador where nombre_admin=?";
-    private final static String SELECT_BY_USERNAME_OR_PASSWORD = "SELECT * FROM administrador WHERE nombre_admin = ? OR contraseña_admin = ?";
 
     private Connection conn;
     private static AdminDAO instance = null;
@@ -102,27 +101,6 @@ public class AdminDAO implements DAO<Admin> {
                     result.setEmail(res.getString("correo_admin"));
                 } else {
                     result = null;
-                }
-            }
-        }
-        return result;
-    }
-    public Admin findByUsernameAndPassword(String username, String password) throws SQLException {
-        Admin result = null;
-        try (PreparedStatement pst = this.conn.prepareStatement(SELECT_BY_USERNAME_OR_PASSWORD)) {
-            pst.setString(1, username);
-            pst.setString(2, password);
-            try (ResultSet res = pst.executeQuery()) {
-                if (res.next()) {
-                    String storedPassword = res.getString("contraseña_admin");
-                    if (storedPassword.equals(password)) {
-                        result = new Admin();
-                        result.setId(res.getInt("id_a"));
-                        result.setUsername(res.getString("nombre_admin"));
-                        result.setPassword(storedPassword);
-                        result.setDNI(res.getString("dni"));
-                        result.setEmail(res.getString("correo_admin"));
-                    }
                 }
             }
         }
