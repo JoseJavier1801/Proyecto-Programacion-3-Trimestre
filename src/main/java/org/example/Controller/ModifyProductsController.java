@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * Clase ModifyProductsCOntroller que incluye los metodos para modificar los productos
+ * Clase ModifyProductsController que incluye los metodos para modificar los productos
  */
 
 public class ModifyProductsController {

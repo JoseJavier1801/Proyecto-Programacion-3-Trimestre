@@ -12,6 +12,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * Clase UloginController encargada de la vista de inicio de sesion de los usuarios
+ * que verifica los datos que introduce el usuario, y tambier perimite eliminar los usuarios por su nombre
+ */
 public class ULoginController {
 
     @FXML

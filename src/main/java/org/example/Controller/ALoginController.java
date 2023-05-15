@@ -24,6 +24,10 @@ public class ALoginController {
     @FXML
     private PasswordField psswdtxt;
 
+    /**
+     * Metodo btnLogin que obtiene los datos  de lusuario, si estos se encuentran en la base de datos permite el acceso al programa
+     * @throws IOException
+     */
     @FXML
     private void btnLogin() throws IOException {
         String username = usertxt.getText();
@@ -88,6 +92,10 @@ public class ALoginController {
         }
     }
 
+    /**
+     * Metodo show Error encargador de los mensajes de error
+     * @param mensaje
+     */
     private void showError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Log-in Error");

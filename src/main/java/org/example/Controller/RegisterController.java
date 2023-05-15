@@ -12,7 +12,9 @@ import org.example.UTILS.ValidationDATA;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-
+/**
+ * Clase RegisterController que controla la vista de registro de administrador y usuario
+ */
 public class RegisterController {
 
     @FXML

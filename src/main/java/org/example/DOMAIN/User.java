@@ -2,10 +2,11 @@ package org.example.DOMAIN;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class User extends Admin {
-
+    /**
+     * Clase user que hereda de la clase admin
+     */
     private List<Products> cart;
 
     public User(int id, String username, String password, String DNI, String email) {
@@ -25,13 +26,6 @@ public class User extends Admin {
         this.cart = cart;
     }
 
-    public void addToCart(Products product) {
-        cart.add(product);
-    }
-
-    public void removeFromCart(Products product) {
-        cart.remove(product);
-    }
 
     @Override
     public String toString() {

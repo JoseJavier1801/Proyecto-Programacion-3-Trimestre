@@ -17,6 +17,10 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * Clase showCartController que se encargar de mostrar los productos que va a comprar el usuario y puede
+ * realizar la comprar o vaciar el carrito
+ */
 public class ShowCartController {
 
     @FXML
@@ -64,6 +68,10 @@ public class ShowCartController {
         }
     }
 
+    /**
+     * metodo buy que realiza la compra de productos
+     * suma el total de los precios y el stock
+     */
     @FXML
     private void BUY() {
         // Obtener el precio total de los productos en el carrito
@@ -103,6 +111,9 @@ public class ShowCartController {
         }
     }
 
+    /**
+     * metodo emptyCart que vacia el carrito
+     */
 
     @FXML
     private void emptyCart(){

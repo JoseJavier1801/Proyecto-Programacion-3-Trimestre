@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.Connections.ConnectionMySQL;
-import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.User;
 
 import java.sql.*;

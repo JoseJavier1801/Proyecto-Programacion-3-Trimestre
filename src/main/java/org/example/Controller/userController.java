@@ -14,6 +14,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * Clase userController que se encargar de la vista de usuario y permite al usuario acceder a
+ * comprar productos, mostrar el carrito, modificar sus datos y cerrar su sesion
+ */
 public class userController {
     private User user;
 

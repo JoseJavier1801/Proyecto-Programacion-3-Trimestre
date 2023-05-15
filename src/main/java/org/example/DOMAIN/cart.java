@@ -2,6 +2,9 @@ package org.example.DOMAIN;
 
 import java.util.Date;
 
+/***
+ * Clase cart que tiene los atributos que almacenaran los datos
+ */
 public class cart {
     private int id_user;
     private int id_product;
