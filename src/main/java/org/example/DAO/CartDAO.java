@@ -19,7 +19,6 @@ public class CartDAO implements DAO<cart>{
     private final static String FINDALL = "SELECT * FROM carrito";
     private final static String FINDBYUSERID = "SELECT * FROM carrito WHERE id_usuario=?";
     private final static String FINDBYID = "SELECT * FROM carrito WHERE id_usuario=? OR id_producto=?";
-    private final static String FINDBYUSERANDPRODUCTID = "SELECT * FROM carrito WHERE id_usuario=? AND id_producto=?";
     private final static String INSERT = "INSERT INTO carrito (id_usuario, id_producto,fecha_compra,nombreProducto, cantidad, precio) VALUES (?, ?, ?, ?, ?,?)";
     private final static String UPDATE = "UPDATE carrito SET cantidad=?, precio=? WHERE nombreProducto=?";
     private final static String DELETE = "DELETE FROM carrito WHERE nombreProducto=?";
@@ -71,6 +70,23 @@ public class CartDAO implements DAO<cart>{
         try (PreparedStatement pst=this.conn.prepareStatement(FINDBYID)){
             pst.setString(1,id);
             pst.setString(2,id);
+            try (ResultSet res= pst.executeQuery()){
+                if(res.next()){
+                    result.setProductName(res.getString("nombreProducto"));
+                    result.setBuyDate(res.getDate("fecha_compra"));
+                    result.setCant(res.getInt("cantidad"));
+                    result.setPrice(res.getDouble("precio"));
+                }
+
+            }
+        }
+        return result;
+    }
+
+    public cart findByUserId(String id) throws SQLException {
+        cart result=null;
+        try (PreparedStatement pst=this.conn.prepareStatement(FINDBYUSERID)){
+            pst.setString(1,id);
             try (ResultSet res= pst.executeQuery()){
                 if(res.next()){
                     result.setProductName(res.getString("nombreProducto"));

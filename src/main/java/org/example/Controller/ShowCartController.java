@@ -74,7 +74,6 @@ public class ShowCartController {
      */
     @FXML
     private void BUY() {
-        // Obtener el precio total de los productos en el carrito
         double totalPrice = 0;
         for (cart c : CartList) {
             int quantity = c.getCant();
@@ -82,7 +81,6 @@ public class ShowCartController {
             totalPrice += (quantity * unitPrice);
         }
 
-        // Mostrar mensaje de confirmación y precio total
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm purchase");
         alert.setHeaderText("Do you want to confirm the purchase?");
@@ -95,13 +93,13 @@ public class ShowCartController {
                 CartDAO CDAO = CartDAO.getInstance();
                 CDAO.deleteALL();
                 CartList.clear();
+
                 Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
                 alert2.setTitle("Purchase confirmed");
                 alert2.setHeaderText(null);
                 alert2.setContentText("Thank you for purchasing on The Tech Alley.");
                 alert2.showAndWait();
             } catch (SQLException e) {
-                // Manejo de excepciones
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Database error");
                 errorAlert.setHeaderText(null);
@@ -110,7 +108,6 @@ public class ShowCartController {
             }
         }
     }
-
     /**
      * metodo emptyCart que vacia el carrito
      */

@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminDAO implements DAO<Admin> {
+public  class AdminDAO implements DAO<Admin> {
     /**
      * AdminDAO que tiene las consultas y los metodos que llaman los controladores
      */

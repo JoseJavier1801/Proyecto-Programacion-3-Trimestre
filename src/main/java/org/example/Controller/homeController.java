@@ -9,7 +9,7 @@ import java.io.IOException;
  * Home controller que incluye los metodos para mostrar las ventanas de inicio de sesion de administrador/usuario
  * o permite registrar un nievo usuario/administrador
  */
-public class homeController {
+public  class homeController {
 
     @FXML
     private void AdminLogin() throws IOException {

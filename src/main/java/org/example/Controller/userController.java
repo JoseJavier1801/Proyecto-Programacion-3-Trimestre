@@ -18,7 +18,7 @@ import java.util.Optional;
  * Clase userController que se encargar de la vista de usuario y permite al usuario acceder a
  * comprar productos, mostrar el carrito, modificar sus datos y cerrar su sesion
  */
-public class userController {
+public  class userController {
     private User user;
 
 
@@ -137,6 +137,11 @@ public class userController {
     @FXML
     private void addCart() throws IOException{
         App.setRoot("addCart");
+    }
+
+    @FXML
+    private void showOther() throws IOException {
+        App.setRoot("showOther");
     }
 
 }

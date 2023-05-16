@@ -16,7 +16,7 @@ import java.util.Optional;
  * Metodo btnlogin que verifica los datos del administrador introducidos y le permite iniciar sesion
  * @throws IOException
  */
-public class ALoginController {
+public  class ALoginController {
 
     @FXML
     private TextField usertxt;
