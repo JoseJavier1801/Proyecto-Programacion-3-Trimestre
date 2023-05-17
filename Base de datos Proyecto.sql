@@ -41,16 +41,5 @@ CREATE TABLE Carrito (
 
 );
 
-CREATE TABLE Other (
-  id_usuario INT NOT NULL,
-  id_producto INT NOT NULL,
-  fecha_compra DATE NOT NULL,
-  nombreProducto varchar(150),
-  cantidad INT NOT NULL,
-  precio DOUBLE NOT NULL,
-  PRIMARY KEY (id_usuario, id_producto,fecha_compra)
-
-);
-
 alter table Carrito add foreign key(id_usuario) references usuarios(id_u);
 alter table Carrito add foreign key(id_producto) references productos(id_p);
