@@ -70,7 +70,7 @@
       </ImageView>
       <ImageView fitHeight="190.0" fitWidth="223.0" layoutX="128.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@foto/Logo.png" />
+            <Image url="@foto/logo.png" />
          </image>
       </ImageView>
       <Button fx:id="btn_main" layoutX="563.0" layoutY="64.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: rgb(76, 74, 69);" text="To Main Menu" textFill="WHITE">

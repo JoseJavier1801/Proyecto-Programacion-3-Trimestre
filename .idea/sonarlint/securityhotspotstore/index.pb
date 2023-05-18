@@ -3,10 +3,6 @@ c
 3src/main/java/org/example/UTILS/ValidationDATA.java,8\6\8627c6abc1496b812e123baa72072e0a400e020f
 <
 conexion.xml,c\e\cea450a916b0aacd653f63795bba766a27f71026
-N
-src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 i
 9src/main/java/org/example/Connections/ConnectionData.java,a\2\a2e2b9f7cfacd412facd0e7a2dc90ec470bbdc54
 j
@@ -29,3 +25,5 @@ Z
 +src/main/java/org/example/DOMAIN/Admin.java,d\c\dc667bd4db4cec0e03a6c365e9825632715a03f8
 V
 &src/main/java/org/example/DAO/DAO.java,2\d\2deded00b7132804abe7288f66b07b185daca3a8
+N
+src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7

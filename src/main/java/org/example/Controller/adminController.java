@@ -191,7 +191,7 @@ public class adminController {
                 alert.setTitle("Success");
                 alert.setContentText("Admin has been updated, The session will close.");
                 alert.showAndWait();
-                App.setRoot("AdminLogin");
+                App.setRoot("adminLogin");
             } catch (SQLException | IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
