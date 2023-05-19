@@ -35,7 +35,7 @@ public  class userController {
     }
 
     /**
-     * metodo que modifica el usuari y contraseña del usuario actual
+     * metodo que modifica el usuario y contraseña del usuario actual
      * @throws IOException
      */
     @FXML
