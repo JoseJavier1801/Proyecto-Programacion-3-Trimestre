@@ -43,3 +43,11 @@ CREATE TABLE Carrito (
 
 alter table Carrito add foreign key(id_usuario) references usuarios(id_u);
 alter table Carrito add foreign key(id_producto) references productos(id_p);
+
+INSERT INTO administrador (id_a,nombre_admin,contraseña_admin,correo_admin,dni) VALUES (?,?,?,?,?);
+
+INSERT INTO carrito (id_usuario, id_producto,fecha_compra,nombreProducto, cantidad, precio) VALUES (?, ?, ?, ?, ?,?);
+
+INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?);
+
+INSERT INTO usuarios (id_u,nombre_usuario,contraseña_usuario,correo_usuario,dni) VALUES (?,?,?,?,?)
