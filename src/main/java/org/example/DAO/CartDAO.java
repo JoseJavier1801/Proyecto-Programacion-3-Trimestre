@@ -16,8 +16,7 @@ import java.util.List;
 
 public class CartDAO implements DAO<cart>{
 
-    private final static String FINDALL = "SELECT * FROM carrito";
-    private final static String FINDBYUSERID = "SELECT * FROM carrito WHERE id_usuario=?";
+    private final static String FINDALL = "SELECT * FROM carrito";;
     private final static String FINDBYID = "SELECT * FROM carrito WHERE id_usuario=? OR id_producto=?";
     private final static String INSERT = "INSERT INTO carrito (id_usuario, id_producto,fecha_compra,nombreProducto, cantidad, precio) VALUES (?, ?, ?, ?, ?,?)";
     private final static String UPDATE = "UPDATE carrito SET cantidad=?, precio=? WHERE nombreProducto=?";
@@ -83,23 +82,25 @@ public class CartDAO implements DAO<cart>{
         return result;
     }
 
-    public cart findByUserId(String id) throws SQLException {
-        cart result=null;
-        try (PreparedStatement pst=this.conn.prepareStatement(FINDBYUSERID)){
-            pst.setString(1,id);
-            try (ResultSet res= pst.executeQuery()){
-                if(res.next()){
-                    result.setProductName(res.getString("nombreProducto"));
+    public cart findByProductAndUser(int productId, int userId) throws SQLException {
+        cart result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYID)) {
+            pst.setInt(1, userId);
+            pst.setInt(2, productId);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new cart();
+                    result.setId_user(res.getInt("id_usuario"));
+                    result.setId_product(res.getInt("id_producto"));
                     result.setBuyDate(res.getDate("fecha_compra"));
+                    result.setProductName(res.getString("nombreProducto"));
                     result.setCant(res.getInt("cantidad"));
                     result.setPrice(res.getDouble("precio"));
                 }
-
             }
         }
         return result;
     }
-
 
     @Override
     public cart save(cart entity) throws SQLException {

@@ -96,7 +96,7 @@ public class AddCartController {
         try {
             // Buscar el producto en la base de datos
             Products p;
-            p=PDAO.findByName(name);
+            p = PDAO.findByName(name);
             p.setId(PDAO.findId(name));
 
             if (p != null && p.getStock() >= quantity) {
@@ -104,31 +104,47 @@ public class AddCartController {
                 Date date = new Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-                // Crear carrito
-                cart myCart = new cart(u.getId(), productId, sqlDate, p.getName(), quantity, p.getPrice());
+                // Buscar el carrito existente por producto y usuario
+                cart existingCart = CDAO.findByProductAndUser(productId, u.getId());
 
-                CDAO.save(myCart);
+                if (existingCart != null) {
+                    // Actualizar la cantidad del producto en el carrito existente
+                    existingCart.setCant(existingCart.getCant() + quantity);
+                    CDAO.Update(existingCart);
+
+                    // Mensaje de éxito para la actualización
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Product quantity updated in cart!");
+                    alert.showAndWait();
+                } else {
+                    // Crear un nuevo carrito
+                    cart myCart = new cart(u.getId(), productId, sqlDate, p.getName(), quantity, p.getPrice());
+                    CDAO.save(myCart);
+
+                    // Mensaje de éxito para la adición
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Product added to cart!");
+                    alert.showAndWait();
+                }
 
                 p.setStock(p.getStock() - quantity);
                 PDAO.UpdateStock(p);
-                tableProducts.setItems(productsList);
 
-                // producto  añadido correctamente
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText(null);
-                alert.setContentText("Product added to cart!");
-                alert.showAndWait();
+                tableProducts.setItems(productsList);
             } else {
-                //Mensaje de error
+                // Mensaje de error
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
                 alert.setContentText("Product not found or not enough quantity available!");
                 alert.showAndWait();
             }
-
         } catch (SQLException e) {
+            // Mensaje de error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -137,7 +153,6 @@ public class AddCartController {
             e.printStackTrace();
         }
     }
-
 
         @FXML
     private void goBack() throws IOException {
