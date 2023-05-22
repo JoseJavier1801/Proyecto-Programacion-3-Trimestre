@@ -82,26 +82,6 @@ public class CartDAO implements DAO<cart>{
         return result;
     }
 
-    public cart findByProductAndUser(int productId, int userId) throws SQLException {
-        cart result = null;
-        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYID)) {
-            pst.setInt(1, userId);
-            pst.setInt(2, productId);
-            try (ResultSet res = pst.executeQuery()) {
-                if (res.next()) {
-                    result = new cart();
-                    result.setId_user(res.getInt("id_usuario"));
-                    result.setId_product(res.getInt("id_producto"));
-                    result.setBuyDate(res.getDate("fecha_compra"));
-                    result.setProductName(res.getString("nombreProducto"));
-                    result.setCant(res.getInt("cantidad"));
-                    result.setPrice(res.getDouble("precio"));
-                }
-            }
-        }
-        return result;
-    }
-
     @Override
     public cart save(cart entity) throws SQLException {
         try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
