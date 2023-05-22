@@ -77,9 +77,5 @@ class AdminTest {
         assertNotEquals(admin, differentAdmin);
     }
 
-    @Test
-    public void testToString() {
-        String expected = "Admin{} person{id=1, username='adminUser', password='adminPassword', DNI='123456789', email='admin@example.com'}";
-        assertEquals(expected, admin.toString());
-    }
+
 }

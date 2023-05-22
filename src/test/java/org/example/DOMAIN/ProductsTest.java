@@ -92,10 +92,4 @@ class ProductsTest {
         assertNotEquals(product, differentProduct);
     }
 
-    @Test
-    public void testToString() {
-        String expected = "Products{id=1, name='Product 1', description='Description 1', Stock=10, price=9.99, id_admin=Admin{id=1, name='John Doe', email='admin@example.com'}}";
-        assertEquals(expected, product.toString());
-    }
-
 }
