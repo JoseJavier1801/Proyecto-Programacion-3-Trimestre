@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > cart</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.DOMAIN</a>
+</div>
+
+<h1>Coverage Summary for Class: cart (org.example.DOMAIN)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">cart</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.DOMAIN;
+&nbsp;
+&nbsp;import java.util.Date;
+&nbsp;
+&nbsp;/***
+&nbsp; * Clase cart que tiene los atributos que almacenaran los datos
+&nbsp; */
+&nbsp;public class cart {
+&nbsp;    private int id_user;
+&nbsp;    private int id_product;
+&nbsp;
+&nbsp;    private Date buyDate;
+&nbsp;
+&nbsp;    private String productName;
+&nbsp;    private double price;
+&nbsp;    private int cant;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public cart(int id_user, int id_product, Date buyDate, String productName, int cant, double price) {</b>
+<b class="nc">&nbsp;        this.id_user = id_user;</b>
+<b class="nc">&nbsp;        this.id_product = id_product;</b>
+<b class="nc">&nbsp;        this.buyDate = buyDate;</b>
+<b class="nc">&nbsp;        this.productName = productName;</b>
+<b class="nc">&nbsp;        this.cant = cant;</b>
+<b class="nc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public cart() {
+<b class="nc">&nbsp;        this(0,0,new Date(),&quot; &quot;, 0,0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getId_user() {
+<b class="nc">&nbsp;        return id_user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId_user(int id_user) {
+<b class="nc">&nbsp;        this.id_user = id_user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getId_product() {
+<b class="nc">&nbsp;        return id_product;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId_product(int id_product) {
+<b class="nc">&nbsp;        this.id_product = id_product;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Date getBuyDate() {
+<b class="nc">&nbsp;        return buyDate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBuyDate(Date buydate) {
+<b class="nc">&nbsp;        this.buyDate = buydate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getProductName() {
+<b class="nc">&nbsp;        return productName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProductName(String productName) {
+<b class="nc">&nbsp;        this.productName = productName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getCant() {
+<b class="nc">&nbsp;        return cant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCant(int cant) {
+<b class="nc">&nbsp;        this.cant = cant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public double getPrice() {
+<b class="nc">&nbsp;        return price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPrice(double price) {
+<b class="nc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return &quot;cart{&quot; +</b>
+&nbsp;                &quot;id_user=&quot; + id_user +
+&nbsp;                &quot;, id_product=&quot; + id_product +
+&nbsp;                &quot;, buyDate=&quot; + buyDate +
+&nbsp;                &quot;, productName=&#39;&quot; + productName + &#39;\&#39;&#39; +
+&nbsp;                &quot;, cant=&quot; + cant +
+&nbsp;                &quot;, price=&quot; + price +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-22 14:10</div>
+</div>
+</body>
+</html>
