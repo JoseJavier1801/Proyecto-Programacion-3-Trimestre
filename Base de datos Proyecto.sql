@@ -31,13 +31,14 @@ id_admin int
 alter table productos add foreign key(id_admin) references administrador(id_a) on delete set null;
 
 CREATE TABLE Carrito (
+  id_carrito int auto_increment,
   id_usuario INT NOT NULL,
   id_producto INT NOT NULL,
   fecha_compra DATE NOT NULL,
   nombreProducto varchar(150),
   cantidad INT NOT NULL,
   precio DOUBLE NOT NULL,
-  PRIMARY KEY (id_usuario, id_producto,fecha_compra)
+  PRIMARY KEY (id_carrito)
 
 );
 
