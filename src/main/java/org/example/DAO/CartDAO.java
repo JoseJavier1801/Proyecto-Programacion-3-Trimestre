@@ -20,7 +20,7 @@ public class CartDAO implements DAO<cart> {
     private static final String FINDBYID = "SELECT * FROM carrito WHERE id_usuario=? OR id_producto=?";
     private static final String INSERT = "INSERT INTO carrito (id_usuario, id_producto, fecha_compra,cantidad, precio) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE carrito SET cantidad=?, precio=? WHERE nombreProducto=?";
-    private static final String DELETE = "DELETE FROM carrito WHERE nombreProducto=?";
+    private static final String DELETE = "DELETE FROM carrito WHERE id_producto=?";
     private static final String DELETEALL = "DELETE FROM carrito";
 
     private static CartDAO instance = null;
@@ -92,8 +92,7 @@ public class CartDAO implements DAO<cart> {
     @Override
     public void delete(cart entity) throws SQLException {
         try (PreparedStatement pst = conn.prepareStatement(DELETE)) {
-            pst.setInt(1, entity.getId_user().getId());
-            pst.setInt(2, entity.getId_product().getId());
+            pst.setInt(1, entity.getId_product().getId());
             pst.executeUpdate();
         }
     }

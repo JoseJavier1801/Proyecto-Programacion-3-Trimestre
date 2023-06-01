@@ -6,9 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
 import org.example.App;
-import org.example.DAO.*;
+import org.example.DAO.AdminDAO;
+import org.example.DAO.ProductsDAO;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
 import org.example.UTILS.Encrypt;
@@ -17,8 +17,6 @@ import org.example.UTILS.ValidationDATA;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
