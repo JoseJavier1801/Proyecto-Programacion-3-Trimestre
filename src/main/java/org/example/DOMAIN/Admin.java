@@ -17,8 +17,11 @@ public class Admin extends person {
         this(0," "," "," "," ");
     }
 
+
+
     @Override
     public String toString() {
-        return "Admin{} " + super.toString();
+        return  super.toString();
     }
+
 }

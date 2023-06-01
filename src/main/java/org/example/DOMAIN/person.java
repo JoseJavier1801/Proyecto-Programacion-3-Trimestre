@@ -76,12 +76,6 @@ public abstract class person {
 
     @Override
     public String toString() {
-        return "person{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", DNI='" + DNI + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "id=" + id;
     }
 }

@@ -15,6 +15,7 @@
       </Label>
       <AnchorPane layoutX="93.0" layoutY="157.0" prefHeight="398.0" prefWidth="611.0" style="-fx-background-color: rgb(239, 184, 42);">
          <children>
+            <TextField fx:id="Product" layoutX="286.0" layoutY="66.0" promptText="Product Name" />
             <TextField fx:id="newStock" layoutX="285.0" layoutY="126.0" promptText="Stock" />
             <TextField fx:id="newPrice" layoutX="285.0" layoutY="191.0" promptText="Price" />
             <Label layoutX="158.0" layoutY="125.0" text="New Stock:">
@@ -37,12 +38,16 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <TextField fx:id="Product" layoutX="286.0" layoutY="66.0" promptText="Product Name" />
             <Label layoutX="126.0" layoutY="65.0" text="Product To Modify:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+            <Button fx:id="btnfind" layoutX="473.0" layoutY="61.0" mnemonicParsing="false" onAction="#FindProducts" prefHeight="36.0" prefWidth="104.0" style="-fx-background-color: rgb(76, 74, 69);" text="Find Product" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

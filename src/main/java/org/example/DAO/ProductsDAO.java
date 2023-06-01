@@ -18,7 +18,7 @@ public class ProductsDAO implements DAO<Products> {
     /**
      * Querys que utilizaran los metodos de ProductsDAO
      */
-    private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
+    private final static String FINDALL = "SELECT * FROM productos";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
     private final static String FINDID = "SELECT id_p FROM productos WHERE nombre_producto=?";
     private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
@@ -26,6 +26,7 @@ public class ProductsDAO implements DAO<Products> {
     private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE nombre_producto=?";
     private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
     private static final String UPDATESTOCK = "UPDATE productos SET stock=? WHERE nombre_producto=?";
+
 
     private Connection conn; //establecer conexion a la base de datos
     private AdminDAO adminDAO; //inizializa el adminDAO para el id Del administrador
@@ -66,6 +67,9 @@ public class ProductsDAO implements DAO<Products> {
                     p.setDescription(res.getString("descripcion"));
                     p.setStock(res.getInt("stock"));
                     p.setPrice(res.getDouble("precio"));
+                    Admin admin = new Admin();
+                    admin.setId(res.getInt("id_admin"));
+                    p.setId_admin(admin);
                     result.add(p);
                 }
             }

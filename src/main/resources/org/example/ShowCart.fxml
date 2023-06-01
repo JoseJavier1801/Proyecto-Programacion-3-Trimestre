@@ -17,12 +17,11 @@
             <Font size="43.0" />
          </font>
       </Label>
-      <TableView fx:id="tableCart" layoutX="37.0" layoutY="119.0" prefHeight="252.0" prefWidth="746.0">
+      <TableView fx:id="tableCart" layoutX="101.0" layoutY="112.0" prefHeight="252.0" prefWidth="618.0">
          <columns>
             <TableColumn fx:id="id_userColumn" prefWidth="112.80001831054688" text="ID_user" />
             <TableColumn fx:id="id_productColumn" prefWidth="127.19998168945312" text="ID_product" />
             <TableColumn fx:id="DateColumn" prefWidth="142.39996337890625" text="BuyDate" />
-            <TableColumn fx:id="NameColumn" prefWidth="129.5999755859375" text="ProductName" />
             <TableColumn fx:id="QuantityColumn" prefWidth="120.800048828125" text="Quantity" />
             <TableColumn fx:id="PriceColumn" prefWidth="112.80002441406248" text="Price" />
          </columns>

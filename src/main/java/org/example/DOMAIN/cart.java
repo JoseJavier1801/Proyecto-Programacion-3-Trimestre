@@ -1,47 +1,44 @@
 package org.example.DOMAIN;
 
+import org.example.DAO.ProductsDAO;
+
 import java.util.Date;
 
 /***
  * Clase cart que tiene los atributos que almacenaran los datos
  */
 public class cart {
-    private int id_user;
-    private int id_product;
-
+    private User id_user;
+    private Products id_product;
     private Date buyDate;
-
-    private String productName;
-    private double price;
     private int cant;
+    private double price;
 
-
-    public cart(int id_user, int id_product, Date buyDate, String productName, int cant, double price) {
+    public cart(User id_user, Products id_product, Date buyDate, int cant, double price) {
         this.id_user = id_user;
         this.id_product = id_product;
         this.buyDate = buyDate;
-        this.productName = productName;
         this.cant = cant;
         this.price = price;
     }
 
     public cart() {
-        this(0,0,new Date()," ", 0,0);
+        this(null, null, new Date(), 0, 0.0);
     }
 
-    public int getId_user() {
+    public User getId_user() {
         return id_user;
     }
 
-    public void setId_user(int id_user) {
+    public void setId_user(User id_user) {
         this.id_user = id_user;
     }
 
-    public int getId_product() {
+    public Products getId_product() {
         return id_product;
     }
 
-    public void setId_product(int id_product) {
+    public void setId_product(Products id_product) {
         this.id_product = id_product;
     }
 
@@ -49,16 +46,8 @@ public class cart {
         return buyDate;
     }
 
-    public void setBuyDate(Date buydate) {
-        this.buyDate = buydate;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setBuyDate(Date buyDate) {
+        this.buyDate = buyDate;
     }
 
     public int getCant() {
@@ -79,11 +68,10 @@ public class cart {
 
     @Override
     public String toString() {
-        return "cart{" +
+        return "Cart{" +
                 "id_user=" + id_user +
                 ", id_product=" + id_product +
                 ", buyDate=" + buyDate +
-                ", productName='" + productName + '\'' +
                 ", cant=" + cant +
                 ", price=" + price +
                 '}';

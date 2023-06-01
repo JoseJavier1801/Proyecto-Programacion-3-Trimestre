@@ -26,14 +26,8 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <Button fx:id="btn_reg" layoutX="356.0" layoutY="284.0" mnemonicParsing="false" onAction="#register" prefHeight="40.0" prefWidth="108.0" style="-fx-background-color: rgb(76, 74, 69);" text="Register" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
             <TextField fx:id="username" layoutX="275.0" layoutY="61.0" promptText="username" />
+            <PasswordField fx:id="passwd" layoutX="276.0" layoutY="111.0" promptText="password" />
             <Label alignment="CENTER" layoutX="155.0" layoutY="60.0" prefHeight="28.0" prefWidth="120.0" text="USERNAME: ">
                <font>
                   <Font size="17.0" />
@@ -64,7 +58,14 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </CheckBox>
-            <PasswordField fx:id="passwd" layoutX="276.0" layoutY="111.0" promptText="password" />
+            <Button fx:id="btn_reg" layoutX="431.0" layoutY="290.0" mnemonicParsing="false" onAction="#register" prefHeight="40.0" prefWidth="108.0" style="-fx-background-color: rgb(76, 74, 69);" text="Register" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
       <Button fx:id="btn_main" layoutX="595.0" layoutY="69.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: rgb(76, 74, 69);" text="Go Back" textFill="WHITE">

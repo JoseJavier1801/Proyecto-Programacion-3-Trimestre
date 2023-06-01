@@ -49,6 +49,7 @@ public class AddCartController {
     /**
      * Metodo initialize que inicializa la tabla de javafx y muestra los productos existentes
      */
+
     private ObservableList<Products> productsList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -79,7 +80,7 @@ public class AddCartController {
 
     /**
      * Metodo addCart que agrega un producto al carrito
-     * pasandu el nombre del producto a comprar y la cantidad de ese producto
+     * pasando el nombre del producto a comprar y la cantidad de ese producto
      */
 
     @FXML
@@ -89,14 +90,14 @@ public class AddCartController {
         CartDAO CDAO = CartDAO.getInstance();
 
         String name = TextProduct.getText();
-        int quantity = parseInt(TextQuantity.getText());
+        int quantity = Integer.parseInt(TextQuantity.getText());
         User u = new User();
         u.setId(UDAO.getUserId());
 
         try {
             // Buscar el producto en la base de datos
             Products p;
-            p=PDAO.findByName(name);
+            p = PDAO.findByName(name);
             p.setId(PDAO.findId(name));
 
             if (p != null && p.getStock() >= quantity) {
@@ -105,14 +106,14 @@ public class AddCartController {
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
                 // Crear carrito
-                cart myCart = new cart(u.getId(), productId, sqlDate, p.getName(), quantity, p.getPrice());
+                cart myCart = new cart(u, p, sqlDate, quantity, p.getPrice());
 
                 CDAO.save(myCart);
 
                 p.setStock(p.getStock() - quantity);
                 PDAO.UpdateStock(p);
 
-                // producto  añadido correctamente
+                // producto añadido correctamente
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText(null);
@@ -121,7 +122,7 @@ public class AddCartController {
                 tableProducts.setItems(productsList);
 
             } else {
-                //Mensaje de error
+                // Mensaje de error
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);

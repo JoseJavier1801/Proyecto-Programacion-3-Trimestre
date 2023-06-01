@@ -21,15 +21,8 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <Button fx:id="btn_insert" layoutX="90.0" layoutY="302.0" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: rgb(76, 74, 69);" text="Insert Product" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
             <TextField fx:id="nameP" layoutX="275.0" layoutY="61.0" promptText="Name" />
+            <TextField fx:id="descP" layoutX="275.0" layoutY="110.0" promptText="Description" />
             <Label alignment="CENTER" layoutX="155.0" layoutY="60.0" prefHeight="28.0" prefWidth="120.0" text="Name:">
                <font>
                   <Font size="17.0" />
@@ -52,7 +45,14 @@
                   <Font size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="descP" layoutX="275.0" layoutY="110.0" promptText="Description" />
+            <Button fx:id="btn_insert" layoutX="90.0" layoutY="302.0" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: rgb(76, 74, 69);" text="Insert Product" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
             <Button fx:id="btn_cancel" layoutX="380.0" layoutY="302.0" mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: rgb(76, 74, 69);" text="Cancel" textFill="WHITE">
                <font>
                   <Font size="18.0" />

@@ -14,46 +14,39 @@ import java.util.List;
  * CartDAO que tiene las consultas y los metodos que llaman los controladores
  */
 
-public class CartDAO implements DAO<cart>{
+public class CartDAO implements DAO<cart> {
 
-    private final static String FINDALL = "SELECT * FROM carrito";;
-    private final static String FINDBYID = "SELECT * FROM carrito WHERE id_usuario=? OR id_producto=?";
-    private final static String INSERT = "INSERT INTO carrito (id_usuario, id_producto,fecha_compra,nombreProducto, cantidad, precio) VALUES (?, ?, ?, ?, ?,?)";
-    private final static String UPDATE = "UPDATE carrito SET cantidad=?, precio=? WHERE nombreProducto=?";
-    private final static String DELETE = "DELETE FROM carrito WHERE nombreProducto=?";
+    private static final String FIND_ALL = "SELECT * FROM carrito";
+    private static final String FINDBYID = "SELECT * FROM carrito WHERE id_usuario=? OR id_producto=?";
+    private static final String INSERT = "INSERT INTO carrito (id_usuario, id_producto, fecha_compra,cantidad, precio) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE carrito SET cantidad=?, precio=? WHERE nombreProducto=?";
+    private static final String DELETE = "DELETE FROM carrito WHERE nombreProducto=?";
     private static final String DELETEALL = "DELETE FROM carrito";
 
     private static CartDAO instance = null;
-
     private Connection conn;
 
-    public CartDAO(Connection conn){
-        this.conn=conn;
-    }
-
-    public CartDAO() {
-        this.conn= ConnectionMySQL.getConnect();
+    private CartDAO(Connection conn) {
+        this.conn = conn;
     }
 
     public static CartDAO getInstance() {
         if (instance == null) {
-            instance = new CartDAO();
+            instance = new CartDAO(ConnectionMySQL.getConnect());
         }
         return instance;
     }
 
-
     @Override
     public List<cart> findAll() throws SQLException {
         List<cart> result = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
+        try (PreparedStatement pst = conn.prepareStatement(FIND_ALL)) {
             try (ResultSet res = pst.executeQuery()) {
                 while (res.next()) {
                     cart c = new cart();
-                    c.setId_user(res.getInt("id_usuario"));
-                    c.setId_product(res.getInt("id_producto"));
+                    c.setId_user(UserDAO.getInstance().findById(String.valueOf(res.getInt("id_usuario"))));
+                    c.setId_product(ProductsDAO.getInstance().findById(String.valueOf(res.getInt("id_producto"))));
                     c.setBuyDate(res.getDate("fecha_compra"));
-                    c.setProductName(res.getString("nombreProducto"));
                     c.setCant(res.getInt("cantidad"));
                     c.setPrice(res.getDouble("precio"));
                     result.add(c);
@@ -65,18 +58,19 @@ public class CartDAO implements DAO<cart>{
 
     @Override
     public cart findById(String id) throws SQLException {
-        cart result=null;
-        try (PreparedStatement pst=this.conn.prepareStatement(FINDBYID)){
-            pst.setString(1,id);
-            pst.setString(2,id);
-            try (ResultSet res= pst.executeQuery()){
-                if(res.next()){
-                    result.setProductName(res.getString("nombreProducto"));
+        cart result = null;
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYID)) {
+            pst.setString(1, id);
+            pst.setString(2, id);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new cart();
+                    result.setId_user(UserDAO.getInstance().findById(String.valueOf(res.getInt("id_usuario"))));
+                    result.setId_product(ProductsDAO.getInstance().findById(String.valueOf(res.getInt("id_producto"))));
                     result.setBuyDate(res.getDate("fecha_compra"));
                     result.setCant(res.getInt("cantidad"));
                     result.setPrice(res.getDouble("precio"));
                 }
-
             }
         }
         return result;
@@ -84,23 +78,12 @@ public class CartDAO implements DAO<cart>{
 
     @Override
     public cart save(cart entity) throws SQLException {
-        try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
-            pst.setInt(1, entity.getId_user());
-            pst.setInt(2, entity.getId_product());
+        try (PreparedStatement pst = conn.prepareStatement(INSERT)) {
+            pst.setInt(1, entity.getId_user().getId());
+            pst.setInt(2, entity.getId_product().getId());
             pst.setDate(3, new java.sql.Date(entity.getBuyDate().getTime()));
-            pst.setString(4, entity.getProductName());
-            pst.setInt(5, entity.getCant());
-            pst.setDouble(6, entity.getPrice());
-            pst.executeUpdate();
-        }
-        return entity;
-    }
-
-    public cart Update(cart entity) throws SQLException {
-        try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
-            pst.setInt(1, entity.getCant());
-            pst.setDouble(2, entity.getPrice());
-            pst.setString(3, entity.getProductName());
+            pst.setInt(4, entity.getCant());
+            pst.setDouble(5, entity.getPrice());
             pst.executeUpdate();
         }
         return entity;
@@ -108,21 +91,22 @@ public class CartDAO implements DAO<cart>{
 
     @Override
     public void delete(cart entity) throws SQLException {
-        try (PreparedStatement pst = this.conn.prepareStatement(DELETE)) {
-            pst.setString(1, entity.getProductName());
+        try (PreparedStatement pst = conn.prepareStatement(DELETE)) {
+            pst.setInt(1, entity.getId_user().getId());
+            pst.setInt(2, entity.getId_product().getId());
             pst.executeUpdate();
         }
     }
 
-    public void deleteALL() throws SQLException {
-        try (PreparedStatement pst = this.conn.prepareStatement(DELETEALL)) {
+
+    public void deleteAll() throws SQLException {
+        try (PreparedStatement pst = conn.prepareStatement(DELETEALL)) {
             pst.executeUpdate();
         }
     }
-
 
     @Override
     public void close() throws Exception {
-
+        // Cerrar la conexión u otras tareas de limpieza si es necesario
     }
 }

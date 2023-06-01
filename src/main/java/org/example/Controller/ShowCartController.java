@@ -33,8 +33,6 @@ public class ShowCartController {
     @FXML
     private TableColumn<cart, Date> DateColumn;
     @FXML
-    private TableColumn<cart, String> NameColumn;
-    @FXML
     private TableColumn<cart, Integer> QuantityColumn;
     @FXML
     private TableColumn<cart, Double> PriceColumn;
@@ -47,7 +45,6 @@ public class ShowCartController {
             id_userColumn.setCellValueFactory(new PropertyValueFactory<>("id_user"));
             id_productColumn.setCellValueFactory(new PropertyValueFactory<>("id_product"));
             DateColumn.setCellValueFactory(new PropertyValueFactory<>("buyDate"));
-            NameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
             QuantityColumn.setCellValueFactory(new PropertyValueFactory<>("cant"));
             PriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
@@ -91,7 +88,7 @@ public class ShowCartController {
             try {
                 // Vaciar la tabla de carrito
                 CartDAO CDAO = CartDAO.getInstance();
-                CDAO.deleteALL();
+                CDAO.deleteAll();
                 CartList.clear();
 
                 Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
@@ -125,7 +122,8 @@ public class ShowCartController {
             try {
                 // Elimina todos los productos del carrito en la base de datos
                 CartDAO cartDAO = CartDAO.getInstance();
-                cartDAO.deleteALL();
+                cartDAO.deleteAll();
+
 
                 // Vacía la lista de productos en el carrito
                 CartList.clear();
@@ -146,10 +144,4 @@ public class ShowCartController {
     private void goBack() throws IOException {
         App.setRoot("users");
     }
-
-
-
-
-
-
 }

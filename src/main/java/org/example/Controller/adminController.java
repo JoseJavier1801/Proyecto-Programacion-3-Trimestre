@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.Admin;
@@ -16,6 +17,8 @@ import org.example.UTILS.ValidationDATA;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,6 +27,8 @@ import java.util.Optional;
  */
 public class adminController {
 
+    @FXML
+    private Label adminlabel;
     @FXML
     private TableView<Products> tableProducts;
     @FXML
@@ -36,6 +41,8 @@ public class adminController {
     private TableColumn<Products, Integer> stockColumn;
     @FXML
     private TableColumn<Products, Double> priceColumn;
+    @FXML
+    private TableColumn<Products, Admin> idadmin;
 
     /**
      * ObservableList que crea un FXcollection para mostrar un arraylist en la tabla del FXML
@@ -43,6 +50,7 @@ public class adminController {
     private ObservableList<Products> productsList = FXCollections.observableArrayList();
 
     private Admin admin;
+
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
@@ -53,12 +61,25 @@ public class adminController {
      */
     public void initialize() {
         try {
+
+            // Obtén el ID del administrador utilizando AdminDAO
+            int adminId = AdminDAO.getInstance().getAdminId();
+
+            // Obtén el nombre del administrador utilizando el ID
+            String adminName = AdminDAO.getAdminNameById(adminId);
+
+            // Establece el nombre del administrador en el Label
+            adminlabel.setText("Welcome "+adminName);
+
+
+
             // Inicializar las columnas
             idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
             stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+            idadmin.setCellValueFactory(new PropertyValueFactory<>("id_admin"));
 
             // Obtiene los productos de la base de datos y los agrega a la lista
             ProductsDAO PDAO = ProductsDAO.getInstance();
@@ -79,33 +100,32 @@ public class adminController {
 /**
  * Metodo que pide el nombre de un producto y lo muestra sombreado en la tabla de pos productos
  */
-    @FXML
-    private void searchProduct() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Search Product");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Please enter product name:");
+@FXML
+private void searchProduct() {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("Search Product");
+    dialog.setHeaderText(null);
+    dialog.setContentText("Please enter product name:");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> {
-            boolean found = false;
-            for (Products product : productsList) {
-                if (product.getName().equals(name)) {
-                    tableProducts.getSelectionModel().select(product);
-                    found = true;
-                    break;
-                }
+    Optional<String> result = dialog.showAndWait();
+    result.ifPresent(name -> {
+        boolean found = false;
+        for (Products product : productsList) {
+            if (product.getName().equals(name)) {
+                tableProducts.getSelectionModel().select(product);
+                found = true;
+                break;
             }
-            if (!found) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Search Product");
-                alert.setHeaderText(null);
-                alert.setContentText("Product not found!");
-                alert.showAndWait();
-            }
-        });
-    }
-
+        }
+        if (!found) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Search Product");
+            alert.setHeaderText(null);
+            alert.setContentText("Product not found!");
+            alert.showAndWait();
+        }
+    });
+}
 
     /**
      * Metodo modifyAdmin ecargadro de modificar el username y password del administrador que tiene la sesion inicada
@@ -118,7 +138,7 @@ public class adminController {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Modify Admin");
         dialog.setHeaderText(null);
-        dialog.setContentText("Enter new username and password:");
+        dialog.setContentText("Enter new username data:");
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
