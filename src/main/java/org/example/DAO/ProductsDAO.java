@@ -19,6 +19,7 @@ public class ProductsDAO implements DAO<Products> {
      * Querys que utilizaran los metodos de ProductsDAO
      */
     private final static String FINDALL = "SELECT * FROM productos";
+    private final static String FINDBYADMINID = "SELECT * FROM productos WHERE id_admin=?";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
     private final static String FINDID = "SELECT id_p FROM productos WHERE nombre_producto=?";
     private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
@@ -75,6 +76,31 @@ public class ProductsDAO implements DAO<Products> {
             }
         }
         return result;
+    }
+
+    public List<Products> findByAdminId(int id) throws SQLException {
+        List<Products> productsList = new ArrayList<>();
+
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYADMINID)) {
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Products product = new Products();
+                product.setId(rs.getInt("id_p"));
+                product.setName(rs.getString("nombre_producto"));
+                product.setDescription(rs.getString("descripcion"));
+                product.setStock(rs.getInt("stock"));
+                product.setPrice(rs.getDouble("precio"));
+                int adminId = rs.getInt("id_admin");
+                AdminDAO adminDAO = AdminDAO.getInstance();
+                Admin admin = adminDAO.findById(String.valueOf(adminId));
+                product.setId_admin(admin);
+                productsList.add(product);
+            }
+        }
+
+        return productsList;
     }
 
     /**
@@ -228,8 +254,6 @@ public class ProductsDAO implements DAO<Products> {
         }
         return result;
     }
-
-
 }
 
 

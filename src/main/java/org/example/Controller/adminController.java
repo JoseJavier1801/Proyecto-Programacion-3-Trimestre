@@ -41,8 +41,6 @@ public class adminController {
     private TableColumn<Products, Integer> stockColumn;
     @FXML
     private TableColumn<Products, Double> priceColumn;
-    @FXML
-    private TableColumn<Products, Admin> idadmin;
 
     /**
      * ObservableList que crea un FXcollection para mostrar un arraylist en la tabla del FXML
@@ -61,7 +59,6 @@ public class adminController {
      */
     public void initialize() {
         try {
-
             // Obtén el ID del administrador utilizando AdminDAO
             int adminId = AdminDAO.getInstance().getAdminId();
 
@@ -69,9 +66,7 @@ public class adminController {
             String adminName = AdminDAO.getAdminNameById(adminId);
 
             // Establece el nombre del administrador en el Label
-            adminlabel.setText("Welcome "+adminName);
-
-
+            adminlabel.setText("Welcome " + adminName);
 
             // Inicializar las columnas
             idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -79,15 +74,13 @@ public class adminController {
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
             stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-            idadmin.setCellValueFactory(new PropertyValueFactory<>("id_admin"));
 
-            // Obtiene los productos de la base de datos y los agrega a la lista
+            // Obtén los productos insertados por el administrador actual
             ProductsDAO PDAO = ProductsDAO.getInstance();
-            productsList.addAll(PDAO.findAll());
+            productsList.addAll(PDAO.findByAdminId(adminId));
 
             // Establece la lista de productos
             tableProducts.setItems(productsList);
-
         } catch (SQLException e) {
             // Manejo de excepciones
             Alert alert = new Alert(Alert.AlertType.ERROR);
