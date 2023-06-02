@@ -3,7 +3,6 @@ module org.example {
     requires javafx.fxml;
     requires java.sql;
     requires java.xml.bind;
-    requires javafx.media;
 
     opens org.example to javafx.fxml;
     opens org.example.Connections to java.xml.bind;

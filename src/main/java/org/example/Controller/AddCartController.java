@@ -15,9 +15,6 @@ import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Products;
 import org.example.DOMAIN.User;
 import org.example.DOMAIN.cart;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -119,10 +116,7 @@ public class AddCartController {
                     alert.setTitle("Success");
                     alert.setHeaderText(null);
                     alert.setContentText("Product quantity updated in cart!");
-                    String soundFile = "sound.mp3"; // Ruta al archivo de sonido
-                    Media soundMedia = new Media(new File(soundFile).toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(soundMedia);
-                    mediaPlayer.play();
+                    String soundFile = "sound.mp3"; // Ruta al archivo de sonido;
                     alert.showAndWait();
                     tableProducts.setItems(productsList);
                 } else {
@@ -163,9 +157,6 @@ public class AddCartController {
                             alert.setHeaderText(null);
                             alert.setContentText("Product quantity updated in cart!");
                             String soundFile = "sound.mp3"; // Ruta al archivo de sonido
-                            Media soundMedia = new Media(new File(soundFile).toURI().toString());
-                            MediaPlayer mediaPlayer = new MediaPlayer(soundMedia);
-                            mediaPlayer.play();
                             alert.showAndWait();
                             tableProducts.setItems(productsList);
                         } else {
@@ -190,9 +181,6 @@ public class AddCartController {
                         alert.setHeaderText(null);
                         alert.setContentText("Product added to cart!");
                         String soundFile = "sound.mp3"; // Ruta al archivo de sonido
-                        Media soundMedia = new Media(new File(soundFile).toURI().toString());
-                        MediaPlayer mediaPlayer = new MediaPlayer(soundMedia);
-                        mediaPlayer.play();
                         alert.showAndWait();
                         tableProducts.setItems(productsList);
                     }
