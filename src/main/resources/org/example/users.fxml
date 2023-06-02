@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.userController">
+<AnchorPane fx:id="userlabel" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.userController">
    <children>
       <Button fx:id="logbutton" layoutX="480.0" layoutY="371.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="58.0" prefWidth="207.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
          <font>
@@ -16,7 +16,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label alignment="CENTER" layoutX="118.0" layoutY="57.0" prefHeight="64.0" prefWidth="583.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome USER" textFill="WHITE">
+      <Label fx:id="ulabel" alignment="CENTER" layoutX="118.0" layoutY="55.0" prefHeight="64.0" prefWidth="583.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome USER" textFill="WHITE">
          <font>
             <Font size="43.0" />
          </font>

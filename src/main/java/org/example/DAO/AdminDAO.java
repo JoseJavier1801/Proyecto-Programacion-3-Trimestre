@@ -18,7 +18,7 @@ public  class AdminDAO implements DAO<Admin> {
     private final static String UPDATE ="UPDATE administrador SET nombre_admin=?, contraseña_admin=? WHERE id_a=?";
     private final static String DELETE="DELETE from administrador where nombre_admin=?";
 
-    private Connection conn;
+    private static Connection conn;
     private static AdminDAO instance = null;
 
     public static int adminId;
@@ -50,6 +50,20 @@ public  class AdminDAO implements DAO<Admin> {
         }
         return instance;
     }
+
+    public static String getAdminNameById(int adminId) throws SQLException {
+        String adminName = null;
+        try (PreparedStatement pst = conn.prepareStatement(FINBYID)) {
+            pst.setInt(1, adminId);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    adminName = res.getString("nombre_admin");
+                }
+            }
+        }
+        return adminName;
+    }
+
 
     @Override
     public List<Admin> findAll() throws SQLException {

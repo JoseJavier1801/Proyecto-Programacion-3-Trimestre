@@ -10,6 +10,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.DAO.CartDAO;
+import org.example.DAO.ProductsDAO;
+import org.example.DOMAIN.Products;
 import org.example.DOMAIN.cart;
 
 import java.io.IOException;
@@ -33,8 +35,6 @@ public class ShowCartController {
     @FXML
     private TableColumn<cart, Date> DateColumn;
     @FXML
-    private TableColumn<cart, String> NameColumn;
-    @FXML
     private TableColumn<cart, Integer> QuantityColumn;
     @FXML
     private TableColumn<cart, Double> PriceColumn;
@@ -45,19 +45,25 @@ public class ShowCartController {
         try {
             // Inicializar las columnas
             id_userColumn.setCellValueFactory(new PropertyValueFactory<>("id_user"));
-            id_productColumn.setCellValueFactory(new PropertyValueFactory<>("id_product"));
+            id_productColumn.setCellValueFactory(new PropertyValueFactory<>("id_product")); // Corregir esta línea
             DateColumn.setCellValueFactory(new PropertyValueFactory<>("buyDate"));
-            NameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
             QuantityColumn.setCellValueFactory(new PropertyValueFactory<>("cant"));
             PriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
             // Obtiene los productos de la base de datos y los agrega a la lista
-            CartDAO CDAO= CartDAO.getInstance();
+            CartDAO CDAO = CartDAO.getInstance();
             CartList.addAll(CDAO.findAll());
 
             // Establece la lista de productos
             tableCart.setItems(CartList);
 
+            tableCart.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+
+                    Products selectedProduct = newValue.getId_product();
+                    System.out.println("Selected Product: " + selectedProduct.getName());
+                }
+            });
         } catch (SQLException e) {
             // Manejo de excepciones
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -91,7 +97,7 @@ public class ShowCartController {
             try {
                 // Vaciar la tabla de carrito
                 CartDAO CDAO = CartDAO.getInstance();
-                CDAO.deleteALL();
+                CDAO.deleteAll();
                 CartList.clear();
 
                 Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
@@ -109,47 +115,52 @@ public class ShowCartController {
         }
     }
     /**
-     * metodo emptyCart que vacia el carrito
+     * metodo tookout que elimina el producto seleccionado y regresa la cantidad añadida a la talba productos
      */
 
     @FXML
-    private void emptyCart(){
-        // Crea una ventana de confirmación para verificar si el usuario quiere vaciar el carrito
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Empty Cart");
-        alert.setHeaderText("Are you sure you want to empty the cart?");
-
-        // Muestra la ventana y espera la respuesta del usuario
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+    private void tookout() {
+        // Obtener el item seleccionado en la tabla
+        cart selectedCart = tableCart.getSelectionModel().getSelectedItem();
+        if (selectedCart != null) {
             try {
-                // Elimina todos los productos del carrito en la base de datos
-                CartDAO cartDAO = CartDAO.getInstance();
-                cartDAO.deleteALL();
+                // Obtener el producto asociado al carrito seleccionado
+                Products selectedProduct = selectedCart.getId_product();
 
-                // Vacía la lista de productos en el carrito
-                CartList.clear();
+                // Actualizar el stock del producto
+                int currentStock = selectedProduct.getStock();
+                int quantityToRemove = selectedCart.getCant();
+                selectedProduct.setStock(currentStock + quantityToRemove);
+                ProductsDAO PDAO =ProductsDAO.getInstance();
+                PDAO.UpdateStock(selectedProduct);
 
-                // Actualiza la tabla
-                tableCart.refresh();
+                // Eliminar el producto del carrito
+                CartDAO CDAO = CartDAO.getInstance();
+                CDAO.delete(selectedCart);
+                CartList.remove(selectedCart);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Product removed from cart successfully.");
+                alert.showAndWait();
             } catch (SQLException e) {
-                // Manejo de excepciones
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Database error");
                 errorAlert.setHeaderText(null);
-                errorAlert.setContentText("There was an error accessing the database");
+                errorAlert.setContentText("There was an error accessing the database.");
                 errorAlert.showAndWait();
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a product from the cart.");
+            alert.showAndWait();
         }
     }
     @FXML
     private void goBack() throws IOException {
         App.setRoot("users");
     }
-
-
-
-
-
-
 }

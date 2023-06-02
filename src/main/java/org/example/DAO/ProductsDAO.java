@@ -18,14 +18,18 @@ public class ProductsDAO implements DAO<Products> {
     /**
      * Querys que utilizaran los metodos de ProductsDAO
      */
-    private final static String FINDALL = "SELECT id_p,nombre_producto,descripcion,stock,precio FROM productos";
+    private final static String FINDALL = "SELECT * FROM productos";
+    private final static String FINDBYADMINID = "SELECT * FROM productos WHERE id_admin=?";
     private final static String FINDBYID = "SELECT * FROM productos WHERE id_p=?";
+    private final static String FINDBYNAMEANDADMINID = "SELECT * FROM productos WHERE nombre_producto=? AND id_admin=?";
+
     private final static String FINDID = "SELECT id_p FROM productos WHERE nombre_producto=?";
     private final static String FINDBYNAME = "SELECT * FROM productos WHERE nombre_producto=?";
     private final static String INSERT = "INSERT INTO productos (id_p, nombre_producto, descripcion, stock, precio, id_admin) VALUES (?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE productos SET precio=?, stock=? WHERE nombre_producto=?";
     private final static String DELETE = "DELETE FROM productos WHERE nombre_producto=?";
     private static final String UPDATESTOCK = "UPDATE productos SET stock=? WHERE nombre_producto=?";
+
 
     private Connection conn; //establecer conexion a la base de datos
     private AdminDAO adminDAO; //inizializa el adminDAO para el id Del administrador
@@ -66,11 +70,39 @@ public class ProductsDAO implements DAO<Products> {
                     p.setDescription(res.getString("descripcion"));
                     p.setStock(res.getInt("stock"));
                     p.setPrice(res.getDouble("precio"));
+                    Admin admin = new Admin();
+                    admin.setId(res.getInt("id_admin"));
+                    p.setId_admin(admin);
                     result.add(p);
                 }
             }
         }
         return result;
+    }
+
+    public List<Products> findByAdminId(int id) throws SQLException {
+        List<Products> productsList = new ArrayList<>();
+
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYADMINID)) {
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Products product = new Products();
+                product.setId(rs.getInt("id_p"));
+                product.setName(rs.getString("nombre_producto"));
+                product.setDescription(rs.getString("descripcion"));
+                product.setStock(rs.getInt("stock"));
+                product.setPrice(rs.getDouble("precio"));
+                int adminId = rs.getInt("id_admin");
+                AdminDAO adminDAO = AdminDAO.getInstance();
+                Admin admin = adminDAO.findById(String.valueOf(adminId));
+                product.setId_admin(admin);
+                productsList.add(product);
+            }
+        }
+
+        return productsList;
     }
 
     /**
@@ -129,6 +161,28 @@ public class ProductsDAO implements DAO<Products> {
             }
         }
         return result;
+    }
+    public Products findByNameAndAdminId(String productName, int adminId) throws SQLException {
+        Products product = null;
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYNAMEANDADMINID)) {
+            pst.setString(1, productName);
+            pst.setInt(2, adminId);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    product = new Products();
+                    product.setId(res.getInt("id_p"));
+                    product.setName(res.getString("nombre_producto"));
+                    product.setDescription(res.getString("descripcion"));
+                    product.setStock(res.getInt("stock"));
+                    product.setPrice(res.getDouble("precio"));
+                    adminId = res.getInt("id_admin");
+                    AdminDAO adminDAO = AdminDAO.getInstance();
+                    Admin admin = adminDAO.findById(String.valueOf(adminId));
+                    product.setId_admin(admin);
+                }
+            }
+        }
+        return product;
     }
 
     /**
@@ -224,8 +278,6 @@ public class ProductsDAO implements DAO<Products> {
         }
         return result;
     }
-
-
 }
 
 

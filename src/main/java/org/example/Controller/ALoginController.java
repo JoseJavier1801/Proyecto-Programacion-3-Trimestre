@@ -24,6 +24,7 @@ public  class ALoginController {
     @FXML
     private PasswordField psswdtxt;
 
+
     /**
      * Metodo btnLogin que obtiene los datos  de lusuario, si estos se encuentran en la base de datos permite el acceso al programa
      * @throws IOException

@@ -2,6 +2,7 @@ package org.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.example.App;
@@ -10,6 +11,7 @@ import org.example.DAO.ProductsDAO;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -22,6 +24,8 @@ public class ModifyProductsController {
     @FXML
     private Label ModP_label;
 
+    @FXML
+    private Button btnfind;
     @FXML
     private TextField Product;
     @FXML
@@ -93,6 +97,34 @@ public class ModifyProductsController {
         alert.setContentText("Product updated successfully.");
         alert.showAndWait();
         App.setRoot("admin");
+    }
+
+
+    @FXML
+    private void FindProducts() throws SQLException {
+        String productName = Product.getText().trim();
+
+        if (productName.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please enter a product name.");
+            alert.showAndWait();
+            return;
+        }
+
+        ProductsDAO PDAO = ProductsDAO.getInstance();
+        Products product = PDAO.findByName(productName);
+
+        if (product == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Product not found.");
+            alert.showAndWait();
+            return;
+        }
+
+        newStock.setText(String.valueOf(product.getStock()));
+        newPrice.setText(String.valueOf(product.getPrice()));
     }
 
     /**

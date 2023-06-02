@@ -7,7 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import org.example.App;
-import org.example.DAO.*;
+import org.example.DAO.AdminDAO;
+import org.example.DAO.ProductsDAO;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
 import org.example.UTILS.Encrypt;
@@ -24,6 +25,8 @@ import java.util.Optional;
  */
 public class adminController {
 
+    @FXML
+    private Label adminlabel;
     @FXML
     private TableView<Products> tableProducts;
     @FXML
@@ -44,6 +47,7 @@ public class adminController {
 
     private Admin admin;
 
+
     public void setAdmin(Admin admin) {
         this.admin = admin;
     }
@@ -53,6 +57,15 @@ public class adminController {
      */
     public void initialize() {
         try {
+            // Obtén el ID del administrador utilizando AdminDAO
+            int adminId = AdminDAO.getInstance().getAdminId();
+
+            // Obtén el nombre del administrador utilizando el ID
+            String adminName = AdminDAO.getAdminNameById(adminId);
+
+            // Establece el nombre del administrador en el Label
+            adminlabel.setText("Welcome " + adminName);
+
             // Inicializar las columnas
             idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -60,13 +73,12 @@ public class adminController {
             stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-            // Obtiene los productos de la base de datos y los agrega a la lista
+            // Obtén los productos insertados por el administrador actual
             ProductsDAO PDAO = ProductsDAO.getInstance();
-            productsList.addAll(PDAO.findAll());
+            productsList.addAll(PDAO.findByAdminId(adminId));
 
             // Establece la lista de productos
             tableProducts.setItems(productsList);
-
         } catch (SQLException e) {
             // Manejo de excepciones
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -79,33 +91,32 @@ public class adminController {
 /**
  * Metodo que pide el nombre de un producto y lo muestra sombreado en la tabla de pos productos
  */
-    @FXML
-    private void searchProduct() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Search Product");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Please enter product name:");
+@FXML
+private void searchProduct() {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("Search Product");
+    dialog.setHeaderText(null);
+    dialog.setContentText("Please enter product name:");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> {
-            boolean found = false;
-            for (Products product : productsList) {
-                if (product.getName().equals(name)) {
-                    tableProducts.getSelectionModel().select(product);
-                    found = true;
-                    break;
-                }
+    Optional<String> result = dialog.showAndWait();
+    result.ifPresent(name -> {
+        boolean found = false;
+        for (Products product : productsList) {
+            if (product.getName().equals(name)) {
+                tableProducts.getSelectionModel().select(product);
+                found = true;
+                break;
             }
-            if (!found) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Search Product");
-                alert.setHeaderText(null);
-                alert.setContentText("Product not found!");
-                alert.showAndWait();
-            }
-        });
-    }
-
+        }
+        if (!found) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Search Product");
+            alert.setHeaderText(null);
+            alert.setContentText("Product not found!");
+            alert.showAndWait();
+        }
+    });
+}
 
     /**
      * Metodo modifyAdmin ecargadro de modificar el username y password del administrador que tiene la sesion inicada
@@ -118,7 +129,7 @@ public class adminController {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Modify Admin");
         dialog.setHeaderText(null);
-        dialog.setContentText("Enter new username and password:");
+        dialog.setContentText("Enter new username data:");
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -203,48 +214,38 @@ public class adminController {
         }
     }
     /**
-     * Metodo Delete que al seleccionar el boton muestra una ventana que pide el nombre del producto a eliminar
+     * Metodo Delete que se selecciona el producto a eliminar en la tabla y al pulsar el boton se elimina
      * @throws IOException
      * @throws SQLException
      */
     @FXML
     private void delete() throws IOException, SQLException {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Delete Products");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Instert the product name to delete:");
+        Products selectedProduct = tableProducts.getSelectionModel().getSelectedItem();
 
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            String productName = result.get();
-            if (productName.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Product name not added");
-                alert.showAndWait();
-                return;
-            }
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please select a product to delete.");
+            alert.showAndWait();
+            return;
+        }
 
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation");
+        confirmationAlert.setContentText("Are you sure you want to delete this product?");
+
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
+                // Obtén el ID del administrador actual
+                int adminId = AdminDAO.getInstance().getAdminId();
+
                 ProductsDAO PDAO = ProductsDAO.getInstance();
-                Products product = PDAO.findByName(productName);
-                if (product == null) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setContentText("Product doesn't exist");
-                    alert.showAndWait();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation");
-                    alert.setContentText("Are you sure you want to delete this product?");
-                    Optional<ButtonType> resultAlert = alert.showAndWait();
-                    if (resultAlert.isPresent() && resultAlert.get() == ButtonType.OK) {
-                        PDAO.delete(product);
-                        productsList.clear();
-                        productsList.addAll(PDAO.findAll());
-                        tableProducts.setItems(productsList);
-                    }
-                }
+                PDAO.delete(selectedProduct);
+
+                productsList.clear();
+                productsList.addAll(PDAO.findByAdminId(adminId));
+                tableProducts.setItems(productsList);
             } catch (SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

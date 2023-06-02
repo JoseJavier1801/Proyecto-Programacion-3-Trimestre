@@ -25,7 +25,7 @@ public class UserDAO implements DAO<User> {
     public static  String userDNI;
     public static String userMail;
 
-    private Connection conn;
+    private static Connection conn;
 
 
     private static UserDAO instance = null;
@@ -66,7 +66,7 @@ public class UserDAO implements DAO<User> {
 
     @Override
     public User findById(String id) throws SQLException {
-        User result=null;
+        User result=new User();
         try (PreparedStatement pst=this.conn.prepareStatement(FINBYID)){
             pst.setString(1,id);
             try (ResultSet res= pst.executeQuery()){
@@ -158,12 +158,24 @@ public class UserDAO implements DAO<User> {
         return result;
     }
 
+    public static String getUserNameById(int userId) throws SQLException {
+        String UserName = null;
+        try (PreparedStatement pst = conn.prepareStatement(FINBYID)) {
+            pst.setInt(1, userId);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    UserName = res.getString("nombre_usuario");
+                }
+            }
+        }
+        return UserName;
+    }
+
+
     @Override
     public void close() throws Exception {
 
     }
-
-
     public static int getUserId() {
         return userId;
     }

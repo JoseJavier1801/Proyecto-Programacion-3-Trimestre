@@ -2,6 +2,7 @@ package org.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import org.example.App;
 import org.example.DAO.*;
@@ -21,17 +22,32 @@ import java.util.Optional;
 public  class userController {
     private User user;
 
+   @FXML
+   private Label ulabel;
 
     @FXML
     private Button logbutton;
 
-    /**
-     * metodo que cierra la sesion
-     * @throws IOException
-     */
-    @FXML
-    private void closesesion() throws IOException{
-        App.setRoot("UsersLogin");
+    public void initialize() {
+        try {
+
+            // Obtén el ID del administrador utilizando AdminDAO
+            int userId = UserDAO.getInstance().getUserId();
+
+            // Obtén el nombre del administrador utilizando el ID
+            String UserName = UserDAO.getUserNameById(userId);
+
+            // Establece el nombre del administrador en el Label
+            ulabel.setText("Welcome "+UserName);
+
+        } catch (SQLException e) {
+            // Manejo de excepciones
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Database error");
+            alert.setHeaderText(null);
+            alert.setContentText("There was an error accessing the database");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -139,9 +155,13 @@ public  class userController {
         App.setRoot("addCart");
     }
 
+    /**
+     * metodo que cierra la sesion
+     * @throws IOException
+     */
     @FXML
-    private void showOther() throws IOException {
-        App.setRoot("showOther");
+    private void closesesion() throws IOException{
+        App.setRoot("UsersLogin");
     }
 
 }

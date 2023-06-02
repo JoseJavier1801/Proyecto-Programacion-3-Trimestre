@@ -37,6 +37,18 @@
       </TableView>
       <AnchorPane layoutX="27.0" layoutY="372.0" prefHeight="200.0" prefWidth="746.0" style="-fx-background-color: rgb(239, 184, 42);">
          <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="54.0" prefHeight="28.0" prefWidth="128.0" text="Product Name:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="TextProduct" layoutX="192.0" layoutY="55.0" promptText="ProductName" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="393.0" layoutY="54.0" prefHeight="28.0" prefWidth="128.0" text="Quantity: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="TextQuantity" layoutX="521.0" layoutY="55.0" promptText="Quantity" />
             <Button fx:id="btn_addCart" layoutX="263.0" layoutY="127.0" mnemonicParsing="false" onAction="#addCart" prefHeight="58.0" prefWidth="219.0" style="-fx-background-color: rgb(76, 74, 69);" text="Add to cart" textFill="WHITE">
                <font>
                   <Font size="27.0" />
@@ -45,18 +57,6 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="393.0" layoutY="54.0" prefHeight="28.0" prefWidth="128.0" text="Quantity: ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="TextQuantity" layoutX="521.0" layoutY="55.0" promptText="Quantity" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="54.0" prefHeight="28.0" prefWidth="128.0" text="Product Name:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="TextProduct" layoutX="192.0" layoutY="55.0" promptText="ProductName" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="58.0" fitWidth="79.0" layoutX="98.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
