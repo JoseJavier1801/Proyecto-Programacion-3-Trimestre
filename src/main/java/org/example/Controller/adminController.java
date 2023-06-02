@@ -214,7 +214,7 @@ private void searchProduct() {
         }
     }
     /**
-     * Metodo Delete que al seleccionar el boton muestra una ventana que pide el nombre del producto a eliminar
+     * Metodo Delete que se selecciona el producto a eliminar en la tabla y al pulsar el boton se elimina
      * @throws IOException
      * @throws SQLException
      */
