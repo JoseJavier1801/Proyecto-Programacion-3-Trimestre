@@ -15,7 +15,10 @@ import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Products;
 import org.example.DOMAIN.User;
 import org.example.DOMAIN.cart;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -95,41 +98,113 @@ public class AddCartController {
         u.setId(UDAO.getUserId());
 
         try {
-            // Buscar el producto en la base de datos
-            Products p;
-            p = PDAO.findByName(name);
-            p.setId(PDAO.findId(name));
+            // Buscar el producto en el carrito
+            cart existingCartItem = CDAO.findByProductId(u.getId(), name);
 
-            if (p != null && p.getStock() >= quantity) {
-                int productId = p.getId();
-                Date date = new Date();
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            if (existingCartItem != null) {
+                // Si el producto ya existe en el carrito, actualizar la cantidad y el stock
+                int newQuantity = existingCartItem.getCant() + quantity;
+                if (existingCartItem.getId_product().getStock() >= newQuantity) {
+                    // Actualizar la cantidad en el carrito
+                    existingCartItem.setCant(newQuantity);
+                    CDAO.update(existingCartItem);
 
-                // Crear carrito
-                cart myCart = new cart(u, p, sqlDate, quantity, p.getPrice());
+                    // Actualizar el stock del producto
+                    Products p = existingCartItem.getId_product();
+                    p.setStock(p.getStock() - quantity);
+                    PDAO.UpdateStock(p);
 
-                CDAO.save(myCart);
-
-                p.setStock(p.getStock() - quantity);
-                PDAO.UpdateStock(p);
-
-                // producto añadido correctamente
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText(null);
-                alert.setContentText("Product added to cart!");
-                alert.showAndWait();
-                tableProducts.setItems(productsList);
-
+                    // Producto actualizado en el carrito
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Product quantity updated in cart!");
+                    String soundFile = "sound.mp3"; // Ruta al archivo de sonido
+                    Media soundMedia = new Media(new File(soundFile).toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(soundMedia);
+                    mediaPlayer.play();
+                    alert.showAndWait();
+                    tableProducts.setItems(productsList);
+                } else {
+                    // No hay suficiente stock disponible para actualizar la cantidad
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Not enough quantity available to update the product in cart!");
+                    alert.showAndWait();
+                }
             } else {
-                // Mensaje de error
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Product not found or not enough quantity available!");
-                alert.showAndWait();
-            }
+                // El producto no existe en el carrito, agregarlo como nuevo
+                Products p = PDAO.findByName(name);
+                p.setId(PDAO.findId(name));
 
+                if (p != null && p.getStock() >= quantity) {
+                    int productId = p.getId();
+                    Date date = new Date();
+                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+                    // Buscar si ya existe un registro con la misma combinación de usuario, producto y fecha de compra
+                    cart existingCartEntry = CDAO.findByUserIdProductIdDate(u.getId(), productId, sqlDate);
+                    if (existingCartEntry != null) {
+                        // Si ya existe un registro, actualizar la cantidad y el stock
+                        int newQuantity = existingCartEntry.getCant() + quantity;
+                        if (existingCartEntry.getId_product().getStock() >= newQuantity) {
+                            // Actualizar la cantidad en el carrito
+                            existingCartEntry.setCant(newQuantity);
+                            CDAO.update(existingCartEntry);
+
+                            // Actualizar el stock del producto
+                            p.setStock(p.getStock() - quantity);
+                            PDAO.UpdateStock(p);
+
+                            // Producto actualizado en el carrito
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Success");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Product quantity updated in cart!");
+                            String soundFile = "sound.mp3"; // Ruta al archivo de sonido
+                            Media soundMedia = new Media(new File(soundFile).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(soundMedia);
+                            mediaPlayer.play();
+                            alert.showAndWait();
+                            tableProducts.setItems(productsList);
+                        } else {
+                            // No hay suficiente stock disponible para actualizar la cantidad
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Not enough quantity available to update the product in cart!");
+                            alert.showAndWait();
+                        }
+                    } else {
+                        // Crear carrito
+                        cart myCart = new cart(u, p, sqlDate, quantity, p.getPrice());
+                        CDAO.save(myCart);
+
+                        p.setStock(p.getStock() - quantity);
+                        PDAO.UpdateStock(p);
+
+                        // Producto añadido correctamente
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Product added to cart!");
+                        String soundFile = "sound.mp3"; // Ruta al archivo de sonido
+                        Media soundMedia = new Media(new File(soundFile).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(soundMedia);
+                        mediaPlayer.play();
+                        alert.showAndWait();
+                        tableProducts.setItems(productsList);
+                    }
+                } else {
+                    // Mensaje de error
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Product not found or not enough quantity available!");
+                    alert.showAndWait();
+                }
+            }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

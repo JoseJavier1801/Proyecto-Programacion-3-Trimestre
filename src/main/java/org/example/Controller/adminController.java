@@ -220,42 +220,32 @@ private void searchProduct() {
      */
     @FXML
     private void delete() throws IOException, SQLException {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Delete Products");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Instert the product name to delete:");
+        Products selectedProduct = tableProducts.getSelectionModel().getSelectedItem();
 
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            String productName = result.get();
-            if (productName.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Product name not added");
-                alert.showAndWait();
-                return;
-            }
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please select a product to delete.");
+            alert.showAndWait();
+            return;
+        }
 
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation");
+        confirmationAlert.setContentText("Are you sure you want to delete this product?");
+
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
+                // Obtén el ID del administrador actual
+                int adminId = AdminDAO.getInstance().getAdminId();
+
                 ProductsDAO PDAO = ProductsDAO.getInstance();
-                Products product = PDAO.findByName(productName);
-                if (product == null) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setContentText("Product doesn't exist");
-                    alert.showAndWait();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation");
-                    alert.setContentText("Are you sure you want to delete this product?");
-                    Optional<ButtonType> resultAlert = alert.showAndWait();
-                    if (resultAlert.isPresent() && resultAlert.get() == ButtonType.OK) {
-                        PDAO.delete(product);
-                        productsList.clear();
-                        productsList.addAll(PDAO.findAll());
-                        tableProducts.setItems(productsList);
-                    }
-                }
+                PDAO.delete(selectedProduct);
+
+                productsList.clear();
+                productsList.addAll(PDAO.findByAdminId(adminId));
+                tableProducts.setItems(productsList);
             } catch (SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

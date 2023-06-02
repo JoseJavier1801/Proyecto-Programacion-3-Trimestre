@@ -57,10 +57,9 @@ public class ShowCartController {
             // Establece la lista de productos
             tableCart.setItems(CartList);
 
-            // Establecer un listener para la selección de la tabla
             tableCart.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
-                    // Seleccionar el producto asociado al cart seleccionado
+
                     Products selectedProduct = newValue.getId_product();
                     System.out.println("Selected Product: " + selectedProduct.getName());
                 }
@@ -116,7 +115,7 @@ public class ShowCartController {
         }
     }
     /**
-     * metodo emptyCart que vacia el carrito
+     * metodo tookout que elimina el producto seleccionado y regresa la cantidad añadida a la talba productos
      */
 
     @FXML

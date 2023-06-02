@@ -17,10 +17,11 @@ import java.util.List;
 public class CartDAO implements DAO<cart> {
 
     private static final String FIND_ALL = "SELECT * FROM carrito";
-    private static final String FINDBYID = "SELECT * FROM carrito WHERE id_usuario=? OR id_producto=?";
+    private static final String FINDBYID = "SELECT * FROM carrito WHERE  id_producto=?";
     private static final String INSERT = "INSERT INTO carrito (id_usuario, id_producto, fecha_compra,cantidad, precio) VALUES (?, ?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE carrito SET cantidad=?, precio=? WHERE nombreProducto=?";
+    private static final String UPDATE = "UPDATE carrito SET cantidad = ? WHERE id_usuario = ? AND id_producto = ?";
     private static final String DELETE = "DELETE FROM carrito WHERE id_producto=?";
+    private static final String FINDBYIDDATE ="SELECT * FROM carrito WHERE id_usuario = ? AND id_producto = ? AND fecha_compra = ?";
     private static final String DELETEALL = "DELETE FROM carrito";
 
     private static CartDAO instance = null;
@@ -107,5 +108,53 @@ public class CartDAO implements DAO<cart> {
     @Override
     public void close() throws Exception {
         // Cerrar la conexión u otras tareas de limpieza si es necesario
+    }
+
+    public void update(cart existingCartItem) throws SQLException {
+        try (PreparedStatement pst = conn.prepareStatement(UPDATE)) {
+            pst.setInt(1, existingCartItem.getCant());
+            pst.setInt(2, existingCartItem.getId_user().getId());
+            pst.setInt(3, existingCartItem.getId_product().getId());
+            pst.executeUpdate();
+        }
+    }
+    public cart findByProductId(int id, String name) throws SQLException {
+        cart result = null;
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYID)) {
+            pst.setInt(1, id);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new cart();
+                    result.setId_user(UserDAO.getInstance().findById(String.valueOf(res.getInt("id_usuario"))));
+                    result.setId_product(ProductsDAO.getInstance().findById(String.valueOf(res.getInt("id_producto"))));
+                    result.setBuyDate(res.getDate("fecha_compra"));
+                    result.setCant(res.getInt("cantidad"));
+                    result.setPrice(res.getDouble("precio"));
+                }
+            }
+        }
+        return result;
+    }
+    public cart findByUserIdProductIdDate(int userId, int productId, java.sql.Date date) throws SQLException {
+        cart existingCartItem = null;
+
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYIDDATE)) {
+            pst.setInt(1, userId);
+            pst.setInt(2, productId);
+            pst.setDate(3, date);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    existingCartItem = new cart();
+                    existingCartItem.setId_user(UserDAO.getInstance().findById(String.valueOf(rs.getInt("id_usuario"))));
+                    existingCartItem.setId_product(ProductsDAO.getInstance().findById(String.valueOf(rs.getInt("id_producto"))));
+                    existingCartItem.setBuyDate(rs.getDate("fecha_compra"));
+                    existingCartItem.setCant(rs.getInt("cantidad"));
+                    existingCartItem.setPrice(rs.getDouble("precio"));
+                }
+            }
+        }
+
+        return existingCartItem;
     }
 }
