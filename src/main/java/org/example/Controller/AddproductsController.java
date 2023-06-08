@@ -42,9 +42,9 @@ public class AddproductsController {
         // Validar que el stock sea un número entero
         if (!ValidationDATA.isValidInt(stockStr)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error en el stock");
+            alert.setTitle("Stock Error");
             alert.setHeaderText(null);
-            alert.setContentText("El valor del stock debe ser un número entero.");
+            alert.setContentText("Stock should be a integer");
             alert.showAndWait();
             return;
         }
@@ -53,9 +53,9 @@ public class AddproductsController {
         // Validar que el precio sea un número decimal
         if (!ValidationDATA.isValidDouble(priceStr)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error en el precio");
+            alert.setTitle("Price Error");
             alert.setHeaderText(null);
-            alert.setContentText("El valor del precio debe ser un número decimal.");
+            alert.setContentText("Product price should be decimal");
             alert.showAndWait();
             return;
         }
@@ -79,9 +79,9 @@ public class AddproductsController {
         } catch (SQLException e) {
             // Error al insertar en la base de datos, mostrar alerta de error
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de base de datos");
+            alert.setTitle("DataBase Error");
             alert.setHeaderText(null);
-            alert.setContentText("No se pudo insertar el producto en la base de datos.");
+            alert.setContentText("Product cant be added pn the database");
             alert.showAndWait();
             e.printStackTrace();
         }

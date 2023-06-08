@@ -10,8 +10,6 @@ import org.example.DAO.AdminDAO;
 import org.example.DAO.ProductsDAO;
 import org.example.DOMAIN.Admin;
 import org.example.DOMAIN.Products;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -23,7 +21,6 @@ public class ModifyProductsController {
 
     @FXML
     private Label ModP_label;
-
     @FXML
     private Button btnfind;
     @FXML
@@ -114,8 +111,8 @@ public class ModifyProductsController {
 
         ProductsDAO PDAO = ProductsDAO.getInstance();
         Products product = PDAO.findByName(productName);
-
         if (product == null) {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("Product not found.");

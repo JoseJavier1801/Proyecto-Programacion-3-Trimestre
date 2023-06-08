@@ -10,7 +10,12 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: rgb(85, 94, 68);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.adminController">
    <children>
-      <Button fx:id="logbutton" layoutX="311.0" layoutY="510.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
+      <Label fx:id="adminlabel" alignment="CENTER" layoutX="85.0" layoutY="46.0" prefHeight="64.0" prefWidth="648.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome Admin" textFill="WHITE">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
+      <Button fx:id="logbutton" layoutX="574.0" layoutY="510.0" mnemonicParsing="false" onAction="#closesesion" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Log Out" textFill="WHITE">
          <font>
             <Font size="25.0" />
          </font>
@@ -32,34 +37,6 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="delP" layoutX="574.0" layoutY="428.0" mnemonicParsing="false" onAction="#delete" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Delete Products" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Label fx:id="adminlabel" alignment="CENTER" layoutX="85.0" layoutY="46.0" prefHeight="64.0" prefWidth="648.0" style="-fx-background-color: rgb(76, 74, 69);" text="Welcome Admin" textFill="WHITE">
-         <font>
-            <Font size="43.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tableProducts" layoutX="120.0" layoutY="136.0" prefHeight="226.0" prefWidth="560.0">
-         <columns>
-            <TableColumn fx:id="idColumn" prefWidth="88.79998779296875" text="ID" />
-            <TableColumn fx:id="nameColumn" prefWidth="107.20001220703125" text="Name" />
-            <TableColumn fx:id="descriptionColumn" prefWidth="166.4000244140625" text="Description" />
-            <TableColumn fx:id="stockColumn" prefWidth="97.5999755859375" text="Stock" />
-            <TableColumn fx:id="priceColumn" minWidth="0.0" prefWidth="100.79998779296875" text="Price" />
-         </columns></TableView>
-      <Button fx:id="modAdmin" layoutX="574.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyAdmin" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Admin" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
       <Button fx:id="search" layoutX="311.0" layoutY="428.0" mnemonicParsing="false" onAction="#searchProduct" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Search" textFill="WHITE">
          <font>
             <Font size="25.0" />
@@ -68,5 +45,28 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <Button fx:id="delP" layoutX="311.0" layoutY="510.0" mnemonicParsing="false" onAction="#delete" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Delete Products" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="modAdmin" layoutX="574.0" layoutY="428.0" mnemonicParsing="false" onAction="#modifyAdmin" prefHeight="51.0" prefWidth="195.0" style="-fx-background-color: rgb(239, 184, 42);" text="Modify Admin" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <TableView fx:id="tableProducts" layoutX="120.0" layoutY="136.0" prefHeight="226.0" prefWidth="560.0">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="88.79998779296875" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="107.20001220703125" text="Name" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="166.4000244140625" text="Description" />
+            <TableColumn fx:id="stockColumn" prefWidth="97.5999755859375" text="Stock" />
+            <TableColumn fx:id="priceColumn" minWidth="0.0" prefWidth="100.79998779296875" text="Price" />
+         </columns></TableView>
    </children>
 </AnchorPane>

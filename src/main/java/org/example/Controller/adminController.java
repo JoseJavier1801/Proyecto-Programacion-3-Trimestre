@@ -53,7 +53,7 @@ public class adminController {
     }
 
     /**
-     * Metodo initialize que inicializa la tabla que muestra los productos de la base de datos en la tabla
+     * Metodo initialize que inicializa la tabla que muestra los productos pertenecientes a ese admin de la base de datos en la tabla
      */
     public void initialize() {
         try {

@@ -15,7 +15,6 @@ import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Products;
 import org.example.DOMAIN.User;
 import org.example.DOMAIN.cart;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -116,7 +115,6 @@ public class AddCartController {
                     alert.setTitle("Success");
                     alert.setHeaderText(null);
                     alert.setContentText("Product quantity updated in cart!");
-                    String soundFile = "sound.mp3"; // Ruta al archivo de sonido;
                     alert.showAndWait();
                     tableProducts.setItems(productsList);
                 } else {
@@ -156,7 +154,6 @@ public class AddCartController {
                             alert.setTitle("Success");
                             alert.setHeaderText(null);
                             alert.setContentText("Product quantity updated in cart!");
-                            String soundFile = "sound.mp3"; // Ruta al archivo de sonido
                             alert.showAndWait();
                             tableProducts.setItems(productsList);
                         } else {
@@ -180,7 +177,6 @@ public class AddCartController {
                         alert.setTitle("Success");
                         alert.setHeaderText(null);
                         alert.setContentText("Product added to cart!");
-                        String soundFile = "sound.mp3"; // Ruta al archivo de sonido
                         alert.showAndWait();
                         tableProducts.setItems(productsList);
                     }
