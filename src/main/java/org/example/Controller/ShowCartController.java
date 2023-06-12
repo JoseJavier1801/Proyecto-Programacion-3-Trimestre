@@ -11,12 +11,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.DAO.CartDAO;
 import org.example.DAO.ProductsDAO;
+import org.example.DAO.PurchasesDAO;
+import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Products;
 import org.example.DOMAIN.cart;
+import org.example.DOMAIN.purchases;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,20 +46,18 @@ public class ShowCartController {
 
     private ObservableList<cart> CartList = FXCollections.observableArrayList();
 
+
     public void initialize() {
         try {
-            // Inicializar las columnas
             id_userColumn.setCellValueFactory(new PropertyValueFactory<>("id_user"));
             id_productColumn.setCellValueFactory(new PropertyValueFactory<>("id_product")); // Corregir esta línea
             DateColumn.setCellValueFactory(new PropertyValueFactory<>("buyDate"));
             QuantityColumn.setCellValueFactory(new PropertyValueFactory<>("cant"));
             PriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-            // Obtiene los productos de la base de datos y los agrega a la lista
             CartDAO CDAO = CartDAO.getInstance();
             CartList.addAll(CDAO.findAll());
 
-            // Establece la lista de productos
             tableCart.setItems(CartList);
 
             tableCart.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -65,7 +68,6 @@ public class ShowCartController {
                 }
             });
         } catch (SQLException e) {
-            // Manejo de excepciones
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Database error");
             alert.setHeaderText(null);
@@ -81,12 +83,14 @@ public class ShowCartController {
     @FXML
     private void BUY() {
         double totalPrice = 0;
-        for (cart c : CartList) {
+        List<cart> cartItems = new ArrayList<>(CartList); // Copiar los elementos del carrito
+        for (cart c : cartItems) {
             int quantity = c.getCant();
             double unitPrice = c.getPrice();
             totalPrice += (quantity * unitPrice);
         }
 
+        // Mostrar un mensaje de confirmación al usuario
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm purchase");
         alert.setHeaderText("Do you want to confirm the purchase?");
@@ -95,7 +99,20 @@ public class ShowCartController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             try {
-                // Vaciar la tabla de carrito
+                PurchasesDAO purchasesDAO = PurchasesDAO.getInstance();
+
+                // Guardar los productos del carrito en la tabla "purchases"
+                for (cart cartItem : cartItems) {
+                    purchases purchase = new purchases();
+                    purchase.setId_user(UserDAO.getInstance().findById(String.valueOf(UserDAO.getUserId())));
+                    purchase.setId_product(cartItem.getId_product());
+                    purchase.setBuyDate(cartItem.getBuyDate());
+                    purchase.setCant(cartItem.getCant());
+                    purchase.setPrice(cartItem.getPrice());
+
+                    purchasesDAO.save(purchase);
+                }
+
                 CartDAO CDAO = CartDAO.getInstance();
                 CDAO.deleteAll();
                 CartList.clear();
@@ -120,21 +137,18 @@ public class ShowCartController {
 
     @FXML
     private void tookout() {
-        // Obtener el item seleccionado en la tabla
+
         cart selectedCart = tableCart.getSelectionModel().getSelectedItem();
         if (selectedCart != null) {
             try {
-                // Obtener el producto asociado al carrito seleccionado
                 Products selectedProduct = selectedCart.getId_product();
 
-                // Actualizar el stock del producto
                 int currentStock = selectedProduct.getStock();
                 int quantityToRemove = selectedCart.getCant();
                 selectedProduct.setStock(currentStock + quantityToRemove);
                 ProductsDAO PDAO =ProductsDAO.getInstance();
                 PDAO.UpdateStock(selectedProduct);
 
-                // Eliminar el producto del carrito
                 CartDAO CDAO = CartDAO.getInstance();
                 CDAO.delete(selectedCart);
                 CartList.remove(selectedCart);

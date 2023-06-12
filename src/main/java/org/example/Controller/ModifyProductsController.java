@@ -96,7 +96,6 @@ public class ModifyProductsController {
         App.setRoot("admin");
     }
 
-
     @FXML
     private void FindProducts() throws SQLException {
         String productName = Product.getText().trim();
@@ -132,6 +131,4 @@ public class ModifyProductsController {
     private void Cancel() throws IOException {
         App.setRoot("admin");
     }
-
-
 }

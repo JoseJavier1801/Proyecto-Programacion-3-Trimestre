@@ -3,10 +3,7 @@ package org.example.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.DAO.CartDAO;
@@ -19,7 +16,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 
-import static java.lang.Integer.parseInt;
 
 /**
  * Clase AddCartController encargada de la vista Addcart
@@ -60,6 +56,18 @@ public class AddCartController {
             stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+            tableProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+            tableProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    TextProduct.setText(newSelection.getName());
+                    TextQuantity.setText(String.valueOf(newSelection.getStock()));
+                } else {
+                    TextProduct.setText("");
+                    TextQuantity.setText("");
+                }
+            });
+
             // Obtiene los productos de la base de datos y los agrega a la lista
             ProductsDAO PDAO = ProductsDAO.getInstance();
             productsList.addAll(PDAO.findAll());
@@ -81,7 +89,6 @@ public class AddCartController {
      * Metodo addCart que agrega un producto al carrito
      * pasando el nombre del producto a comprar y la cantidad de ese producto
      */
-
     @FXML
     private void addCart() {
         UserDAO UDAO = UserDAO.getInstance();
@@ -198,7 +205,6 @@ public class AddCartController {
             e.printStackTrace();
         }
     }
-
         @FXML
     private void goBack() throws IOException {
         App.setRoot("users");

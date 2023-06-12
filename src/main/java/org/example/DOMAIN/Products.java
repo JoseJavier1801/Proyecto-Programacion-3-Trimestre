@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * Clase Products que tiene los atributos que almacenan los datos que introduce el usuario
  */
+
 public class Products {
 
     private int id;

@@ -1,18 +1,26 @@
 package org.example.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.*;
 import org.example.DOMAIN.User;
+import org.example.DOMAIN.cart;
 import org.example.UTILS.Encrypt;
 import org.example.UTILS.ValidationDATA;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -153,6 +161,10 @@ public  class userController {
     @FXML
     private void addCart() throws IOException{
         App.setRoot("addCart");
+    }
+    @FXML
+    private void showprevpurchases() throws IOException {
+        App.setRoot("purchases");
     }
 
     /**

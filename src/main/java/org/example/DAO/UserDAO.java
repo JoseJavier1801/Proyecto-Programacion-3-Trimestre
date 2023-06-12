@@ -22,6 +22,7 @@ public class UserDAO implements DAO<User> {
      * variables id dni y mail que almacenaran los estos datos del usuario que inicie sesion
      */
     public static int userId;
+
     public static  String userDNI;
     public static String userMail;
 
