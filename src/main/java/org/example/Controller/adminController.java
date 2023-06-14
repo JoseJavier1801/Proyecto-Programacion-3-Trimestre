@@ -129,20 +129,20 @@ private void searchProduct() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Modify Admin");
         dialog.setHeaderText(null);
-        dialog.setContentText("Enter new username data:");
+        dialog.setContentText("Enter new Admin data:");
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
 
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        usernameField.setPromptText("Adminname");
         TextField passwordField = new TextField();
         passwordField.setPromptText("Password");
 
-        grid.add(new Label("Username:"), 0, 0);
+        grid.add(new Label("New Adminname:"), 0, 0);
         grid.add(usernameField, 1, 0);
-        grid.add(new Label("Password:"), 0, 1);
+        grid.add(new Label("New Password:"), 0, 1);
         grid.add(passwordField, 1, 1);
 
         dialog.getDialogPane().setContent(grid);

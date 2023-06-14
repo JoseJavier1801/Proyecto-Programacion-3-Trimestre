@@ -19,6 +19,7 @@ public class PurchasesDAO implements DAO<purchases>{
     private static final String DELETE = "DELETE FROM compras WHERE id_producto=?";
     private static final String FINDBYIDDATE ="SELECT * FROM compras WHERE id_usuario = ? AND id_producto = ? AND fecha_compra = ?";
     private static final String DELETEALL = "DELETE FROM compras";
+    private static final String FINDBYISERID =  "SELECT * FROM compras WHERE id_usuario = ?";
 
     private static PurchasesDAO instance = null;
     private Connection conn;
@@ -151,7 +152,24 @@ public class PurchasesDAO implements DAO<purchases>{
                 }
             }
         }
-
         return existingCartItem;
+    }
+    public List<purchases> findByUserId(int userId) throws SQLException {
+        List<purchases> result = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(FINDBYISERID)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    purchases p = new purchases();
+                    p.setId_user(UserDAO.getInstance().findById(String.valueOf(rs.getInt("id_usuario"))));
+                    p.setId_product(ProductsDAO.getInstance().findById(String.valueOf(rs.getInt("id_producto"))));
+                    p.setBuyDate(rs.getDate("fecha_compra"));
+                    p.setCant(rs.getInt("cantidad"));
+                    p.setPrice(rs.getDouble("precio"));
+                    result.add(p);
+                }
+            }
+        }
+        return result;
     }
 }

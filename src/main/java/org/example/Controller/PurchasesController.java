@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.DAO.CartDAO;
 import org.example.DAO.PurchasesDAO;
+import org.example.DAO.UserDAO;
 import org.example.DOMAIN.Products;
 import org.example.DOMAIN.cart;
 import org.example.DOMAIN.purchases;
@@ -38,19 +39,19 @@ public class PurchasesController {
     public void initialize() {
         try {
             id_userColumn.setCellValueFactory(new PropertyValueFactory<>("id_user"));
-            id_productColumn.setCellValueFactory(new PropertyValueFactory<>("id_product")); // Corregir esta línea
+            id_productColumn.setCellValueFactory(new PropertyValueFactory<>("id_product"));
             DateColumn.setCellValueFactory(new PropertyValueFactory<>("buyDate"));
             QuantityColumn.setCellValueFactory(new PropertyValueFactory<>("cant"));
             PriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
             PurchasesDAO PUDAO = PurchasesDAO.getInstance();
-            PurchasesList.addAll(PUDAO.findAll());
+            int userId = UserDAO.getUserId(); // Get the logged-in user's ID
+            PurchasesList.addAll(PUDAO.findByUserId(userId)); // Fetch purchases for the logged-in user
 
             tablePurchases.setItems(PurchasesList);
 
             tablePurchases.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
-
                     Products selectedProduct = newValue.getId_product();
                     System.out.println("Selected Product: " + selectedProduct.getName());
                 }

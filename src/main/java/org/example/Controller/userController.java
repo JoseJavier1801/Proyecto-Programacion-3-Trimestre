@@ -78,9 +78,9 @@ public  class userController {
         TextField passwordField = new TextField();
         passwordField.setPromptText("Password");
 
-        grid.add(new Label("Username:"), 0, 0);
+        grid.add(new Label("New Username:"), 0, 0);
         grid.add(usernameField, 1, 0);
-        grid.add(new Label("Password:"), 0, 1);
+        grid.add(new Label("New Password:"), 0, 1);
         grid.add(passwordField, 1, 1);
 
         dialog.getDialogPane().setContent(grid);
